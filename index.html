@@ -1,0 +1,51 @@
+<html>
+    <body>
+<button class="posters" onclick="showElement('great-event')">Show Element 1</button>
+<button class="posters" onclick="showElement('good-event')">Show Element 2</button>
+<button class="posters" onclick="showElement('sick-event')">Show Element 3</button>
+<button  class="posters" onclick="showElement('party')">Show Element 4</button>
+<button class="posters" onclick="showElement('element5')">Show Element 5</button>
+<button class="posters" onclick="showElement('element6')">Show Element 6</button>
+<button class="posters" onclick="showElement('element7')">Show Element 7</button>
+<button  class="posters" onclick="showElement('element8')">Show Element 8</button>
+<button class="posters" onclick="showElement('element9')">Show Element 9</button>
+<button class="posters" onclick="showElement('element10')">Show Element 10</button>
+
+<div id="great-event" class="more-info" style="display: none;">Element 1 is now visible!</div>
+<div id="good-event" class="more-info" style="display: none;">Element 2 is now visible!</div>
+<div id="sick-event" class="more-info" style="display: none;">Element 3 is now visible!</div>
+<div id="party" class="more-info" style="display: none;">Element 4 is now visible!</div>
+<div id="element5" class="more-info" style="display: none;">Element 5 is now visible!</div>
+<div id="element6" class="more-info" style="display: none;">Element 6 is now visible!</div>
+<div id="element7" class="more-info" style="display: none;">Element 7 is now visible!</div>
+<div id="element8" class="more-info" style="display: none;">Element 8 is now visible!</div>
+<div id="element9" class="more-info" style="display: none;">Element 9 is now visible!</div>
+<div id="element10" class="more-info" style="display: none;">Element 10 is now visible!</div>
+
+
+
+<script>
+    function showElement(id) {
+        // Hide all other elements 
+        document.querySelectorAll('.more-info').forEach(el => el.style.display = "none");
+
+        // Show the selected element
+        document.getElementById(id).style.display = "block";
+
+        // Update the URL without reloading the page
+        history.pushState(null, "", "?event=" + id);
+    }
+
+    // Check URL on page load and show the correct element
+    window.onload = function() {
+        const params = new URLSearchParams(window.location.search);
+        const visibleElement = params.get("event");
+
+        if (visibleElement) {
+            showElement(visibleElement);
+        }
+    };
+</script>
+
+</body>
+</html>

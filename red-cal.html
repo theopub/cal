@@ -1,0 +1,342 @@
+
+<html>
+
+    <head>
+        <title>Calendar</title>
+        <meta charset="UTF-8"/>
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Kings&family=Lugrasimo&family=Neonderthaw&family=Petit+Formal+Script&family=Plaster&family=Stalinist+One&family=Tangerine:wght@400;700&family=Turret+Road:wght@200;300;400;500;700;800&family=Warnes&display=swap" rel="stylesheet">
+
+
+        <style>
+body {
+    font-family: Helvetica; 
+    background-color: rgb(101, 0, 0);
+    font-size: 15px; 
+    
+}
+
+            img {
+             
+                position: relative; 
+                filter: grayscale(100%) brightness(60%) sepia(100%) hue-rotate(-50deg) saturate(270%);     
+                opacity: .6;
+
+                /* filter: grayscale(100%) brightness(6%) sepia(100%) hue-rotate(-50deg) saturate(400%); */
+                /* filter: grayscale(100%) brightness(30%) sepia(100%) hue-rotate(-50deg) saturate(400%); 
+                opacity: .9;*/
+                padding: .3vw; 
+           
+            }
+
+            img:hover{
+                   border: .3vw solid red; 
+                   /* box-shadow: 0px 0px 12px 3px red;  */
+                filter:none; 
+                opacity: 1;
+            }
+
+   
+
+
+.container {
+    display: flex; /* Aligns columns side by side */
+    /* gap: 1vw;  */
+}
+
+.column {
+    padding-right: 1vw; 
+    padding-left: 1vw; 
+    width: 18vw;
+
+/* below: 7 days/page */
+    /* width: 12vw; */
+
+
+    height: 98vh; 
+
+/* below: w ads on bottom */
+    /* height: 83vh;  */
+
+    overflow-y: auto; 
+    display: flex; 
+    flex-shrink: 0; 
+    flex-direction: column;
+    /* border-right: .6vw dotted rgb(100, 2, 2);  */
+    border-right: .1vw solid rgb(253, 0, 0); 
+   
+}
+
+
+.date {
+    z-index: 10;
+    background-color: rgb(248, 107, 107);
+    position: absolute;
+    top: 45px;
+    width: 18vw; 
+    text-align: center;
+    color: rgb(71, 0, 0);
+    box-shadow: 0px 3px 12px 3px rgb(120, 0, 0); 
+}
+
+#toggling {
+    position: fixed; 
+    background-color: rgb(248, 107, 107);
+    color: rgb(52, 0, 0); 
+    z-index: 10;
+    /* bottom: 15vh;  */
+    bottom: 0; 
+    padding: 15px; 
+    /* border: .3vw solid red;  */
+    /* box-shadow: 0px 0px 12px 3px red;  */
+    box-shadow: 0px 3px 12px 3px rgb(120, 0, 0); 
+    width: 210px; 
+    right: 0;  
+    font-family: Helvetica; 
+}
+
+input[type="checkbox"] {
+
+    accent-color: rgb(163, 1, 1); 
+    margin-right: 10px;
+}
+
+
+input[type="checkbox"]:checked {
+    border: 2px solid darkred;
+    margin-right: 10px;
+}
+/* 
+input[type="checkbox"] {
+    width: 18px;
+    height: 18px; 
+    accent-color: red; 
+    appearance: none; 
+    border-radius: 50%; 
+    background-color: rgb(255, 177, 177);
+}
+
+input[type="checkbox"]:checked {
+    background-color: red;
+    border: 1px dashed darkred;
+}
+
+
+input[type="checkbox"]:checked::after {
+    content: "x"; 
+    color: black;
+    position: absolute;
+    left: 24px; 
+
+}
+ */
+
+
+#scrollRight {
+    /* background-color: white;  
+    width: 10vw; 
+    height: 10vh; */
+    font-size: 9vh; 
+    z-index: 10; 
+    position: fixed; 
+    right:1.5vw; 
+    top: 45vh; 
+}
+
+#scrollRight:hover{
+   color: red; 
+   text-shadow: -3px -3px 6px black; 
+}
+
+
+a {
+    color: black; 
+}
+
+#ads {
+    width: 100vw; 
+    height: 15vh; 
+    background-color: black;
+    left: 0; 
+    bottom: 0; 
+    position: fixed;
+    z-index: 100;
+
+}
+        </style>
+
+    </head>
+    <body>
+<!-- not working -->
+        <div id="scrollRight">→</div>
+
+
+<!-- <div id="ads"></div> -->
+
+    <div id="toggling">Welcome to Red Calendar. 
+        
+
+<br><br>
+<input type="checkbox" checked>activism/mutual aid<br>
+<input type="checkbox" checked>literary/readings<br>
+<input type="checkbox" checked>music/sound<br>
+<input type="checkbox" checked>performance/dance<br>
+<input type="checkbox" checked>rebel code/artsy tech<br>
+
+<br>
+
+<a href="add.html">Add your public event (free).</a><br><br>
+
+<a href="about.html">About.</a>
+    </div>
+
+    <div class="container">
+            <div class="column">
+                <div class="date">Mon</div>
+                <img src="posters/1.png"></img>
+                <img src="posters/2.png"></img>
+                <img src="posters/3.png"></img>
+                <img src="posters/4.png"></img>
+                <img src="posters/5.png"></img>
+                <img src="posters/6.png"></img>
+                <img src="posters/7.png"></img>
+                <img src="posters/8.png"></img>
+                <img src="posters/9.png"></img>  
+                <img src="posters/10.png"></img>
+                <img src="posters/11.png"></img>
+            </div>
+            <div class="column">
+                <div class="date">Tues</div>
+                <img src="posters/6.png"></img>
+                <img src="posters/7.png"></img>
+                <img src="posters/8.png"></img>
+                <img src="posters/9.png"></img>  
+                <img src="posters/10.png"></img>
+                <img src="posters/11.png"></img>
+                <img src="posters/12.png"></img>  
+                <img src="posters/13.png"></img>
+                <img src="posters/14.jpg"></img>
+                <img src="posters/15.jpg"></img>
+                <img src="posters/16.jpg"></img>
+            </div>
+
+            <div class="column">
+                <div class="date">Weds</div>
+                <img src="posters/1.png"></img>
+                <img src="posters/2.png"></img>
+                <img src="posters/3.png"></img>
+                <img src="posters/4.png"></img>
+                <img src="posters/5.png"></img>
+                <img src="posters/6.png"></img>
+                <img src="posters/7.png"></img>
+                <img src="posters/8.png"></img>
+                <img src="posters/9.png"></img>  
+                <img src="posters/10.png"></img>
+                <img src="posters/11.png"></img>
+            </div>
+            <div class="column">
+                <div class="date">Thur</div>
+                <img src="posters/6.png"></img>
+                <img src="posters/7.png"></img>
+                <img src="posters/8.png"></img>
+                <img src="posters/9.png"></img>  
+                <img src="posters/10.png"></img>
+                <img src="posters/11.png"></img>
+                <img src="posters/12.png"></img>  
+                <img src="posters/13.png"></img>
+                <img src="posters/14.jpg"></img>
+                <img src="posters/15.jpg"></img>
+                <img src="posters/16.jpg"></img>
+            </div>
+
+            <div class="column">
+                <div class="date">Fri</div>
+                <img src="posters/1.png"></img>
+                <img src="posters/2.png"></img>
+                <img src="posters/3.png"></img>
+                <img src="posters/4.png"></img>
+                <img src="posters/5.png"></img>
+                <img src="posters/6.png"></img>
+                <img src="posters/7.png"></img>
+                <img src="posters/8.png"></img>
+                <img src="posters/9.png"></img>  
+                <img src="posters/10.png"></img>
+                <img src="posters/11.png"></img>
+            </div>
+            <div class="column">
+                <div class="date">Sat</div>
+                <img src="posters/6.png"></img>
+                <img src="posters/7.png"></img>
+                <img src="posters/8.png"></img>
+                <img src="posters/9.png"></img>  
+                <img src="posters/10.png"></img>
+                <img src="posters/11.png"></img>
+                <img src="posters/12.png"></img>  
+                <img src="posters/13.png"></img>
+                <img src="posters/14.jpg"></img>
+                <img src="posters/15.jpg"></img>
+                <img src="posters/16.jpg"></img>
+            </div>
+
+            <div class="column">
+                <div class="date">Sun</div>
+                <img src="posters/1.png"></img>
+                <img src="posters/2.png"></img>
+                <img src="posters/3.png"></img>
+                <img src="posters/4.png"></img>
+                <img src="posters/5.png"></img>
+                <img src="posters/6.png"></img>
+                <img src="posters/7.png"></img>
+                <img src="posters/8.png"></img>
+                <img src="posters/9.png"></img>  
+                <img src="posters/10.png"></img>
+                <img src="posters/11.png"></img>
+            </div>
+            <div class="column">
+                <div class="date">Mon</div>
+                <img src="posters/6.png"></img>
+                <img src="posters/7.png"></img>
+                <img src="posters/8.png"></img>
+                <img src="posters/9.png"></img>  
+                <img src="posters/10.png"></img>
+                <img src="posters/11.png"></img>
+                <img src="posters/12.png"></img>  
+                <img src="posters/13.png"></img>
+                <img src="posters/14.jpg"></img>
+                <img src="posters/15.jpg"></img>
+                <img src="posters/16.jpg"></img>
+            </div>
+
+            <div class="column">
+                <div class="date">Tues</div>
+                <img src="posters/6.png"></img>
+                <img src="posters/7.png"></img>
+                <img src="posters/8.png"></img>
+                <img src="posters/9.png"></img>  
+                <img src="posters/10.png"></img>
+                <img src="posters/11.png"></img>
+                <img src="posters/12.png"></img>  
+                <img src="posters/13.png"></img>
+                <img src="posters/14.jpg"></img>
+                <img src="posters/15.jpg"></img>
+                <img src="posters/16.jpg"></img>
+            </div>
+    </div>
+
+
+    <script>
+  document.getElementById("scrollRight").addEventListener("click", function() {
+        document.documentElement.scrollBy({
+            left: window.innerWidth * 0.5, // Scroll right by 50% of viewport width
+            behavior: "smooth"
+        });
+    });
+    </script>
+
+
+    </body>
+</html>
+
+
