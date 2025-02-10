@@ -63,8 +63,10 @@ form {
     border-bottom: 3vw solid rgb(101, 0, 0); 
 }
 
-#title {
+#title-add {
     text-align: center; 
+    box-shadow: 0px 3px 12px 3px rgb(120, 0, 0); 
+    padding: 15px; 
 }
 
 #cost-field {
@@ -72,8 +74,18 @@ form {
         margin-top: 10px;
     }
 
+#notes {
+    border: rgb(129, 1, 1) dashed 45px; 
+    box-shadow: 0px 3px 12px 3px rgb(120, 0, 0); 
+    padding: 15px; 
+}
 
-
+#caution {
+    /* background-color: red;  */
+    box-shadow: 0px 3px 12px 3px rgb(120, 0, 0); 
+    padding: 15px; 
+    /* border: rgb(129, 1, 1) dashed 3px;  */
+}
 
 
         </style>
@@ -82,8 +94,14 @@ form {
     <body>
 
         <form action="submit-form.php" method="post" enctype="multipart/form-data">
-            <div id="title">Add an event to Red Calendar here: </div><br>
-            <div>All events will be reviewed by an editor before they are posted to the calendar.</div><br>
+            <div id="title-add">Add an event to Red Calendar here: </div><br>
+            <div id="notes">All events will be reviewed by an editor before they are posted to the calendar (this could take a day or two!) 
+            <br><br>
+                Before submitting your event, please check that it’s not already on the calendar <3 <br><br>
+
+               If you notice an error in an event that’s already listed, re-submit the event and write “[EDIT]” in your title. Please try to get it right the first time though – Red Cal editors need to make these edits manually and it’s kind of a pain! 
+                       
+            </div><br>
             <label for="name">Your name *
             </label>
             <input type="text" id="name" name="name" required>
@@ -157,8 +175,8 @@ form {
             <label for="url">All events have their own url in the form: cal.red/?event=xyz&mdash;where “xyz” can be anything. What  would you like your xyz to be? Please check if it's already taken.</label><br>
             <input type="text" id="url" name="url">
             <br><br>
-            
-            <button type="submit">Submit</button>
+            <div id="caution">Before submitting your event, <u><b>check everything twice or thrice!</b></u> Once you click submit, any edits will have to be done manually by a Red Cal editor.</div><br>
+            <button type="submit">Submit [with caution! see note above]</button>
         </form>
 
 
