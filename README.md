@@ -1,4 +1,2 @@
 # cal
 Red Calendar
-
-testing
