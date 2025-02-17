@@ -75,7 +75,7 @@ form {
     }
 
 #notes {
-    border: rgb(129, 1, 1) dashed 45px; 
+    /* border: rgb(129, 1, 1) dashed 45px;  */
     box-shadow: 0px 3px 12px 3px rgb(120, 0, 0); 
     padding: 15px; 
 }
@@ -99,7 +99,7 @@ form {
             <br><br>
                 Before submitting your event, please check that it’s not already on the calendar <3 <br><br>
 
-               If you notice an error in an event that’s already listed, re-submit the event and write “[EDIT]” in your title. Please try to get it right the first time though – Red Cal editors need to make these edits manually and it’s kind of a pain! 
+               If you notice an error in an event that’s already listed, email ***. Please try to get it right the first time though – Red Cal editors need to make these edits manually and it’s kind of a pain! 
                        
             </div><br>
             <label for="name">Your name *
@@ -115,7 +115,7 @@ form {
             <input type="text" id="title" name="title" required>
             <br><br>
 
-            <label for="image">Event image/poster [Accepts .jpg, .png, .gif. Height to width ratio must be 4:3 or less.] *</label>
+            <label for="image">Event image/poster [Accepts .jpg, .png, .gif. Height to width ratio must be 4:3 or less. Please make sure your file is under 1MB (online compression tools rock)] *</label>
             <input type="file" id="image" name="image" accept="image/*" required onchange="previewImage(event)">
             <img id="preview" src="" alt="Image Preview" style="display: none; width: 18vw; height: auto;">
             <br><br>
@@ -139,7 +139,7 @@ form {
             <input type="datetime-local" id="when" name="when" required>
             <br><br>
 
-            <label for="where">Location * [Include venue name and/or address. Whatever you type here will be included as-is, so please double-check your formatting!]</label><br>
+            <label for="where">Location * [Include venue name and/or address. Whatever you type here will be included as-is!]</label><br>
             <textarea rows="3" id="where" name="where" required></textarea>
             <br><br>
 
