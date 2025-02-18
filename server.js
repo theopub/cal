@@ -38,6 +38,22 @@ app.use(express.static("public"));
 // uploads image to bucket via s3 middleware and adds to db
 app.post("/upload", upload.single("image"), async (req, res) => {
   // req.body retrieves the data sent from the form
+  // obj format: 
+  /*
+  { 
+    name: 'sam',
+    email: 'sam.heckle@nyu.edu',
+    title: 'my event',
+    event_cost: 'free',
+    cost: '',
+    when: '2024-02-23T14:00',
+    where: 'wonderville',
+    categories: [ 'performance', 'rebel-code' ],
+    description: 'descriptiong',
+    url: 'no'
+    imgUrl: req.file.location
+  }
+  */
   // req.file.location is the url of the image in bucket
   res.redirect("/");
 });
