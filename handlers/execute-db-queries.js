@@ -31,4 +31,68 @@ export const executeGetTags = async () => {
     }
 };
 
-executeGetTags();
+export const executeGetEventTags = async (eventId) => {
+    try {
+        const [ [ rows ] ] = await query('CALL GetEventTags(?)', [ eventId ]);
+        console.log('Event Tags:', rows);
+        return rows;
+    } catch (error) {
+        console.error('Error executing query:', error);
+        throw error;
+    }
+};
+
+export const executeGetEventsToDisplay = async (date) => {
+    try {
+        const [ [ rows ] ] = await query('CALL GetEventsToDisplay(?)', [ date ]);
+        console.log('Events:', rows);
+        return rows;
+    } catch (error) {
+        console.error('Error executing query:', error);
+        throw error;
+    }
+};
+
+export const executeGetEventDetails = async (eventId) => {
+    try {
+        const [ [ rows ] ] = await query('CALL GetEventDetails(?)', [ eventId ]);
+        console.log('Event Details:', rows);
+        return rows;
+    } catch (error) {
+        console.error('Error executing query:', error);
+        throw error;
+    }
+};
+
+export const executeWriteEvent = async (event) => {
+    try {
+        const [rows] = await query(
+          'INSERT INTO events (name, start_date, cost, location, description, owner_name, email, event_url, image_url, approved) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?)',
+          [ 
+            event.title,
+            event.startDate,
+            event.cost,
+            event.location,
+            event.description,
+            event.ownerName,
+            event.email,
+            event.eventUrl,
+            event.imageUrl,
+            event.approved,
+          ]);
+        console.log('Event written:', rows);
+        return rows;
+    } catch (error) {
+        console.error('Error executing query:', error);
+        throw error;
+    }
+};
+
+export const endPoolConnection = async () => {
+    try {
+        await pool.end();
+    } catch (error) {
+        console.error('Error ending pool connection:', error);
+        throw error;
+    }
+};
