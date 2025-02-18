@@ -1,19 +1,56 @@
-// Importing the express library we've installed; This library allows us to create a simple web server.
-let express = require('express');
+require('dotenv').config();
+const aws = require("@aws-sdk/client-s3");
+const express = require("express");
+const multer = require("multer");
+const multerS3 = require("multer-s3");
 
-// Create the web server.
 let app = express();
 
-// Tell the web server to use the "public" folder for serving static files (html, css, javascript, media.)
-app.use(express.static('public'));
+app.use(express.json());
 
-// Create a test endpoint; This is not required, but it allows us to verify whether the server is working.
-app.get('/test', function (req, res) {
-  res.send('Hello World!')
+const s3Client = new aws.S3Client({
+  credentials: {
+    accessKeyId: process.env.aws_access_key_id,
+    secretAccessKey: process.env.aws_secret_access_key,
+  },    
+  endpoint: "https://nyc3.digitaloceanspaces.com",
+  region: "us-east-1",
+});
+const s3Storage = multerS3({
+  s3: s3Client,
+  bucket: "cal-red-space",
+  acl: "public-read",
+  metadata: (req, file, cb) => {
+    cb(null, { fieldname: file.fieldname });
+  },
+  key: (req, file, cb) => {
+    cb(null, Date.now().toString());
+  },
+});
+const upload = multer({
+  storage: s3Storage,
 });
 
-// And finally start the server. We start the server on port 80, which is the default port for http.
-// If you want to learn more about ports, read this: https://www.cloudflare.com/learning/network-layer/what-is-a-computer-port/
+app.use(express.static("public"));
+
+app.post("/upload", upload.single("upload"), async (req, res) => {
+  console.log(req.file.location);
+  res.redirect("/");
+});
+
+app.get('/weekly', (req, res)=>{
+    let testData = [{
+        date: "1/1/25",
+        img: "https://cal-red-space.nyc3.digitaloceanspaces.com/1739135708392"
+    }]
+    res.json(testData);
+})
+
+app.get('/event', (req, res)=>{
+    let data = [{}]
+    res.send(JSON.stringify(data))
+})
+
 app.listen(80, function () {
-  console.log('Example app listening on port 80!')
+  console.log("Example app listening on port 80!");
 });
