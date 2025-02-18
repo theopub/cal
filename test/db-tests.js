@@ -8,6 +8,7 @@ import mysql from 'mysql2/promise';
 import t from 'tap';
 import dotenv from 'dotenv';
 import { format, addDays } from 'date-fns';
+import { fromZonedTime } from 'date-fns-tz';
 
 dotenv.config();
 
@@ -83,7 +84,7 @@ t.test('Get Event Details', async (t) => {
 });
 
 t.test('Get Events to Display', async (t) => {
-  const baseDate = new Date('2024-02-01');
+  const baseDate = fromZonedTime('2024-02-01', 'America/New_York');
   const testDates = {
     fiveDaysBefore: format(addDays(baseDate, -5), 'yyyy-MM-dd'),
     exactDate: format(baseDate, 'yyyy-MM-dd'),
