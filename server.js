@@ -1,8 +1,9 @@
-// Importing the express library we've installed; This library allows us to create a simple web server.
-let express = require('express');
+// Importing the express library using ES modules syntax
+import express from 'express';
 
 // Create the web server.
-let app = express();
+const app = express();
+
 
 // Tell the web server to use the "public" folder for serving static files (html, css, javascript, media.)
 app.use(express.static('public'));
