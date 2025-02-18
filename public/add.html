@@ -1,238 +1,304 @@
-
 <html>
+  <head>
+    <title>Red Calendar</title>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Kings&family=Lugrasimo&family=Neonderthaw&family=Petit+Formal+Script&family=Plaster&family=Stalinist+One&family=Tangerine:wght@400;700&family=Turret+Road:wght@200;300;400;500;700;800&family=Warnes&display=swap"
+      rel="stylesheet"
+    />
 
-    <head>
-        <title>Red Calendar</title>
-        <meta charset="UTF-8"/>
-        <meta name="viewport" content="width=device-width, initial-scale=1">
-<link rel="preconnect" href="https://fonts.googleapis.com">
-<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Kings&family=Lugrasimo&family=Neonderthaw&family=Petit+Formal+Script&family=Plaster&family=Stalinist+One&family=Tangerine:wght@400;700&family=Turret+Road:wght@200;300;400;500;700;800&family=Warnes&display=swap" rel="stylesheet">
+    <style>
+      body {
+        font-family: Helvetica;
+        background-color: rgb(101, 0, 0);
+        font-size: 15px;
+      }
 
+      #toggling {
+        position: fixed;
+        background-color: rgb(248, 107, 107);
+        color: rgb(52, 0, 0);
+        z-index: 10;
+        /* bottom: 15vh;  */
+        bottom: 0;
+        padding: 15px;
+        /* border: .3vw solid red;  */
+        /* box-shadow: 0px 0px 12px 3px red;  */
+        box-shadow: 0px 3px 12px 3px rgb(120, 0, 0);
+        width: 210px;
+        right: 0;
+        font-family: Helvetica;
+      }
+      a {
+        color: black;
+      }
 
-        <style>
-body {
-    font-family: Helvetica; 
-    background-color: rgb(101, 0, 0);
-    font-size: 15px; 
-    
-}
+      input,
+      textarea {
+        width: 100%;
+      }
 
-#toggling {
-    position: fixed; 
-    background-color: rgb(248, 107, 107);
-    color: rgb(52, 0, 0); 
-    z-index: 10;
-    /* bottom: 15vh;  */
-    bottom: 0; 
-    padding: 15px; 
-    /* border: .3vw solid red;  */
-    /* box-shadow: 0px 0px 12px 3px red;  */
-    box-shadow: 0px 3px 12px 3px rgb(120, 0, 0); 
-    width: 210px; 
-    right: 0;  
-    font-family: Helvetica; 
-}
-a {
-    color: black; 
-}
+      input[type="radio"] {
+        width: 30;
+      }
 
-input, textarea {
-    width: 100%; 
-}
+      input[type="checkbox"] {
+        width: 30;
+      }
 
-input[type="radio"] {
-   width: 30; 
-}
+      input[type="file"] {
+        width: 300;
+      }
 
-input[type="checkbox"] {
-    width: 30; 
-}
+      form {
+        position: relative;
+        background-color: rgb(248, 123, 107);
+        padding: 3vw;
+        width: 45vw;
+        left: 24.5vw;
+        top: 3vw;
+        border-bottom: 3vw solid rgb(101, 0, 0);
+      }
 
-input[type="file"] {
-    width: 300; 
-}
+      #title-add {
+        text-align: center;
+        box-shadow: 0px 3px 12px 3px rgb(120, 0, 0);
+        padding: 15px;
+      }
 
-form {
-    position: relative; 
-    background-color: rgb(248, 123, 107);
-    padding: 3vw; 
-    width: 45vw; 
-    left: 24.5vw; 
-    top: 3vw; 
-    border-bottom: 3vw solid rgb(101, 0, 0); 
-}
-
-#title-add {
-    text-align: center; 
-    box-shadow: 0px 3px 12px 3px rgb(120, 0, 0); 
-    padding: 15px; 
-}
-
-#cost-field {
+      #cost-field {
         display: none; /* Hidden by default */
         margin-top: 10px;
-    }
+      }
 
-#notes {
-    /* border: rgb(129, 1, 1) dashed 45px;  */
-    box-shadow: 0px 3px 12px 3px rgb(120, 0, 0); 
-    padding: 15px; 
-}
+      #notes {
+        /* border: rgb(129, 1, 1) dashed 45px;  */
+        box-shadow: 0px 3px 12px 3px rgb(120, 0, 0);
+        padding: 15px;
+      }
 
-#caution {
-    /* background-color: red;  */
-    box-shadow: 0px 3px 12px 3px rgb(120, 0, 0); 
-    padding: 15px; 
-    /* border: rgb(129, 1, 1) dashed 3px;  */
-}
+      #caution {
+        /* background-color: red;  */
+        box-shadow: 0px 3px 12px 3px rgb(120, 0, 0);
+        padding: 15px;
+        /* border: rgb(129, 1, 1) dashed 3px;  */
+      }
+    </style>
+  </head>
+  <body>
+    <form action="/upload" method="post" enctype="multipart/form-data">
+      <div id="title-add">Add an event to Red Calendar here:</div>
+      <br />
+      <div id="notes">
+        All events will be reviewed by an editor before they are posted to the
+        calendar (this could take a day or two!) <br /><br />
+        Before submitting your event, please check that it’s not already on the
+        calendar <3 <br /><br />
 
+        If you notice an error in an event that’s already listed, email ***.
+        Please try to get it right the first time though – Red Cal editors need
+        to make these edits manually and it’s kind of a pain!
+      </div>
+      <br />
+      <label for="name">Your name * </label>
+      <input type="text" id="name" name="name" required />
+      <br /><br />
 
-        </style>
+      <label for="email">Your email *</label><br />
+      <input type="email" id="email" name="email" required />
+      <br /><br />
 
-    </head>
-    <body>
+      <label for="title">Event title *</label><br />
+      <input type="text" id="title" name="title" required />
+      <br /><br />
 
-        <form action="submit-form.php" method="post" enctype="multipart/form-data">
-            <div id="title-add">Add an event to Red Calendar here: </div><br>
-            <div id="notes">All events will be reviewed by an editor before they are posted to the calendar (this could take a day or two!) 
-            <br><br>
-                Before submitting your event, please check that it’s not already on the calendar <3 <br><br>
+      <label for="image"
+        >Event image/poster [Accepts .jpg, .png, .gif. Height to width ratio
+        must be 4:3 or less. Please make sure your file is under 1MB (online
+        compression tools rock)] *</label
+      >
+      <input
+        type="file"
+        id="image"
+        name="image"
+        accept="image/*"
+        required
+        onchange="previewImage(event)"
+      />
+      <img
+        id="preview"
+        src=""
+        alt="Image Preview"
+        style="display: none; width: 18vw; height: auto"
+      />
+      <br /><br />
 
-               If you notice an error in an event that’s already listed, email ***. Please try to get it right the first time though – Red Cal editors need to make these edits manually and it’s kind of a pain! 
-                       
-            </div><br>
-            <label for="name">Your name *
-            </label>
-            <input type="text" id="name" name="name" required>
-            <br><br>
-    
-            <label for="email">Your email *</label><br>
-            <input type="email" id="email" name="email" required>
-            <br><br>
-    
-            <label for="title">Event title *</label><br>
-            <input type="text" id="title" name="title" required>
-            <br><br>
+      <label>Is your event free? *</label><br />
 
-            <label for="image">Event image/poster [Accepts .jpg, .png, .gif. Height to width ratio must be 4:3 or less. Please make sure your file is under 1MB (online compression tools rock)] *</label>
-            <input type="file" id="image" name="image" accept="image/*" required onchange="previewImage(event)">
-            <img id="preview" src="" alt="Image Preview" style="display: none; width: 18vw; height: auto;">
-            <br><br>
+      <input
+        type="radio"
+        id="free"
+        name="event_cost"
+        value="free"
+        required
+        onclick="toggleCost(false)"
+      />
 
-            <label>Is your event free? *</label><br>
+      <label for="free">It's free</label><br />
 
-            <input type="radio" id="free" name="event_cost" value="free" required onclick="toggleCost(false)">
+      <input
+        type="radio"
+        id="not-free"
+        name="event_cost"
+        value="not-free"
+        required
+        onclick="toggleCost(true)"
+      />
 
-            <label for="free">It's free</label><br>
+      <label for="not-free">It's not free</label><br />
 
-            <input type="radio" id="not-free" name="event_cost" value="not-free" required onclick="toggleCost(true)">
+      <div id="cost-field">
+        <label for="cost">How much?</label>
+        <input
+          type="number"
+          id="cost"
+          name="cost"
+          min="0"
+          step="0.01"
+          placeholder="0.00"
+        /><br />
+      </div>
+      <br />
 
-            <label for="not-free">It's not free</label><br>
+      <label for="when">Date & Time *</label><br />
+      <input type="datetime-local" id="when" name="when" required />
+      <br /><br />
 
-            <div id="cost-field">
-                <label for="cost">How much?</label>
-                <input type="number" id="cost" name="cost" min="0" step="0.01" placeholder="0.00"><br>
-            </div><br>
+      <label for="where"
+        >Location * [Include venue name and/or address. Whatever you type here
+        will be included as-is!]</label
+      ><br />
+      <textarea rows="3" id="where" name="where" required></textarea>
+      <br /><br />
 
-            <label for="when">Date & Time *</label><br>
-            <input type="datetime-local" id="when" name="when" required>
-            <br><br>
+      <label
+        >Which of the following describes your event (choose up to 3): *</label
+      ><br />
 
-            <label for="where">Location * [Include venue name and/or address. Whatever you type here will be included as-is!]</label><br>
-            <textarea rows="3" id="where" name="where" required></textarea>
-            <br><br>
+      <input type="checkbox" id="activism" name="categories" value="activism" />
+      <label for="activism">Activism/Mutual Aid</label><br />
 
+      <input type="checkbox" id="literary" name="categories" value="literary" />
+      <label for="literary">Literary/Readings</label><br />
 
-            <label>Which of the following describes your event (choose up to 3): *</label><br>
+      <input type="checkbox" id="music" name="categories" value="music" />
+      <label for="music">Music/Sound</label><br />
 
-<input type="checkbox" id="activism" name="categories" value="activism" >
-<label for="activism">Activism/Mutual Aid</label><br>
+      <input
+        type="checkbox"
+        id="performance"
+        name="categories"
+        value="performance"
+      />
+      <label for="performance">Performance/Dance</label><br />
 
-<input type="checkbox" id="literary" name="categories" value="literary" >
-<label for="literary">Literary/Readings</label><br>
+      <input
+        type="checkbox"
+        id="rebel-code"
+        name="categories"
+        value="rebel-code"
+      />
+      <label for="rebel-code">Rebel Code/Artsy Tech</label><br />
 
-<input type="checkbox" id="music" name="categories" value="music">
-<label for="music">Music/Sound</label><br>
+      <p id="warning" style="border: 9px solid red; display: none">
+        No more than 3 <3
+      </p>
+      <br />
 
-<input type="checkbox" id="performance" name="categories" value="performance">
-<label for="performance">Performance/Dance</label><br>
-
-<input type="checkbox" id="rebel-code" name="categories" value="rebel-code">
-<label for="rebel-code">Rebel Code/Artsy Tech</label><br>
-
-<p id="warning" style="border: 9px solid red; display: none;">No more than 3 <3</p><br>
-
-
-            <!-- <label for="access">Accessibility notes</label><br>
+      <!-- <label for="access">Accessibility notes</label><br>
             <textarea rows="3" id="access" name="access"></textarea>
             <br><br> -->
 
-            <label for="description">Description [Include participants, accessibility notes, and anything else!]:</label><br>
-            <textarea rows="3" id="description" name="description"></textarea>
-            <br><br>
+      <label for="description"
+        >Description [Include participants, accessibility notes, and anything
+        else!]:</label
+      ><br />
+      <textarea rows="3" id="description" name="description"></textarea>
+      <br /><br />
 
-            <label for="url">All events have their own url in the form: cal.red/?event=xyz&mdash;where “xyz” can be anything. What  would you like your xyz to be? Please check if it's already taken.</label><br>
-            <input type="text" id="url" name="url">
-            <br><br>
-            <div id="caution">Before submitting your event, <u><b>check everything twice or thrice!</b></u> Once you click submit, any edits will have to be done manually by a Red Cal editor.</div><br>
-            <button type="submit">Submit [with caution! see note above]</button>
-        </form>
+      <label for="url"
+        >All events have their own url in the form:
+        cal.red/?event=xyz&mdash;where “xyz” can be anything. What would you
+        like your xyz to be? Please check if it's already taken.</label
+      ><br />
+      <input type="text" id="url" name="url" />
+      <br /><br />
+      <div id="caution">
+        Before submitting your event,
+        <u><b>check everything twice or thrice!</b></u> Once you click submit,
+        any edits will have to be done manually by a Red Cal editor.
+      </div>
+      <br />
+      <button type="submit">Submit [with caution! see note above]</button>
+    </form>
 
+    <div id="toggling">
+      Welcome to Red Calendar.<br /><br />
 
+      <a href="index.html">Return to the calendar.</a><br /><br />
 
-    <div id="toggling">Welcome to Red Calendar.<br><br>
-
-<a href="index.html">Return to the calendar.</a><br><br>
-
-<a href="about.html">About.</a>
+      <a href="about.html">About.</a>
     </div>
 
     <script>
-        function toggleCost(show) {
-            document.getElementById("cost-field").style.display = show ? "block" : "none";
-        }
+      function toggleCost(show) {
+        document.getElementById("cost-field").style.display = show
+          ? "block"
+          : "none";
+      }
     </script>
 
-<script>
-    function previewImage(event) {
-        const preview = document.getElementById('preview');
+    <script>
+      function previewImage(event) {
+        const preview = document.getElementById("preview");
         const file = event.target.files[0];
 
         if (file) {
-            const reader = new FileReader();
-            reader.onload = function() {
-                preview.src = reader.result;
-                preview.style.display = 'block';
-            }
-            reader.readAsDataURL(file);
+          const reader = new FileReader();
+          reader.onload = function () {
+            preview.src = reader.result;
+            preview.style.display = "block";
+          };
+          reader.readAsDataURL(file);
         }
-    }
-</script>
+      }
+    </script>
 
-<script>
-    document.addEventListener("DOMContentLoaded", function() {
-        const checkboxes = document.querySelectorAll('input[name="categories"]');
+    <script>
+      document.addEventListener("DOMContentLoaded", function () {
+        const checkboxes = document.querySelectorAll(
+          'input[name="categories"]'
+        );
         const warning = document.getElementById("warning");
 
-        checkboxes.forEach(checkbox => {
-            checkbox.addEventListener("change", function() {
-                const checkedBoxes = document.querySelectorAll('input[name="categories"]:checked');
+        checkboxes.forEach((checkbox) => {
+          checkbox.addEventListener("change", function () {
+            const checkedBoxes = document.querySelectorAll(
+              'input[name="categories"]:checked'
+            );
 
-                if (checkedBoxes.length > 3) {
-                    this.checked = false; // Uncheck the last clicked checkbox
-                    warning.style.display = "block"; // Show warning message
-                } else {
-                    warning.style.display = "none"; // Hide warning message
-                }
-            });
+            if (checkedBoxes.length > 3) {
+              this.checked = false; // Uncheck the last clicked checkbox
+              warning.style.display = "block"; // Show warning message
+            } else {
+              warning.style.display = "none"; // Hide warning message
+            }
+          });
         });
-    });
-</script>
-
-    </body>
-
-
+      });
+    </script>
+  </body>
 </html>
-
-
