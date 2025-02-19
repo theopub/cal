@@ -64,7 +64,7 @@
             }
 
 
-            .date, #menu, .more-info {
+            .date, #menu, .more-info, .close {
                 /* background-color: rgb(248, 107, 107); */
                 /* above is more pinkish */
                 background-color: rgb(252, 83, 83);
@@ -133,40 +133,65 @@
 
             .more-info{
                 display: none; 
-                border: 3vw dotted rgb(142, 0, 0);
-                padding: 3vw; 
-                width: 48vw; 
+                /* border: 3vw dotted rgb(142, 0, 0); */
+                padding: 1vw; 
+                width: 50vw; 
                 position: fixed; 
-                left: 20vw; 
-                top: 20vh; 
-   
+                left: 24vw; 
+                top: 12vh; 
             }
+
+            .title {
+                text-decoration: underline; 
+            }
+
+            .poster-inline {
+                width: 30vw; 
+                float: left; 
+                margin-right: 1vw;
+                box-shadow: 0px 3px 3px 3px rgb(202, 0, 0); 
+                /* margin-bottom: 1vw;  */
+            }
+
+            .close {
+                /* color: rgb(193, 3, 3); 
+                background-color: rgb(108, 0, 0);  */
+                border-radius: 50%; 
+                position: absolute;
+                top: 0vw; 
+                right: 0vw; 
+                /* top: -4.5vw;
+                right: -3.3vw; */
+                cursor: pointer; 
+                font-size: 1.5vw; 
+            }
+
+            .close:hover {
+                color: rgb(166, 1, 1);
+            }
+
         </style>
 
     </head>
     <body>
-<!-- not working: -->
-        <div id="scrollRight">→</div>
+            <!-- not working: -->
+                    <!-- <div id="scrollRight">→</div> -->
 
 
-<!-- <div id="ads">We love our sponsors! Check them out ↓ ↓ ↓ ↓</div> -->
+            <!-- <div id="ads">We love our sponsors! Check them out ↓ ↓ ↓ ↓</div> -->
 
-    <div id="menu">Welcome to Red Calendar. 
-        
+            <div id="menu">Welcome to Red Calendar. <br><br>
 
-<br><br>
-<input type="checkbox" checked>activism/mutual aid<br>
-<input type="checkbox" checked>literary/readings<br>
-<input type="checkbox" checked>music/sound<br>
-<input type="checkbox" checked>performance/dance<br>
-<input type="checkbox" checked>rebel code/artsy tech<br>
+            <input type="checkbox" checked>activism/mutual aid<br>
+            <input type="checkbox" checked>literary/readings<br>
+            <input type="checkbox" checked>music/sound<br>
+            <input type="checkbox" checked>performance/dance<br>
+            <input type="checkbox" checked>rebel code/artsy tech<br><br>
 
-<br>
+            <a href="add.html">Add your public event (free).</a><br><br>
 
-<a href="add.html">Add your public event (free).</a><br><br>
-
-<a href="about.html">About.</a>
-    </div>
+            <a href="about.html">About.</a>
+            </div>
 
     <div class="container">
             <div class="column">
@@ -185,18 +210,127 @@
 
                 
                 <div class="more-info" id="great-event">
-                    
-                    Great event info</div>
-                <div class="more-info" id="sick-event">Sick event info </div>
-                <div class="more-info" id="cool-event">Cool event info </div>
-                <div class="more-info" id="party">Party info </div>
-                <div class="more-info" id="best-event">Best info</div>
-                <div class="more-info" id="nice-event">Nice info</div>
-                <div class="more-info" id="sweet-event">Sweet info</div>
-                <div class="more-info" id="good-event">Good info</div>
-                <div class="more-info" id="delicious-event">Delicious info</div>
-                <div class="more-info" id="sexy-event">Sexy info</div>
-                <div class="more-info" id="commie-event">Commie info</div>
+                    <div class="close" onclick="this.parentElement.style.display='none'">X</div>
+                    <img class="poster-inline" src="posters/1.png">
+                    <span class="title">Great Event</span><br><br>
+                            When: [00/00/0000 00:00]<br><br>
+                            Where: [whatever they write]<br><br>
+                            Cost: [$$]<br><br>
+                            Cals: [list of cals]<br><br>
+                            Link: [optional]<br><br>
+                            [Description... A pocketknife is a knife with one or more blades that fold into the handle. They are also known as jackknives, folding knives, EDC knife, or may be referred to as a penknife, though a penknife may also be a specific kind of pocketknife.[1][2] A typical blade length is 5 to 15 centimetres (2 to 6 in).[3]Pocketknives are versatile tools, and may be used for anything from whittling and woodcarving, to butchering small game, gutting and filleting small fish, aiding in the preparation of tinder and kindling for fires, boring holes in soft material, to opening an envelope, cutting twine, slicing fruits and vegetables or as a means of self-defense.[4]Pocketknives may also be used in conjunction with other tools and equipment for woodcraft and bushcraft.[5]]
+                </div>
+                <div class="more-info" id="sick-event">
+                    <div class="close" onclick="this.parentElement.style.display='none'">X</div>
+                    <img class="poster-inline" src="posters/2.png">
+                    <span class="title">Sick event</span><br><br>
+                            When: [00/00/0000 00:00]<br><br>
+                            Where: [whatever they write]<br><br>
+                            Cost: [$$]<br><br>
+                            Cals: [list of cals]<br><br>
+                            Link: [optional]<br><br>
+                            [Description... A pocketknife is a knife with one or more blades that fold into the handle. They are also known as jackknives, folding knives, EDC knife, or may be referred to as a penknife, though a penknife may also be a specific kind of pocketknife.[1][2] A typical blade length is 5 to 15 centimetres (2 to 6 in).[3]Pocketknives are versatile tools, and may be used for anything from whittling and woodcarving, to butchering small game, gutting and filleting small fish, aiding in the preparation of tinder and kindling for fires, boring holes in soft material, to opening an envelope, cutting twine, slicing fruits and vegetables or as a means of self-defense.[4]Pocketknives may also be used in conjunction with other tools and equipment for woodcraft and bushcraft.[5]]
+                </div>
+                <div class="more-info" id="cool-event">
+                    <div class="close" onclick="this.parentElement.style.display='none'">X</div>
+                    <img class="poster-inline" src="posters/3.png">
+                    <span class="title">Cook event</span><br><br>
+                            When: [00/00/0000 00:00]<br><br>
+                            Where: [whatever they write]<br><br>
+                            Cost: [$$]<br><br>
+                            Cals: [list of cals]<br><br>
+                            Link: [optional]<br><br>
+                            [Description... A pocketknife is a knife with one or more blades that fold into the handle. They are also known as jackknives, folding knives, EDC knife, or may be referred to as a penknife, though a penknife may also be a specific kind of pocketknife.[1][2] A typical blade length is 5 to 15 centimetres (2 to 6 in).[3]Pocketknives are versatile tools, and may be used for anything from whittling and woodcarving, to butchering small game, gutting and filleting small fish, aiding in the preparation of tinder and kindling for fires, boring holes in soft material, to opening an envelope, cutting twine, slicing fruits and vegetables or as a means of self-defense.[4]Pocketknives may also be used in conjunction with other tools and equipment for woodcraft and bushcraft.[5] 
+                </div>
+                <div class="more-info" id="party">
+                    <div class="close" onclick="this.parentElement.style.display='none'">X</div>
+                    <img class="poster-inline" src="posters/4.png">
+                    <span class="title">Party</span><br><br>
+                            When: [00/00/0000 00:00]<br><br>
+                            Where: [whatever they write]<br><br>
+                            Cost: [$$]<br><br>
+                            Cals: [list of cals]<br><br>
+                            Link: [optional]<br><br>
+                            [Description... A pocketknife is a knife with one or more blades that fold into the handle. They are also known as jackknives, folding knives, EDC knife, or may be referred to as a penknife, though a penknife may also be a specific kind of pocketknife.[1][2] A typical blade length is 5 to 15 centimetres (2 to 6 in).[3]Pocketknives are versatile tools, and may be used for anything from whittling and woodcarving, to butchering small game, gutting and filleting small fish, aiding in the preparation of tinder and kindling for fires, boring holes in soft material, to opening an envelope, cutting twine, slicing fruits and vegetables or as a means of self-defense.[4]Pocketknives may also be used in conjunction with other tools and equipment for woodcraft and bushcraft.[5] 
+
+                </div>
+                <div class="more-info" id="best-event">
+                    <div class="close" onclick="this.parentElement.style.display='none'">X</div>
+                    <img class="poster-inline" src="posters/5.png">
+                    <span class="title">Best event</span><br><br>
+                            When: [00/00/0000 00:00]<br><br>
+                            Where: [whatever they write]<br><br>
+                            Cost: [$$]<br><br>
+                            Cals: [list of cals]<br><br>
+                            Link: [optional]<br><br>
+                            [Description... A pocketknife is a knife with one or more blades that fold into the handle. They are also known as jackknives, folding knives, EDC knife, or may be referred to as a penknife, though a penknife may also be a specific kind of pocketknife.[1][2] A typical blade length is 5 to 15 centimetres (2 to 6 in).[3]Pocketknives are versatile tools, and may be used for anything from whittling and woodcarving, to butchering small game, gutting and filleting small fish, aiding in the preparation of tinder and kindling for fires, boring holes in soft material, to opening an envelope, cutting twine, slicing fruits and vegetables or as a means of self-defense.[4]Pocketknives may also be used in conjunction with other tools and equipment for woodcraft and bushcraft.[5] 
+                </div>
+                <div class="more-info" id="nice-event">
+                    <div class="close" onclick="this.parentElement.style.display='none'">X</div>
+                    <img class="poster-inline" src="posters/6.png">
+                    <span class="title">Nice event</span><br><br>
+                            When: [00/00/0000 00:00]<br><br>
+                            Where: [whatever they write]<br><br>
+                            Cost: [$$]<br><br>
+                            Cals: [list of cals]<br><br>
+                            Link: [optional]<br><br>
+                            [Description... A pocketknife is a knife with one or more blades that fold into the handle. They are also known as jackknives, folding knives, EDC knife, or may be referred to as a penknife, though a penknife may also be a specific kind of pocketknife.[1][2] A typical blade length is 5 to 15 centimetres (2 to 6 in).[3]Pocketknives are versatile tools, and may be used for anything from whittling and woodcarving, to butchering small game, gutting and filleting small fish, aiding in the preparation of tinder and kindling for fires, boring holes in soft material, to opening an envelope, cutting twine, slicing fruits and vegetables or as a means of self-defense.[4]Pocketknives may also be used in conjunction with other tools and equipment for woodcraft and bushcraft.[5] 
+                </div>
+                <div class="more-info" id="sweet-event">
+                    <div class="close" onclick="this.parentElement.style.display='none'">X</div>
+                    <img class="poster-inline" src="posters/7.png">
+                    <span class="title">Sweet event</span><br><br>
+                            When: [00/00/0000 00:00]<br><br>
+                            Where: [whatever they write]<br><br>
+                            Cost: [$$]<br><br>
+                            Cals: [list of cals]<br><br>
+                            Link: [optional]<br><br>
+                            [Description... A pocketknife is a knife with one or more blades that fold into the handle. They are also known as jackknives, folding knives, EDC knife, or may be referred to as a penknife, though a penknife may also be a specific kind of pocketknife.[1][2] A typical blade length is 5 to 15 centimetres (2 to 6 in).[3]Pocketknives are versatile tools, and may be used for anything from whittling and woodcarving, to butchering small game, gutting and filleting small fish, aiding in the preparation of tinder and kindling for fires, boring holes in soft material, to opening an envelope, cutting twine, slicing fruits and vegetables or as a means of self-defense.[4]Pocketknives may also be used in conjunction with other tools and equipment for woodcraft and bushcraft.[5] 
+                </div>
+                <div class="more-info" id="good-event">
+                    <div class="close" onclick="this.parentElement.style.display='none'">X</div>
+                    <img class="poster-inline" src="posters/8.png">
+                    <span class="title">Good event</span><br><br>
+                            When: [00/00/0000 00:00]<br><br>
+                            Where: [whatever they write]<br><br>
+                            Cost: [$$]<br><br>
+                            Cals: [list of cals]<br><br>
+                            Link: [optional]<br><br>
+                            [Description... A pocketknife is a knife with one or more blades that fold into the handle. They are also known as jackknives, folding knives, EDC knife, or may be referred to as a penknife, though a penknife may also be a specific kind of pocketknife.[1][2] A typical blade length is 5 to 15 centimetres (2 to 6 in).[3]Pocketknives are versatile tools, and may be used for anything from whittling and woodcarving, to butchering small game, gutting and filleting small fish, aiding in the preparation of tinder and kindling for fires, boring holes in soft material, to opening an envelope, cutting twine, slicing fruits and vegetables or as a means of self-defense.[4]Pocketknives may also be used in conjunction with other tools and equipment for woodcraft and bushcraft.[5] 
+                </div>
+                <div class="more-info" id="delicious-event">
+                    <div class="close" onclick="this.parentElement.style.display='none'">X</div>
+                    <img class="poster-inline" src="posters/9.png">
+                    <span class="title">Delicious event</span><br><br>
+                            When: [00/00/0000 00:00]<br><br>
+                            Where: [whatever they write]<br><br>
+                            Cost: [$$]<br><br>
+                            Cals: [list of cals]<br><br>
+                            Link: [optional]<br><br>
+                            [Description... A pocketknife is a knife with one or more blades that fold into the handle. They are also known as jackknives, folding knives, EDC knife, or may be referred to as a penknife, though a penknife may also be a specific kind of pocketknife.[1][2] A typical blade length is 5 to 15 centimetres (2 to 6 in).[3]Pocketknives are versatile tools, and may be used for anything from whittling and woodcarving, to butchering small game, gutting and filleting small fish, aiding in the preparation of tinder and kindling for fires, boring holes in soft material, to opening an envelope, cutting twine, slicing fruits and vegetables or as a means of self-defense.[4]Pocketknives may also be used in conjunction with other tools and equipment for woodcraft and bushcraft.[5] 
+                </div>
+                <div class="more-info" id="sexy-event">
+                    <div class="close" onclick="this.parentElement.style.display='none'">X</div>
+                    <img class="poster-inline" src="posters/10.png">
+                    <span class="title">Sexy event</span><br><br>
+                            When: [00/00/0000 00:00]<br><br>
+                            Where: [whatever they write]<br><br>
+                            Cost: [$$]<br><br>
+                            Cals: [list of cals]<br><br>
+                            Link: [optional]<br><br>
+                            [Description... A pocketknife is a knife with one or more blades that fold into the handle. They are also known as jackknives, folding knives, EDC knife, or may be referred to as a penknife, though a penknife may also be a specific kind of pocketknife.[1][2] A typical blade length is 5 to 15 centimetres (2 to 6 in).[3]Pocketknives are versatile tools, and may be used for anything from whittling and woodcarving, to butchering small game, gutting and filleting small fish, aiding in the preparation of tinder and kindling for fires, boring holes in soft material, to opening an envelope, cutting twine, slicing fruits and vegetables or as a means of self-defense.[4]Pocketknives may also be used in conjunction with other tools and equipment for woodcraft and bushcraft.[5] 
+                </div>
+                <div class="more-info" id="commie-event">
+                    <div class="close" onclick="this.parentElement.style.display='none'">X</div>
+                    <img class="poster-inline" src="posters/11.png">
+                    <span class="title">Commie event</span><br><br>
+                            When: [00/00/0000 00:00]<br><br>
+                            Where: [whatever they write]<br><br>
+                            Cost: [$$]<br><br>
+                            Cals: [list of cals]<br><br>
+                            Link: [optional]<br><br>
+                            [Description... A pocketknife is a knife with one or more blades that fold into the handle. They are also known as jackknives, folding knives, EDC knife, or may be referred to as a penknife, though a penknife may also be a specific kind of pocketknife.[1][2] A typical blade length is 5 to 15 centimetres (2 to 6 in).[3]Pocketknives are versatile tools, and may be used for anything from whittling and woodcarving, to butchering small game, gutting and filleting small fish, aiding in the preparation of tinder and kindling for fires, boring holes in soft material, to opening an envelope, cutting twine, slicing fruits and vegetables or as a means of self-defense.[4]Pocketknives may also be used in conjunction with other tools and equipment for woodcraft and bushcraft.[5] 
+                </div>
 
                 
             </div>
