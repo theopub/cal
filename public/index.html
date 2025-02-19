@@ -12,7 +12,7 @@
         <style>
 
             body {
-                overflow-y: hidden;
+                /* overflow-y: hidden; */
                 /* background-color: black;  */
                 font-family: Helvetica; 
                 background-color: rgb(101, 0, 0);
@@ -26,7 +26,7 @@
                 /* below: better without bluelight canceling? */
                 filter: grayscale(100%) brightness(60%) sepia(100%) hue-rotate(-50deg) saturate(360%);  
                 opacity: .6;
-
+                cursor: pointer; 
 
                 /* filter: grayscale(100%) brightness(6%) sepia(100%) hue-rotate(-50deg) saturate(400%); */
                 /* filter: grayscale(100%) brightness(30%) sepia(100%) hue-rotate(-50deg) saturate(400%); 
@@ -64,7 +64,7 @@
             }
 
 
-            .date, #menu, .more-info, .close {
+            .date, #menu, .more-info, .close, #about {
                 /* background-color: rgb(248, 107, 107); */
                 /* above is more pinkish */
                 background-color: rgb(252, 83, 83);
@@ -131,7 +131,7 @@
 
             }
 
-            .more-info{
+            .more-info, #about{
                 display: none; 
                 /* border: 3vw dotted rgb(142, 0, 0); */
                 padding: 1vw; 
@@ -139,7 +139,8 @@
                 position: fixed; 
                 left: 24vw; 
                 top: 12vh; 
-            }
+       }
+
 
             .title {
                 text-decoration: underline; 
@@ -170,6 +171,10 @@
                 color: rgb(166, 1, 1);
             }
 
+            #about-click {
+                cursor: pointer;
+            }
+
         </style>
 
     </head>
@@ -190,7 +195,14 @@
 
             <a href="add.html">Add your public event (free).</a><br><br>
 
-            <a href="about.html">About.</a>
+            <span id="about-click" onclick="showElement('about')"><u>About.</u></span>
+            </div>
+
+
+            <div id="about">
+                <u>About Red Calendar</u><br><br>
+                [Description... A pocketknife is a knife with one or more blades that fold into the handle. They are also known as jackknives, folding knives, EDC knife, or may be referred to as a penknife, though a penknife may also be a specific kind of pocketknife.[1][2] A typical blade length is 5 to 15 centimetres (2 to 6 in).[3]Pocketknives are versatile tools, and may be used for anything from whittling and woodcarving, to butchering small game, gutting and filleting small fish, aiding in the preparation of tinder and kindling for fires, boring holes in soft material, to opening an envelope, cutting twine, slicing fruits and vegetables or as a means of self-defense.[4]Pocketknives may also be used in conjunction with other tools and equipment for woodcraft and bushcraft.[5]]
+         
             </div>
 
     <div class="container">
