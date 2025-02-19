@@ -8,179 +8,150 @@
         <title>Calendar</title>
         <meta charset="UTF-8"/>
         <meta name="viewport" content="width=device-width, initial-scale=1">
-<link rel="preconnect" href="https://fonts.googleapis.com">
-<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Kings&family=Lugrasimo&family=Neonderthaw&family=Petit+Formal+Script&family=Plaster&family=Stalinist+One&family=Tangerine:wght@400;700&family=Turret+Road:wght@200;300;400;500;700;800&family=Warnes&display=swap" rel="stylesheet">
-
 
         <style>
-body {
-    /* overflow-y: hidden; */
-    /* background-color: black;  */
-    font-family: Helvetica; 
-    background-color: rgb(101, 0, 0);
-    font-size: 15px; 
-    
-}
 
-            img {
-             
+            body {
+                overflow-y: hidden;
+                /* background-color: black;  */
+                font-family: Helvetica; 
+                background-color: rgb(101, 0, 0);
+                font-size: 15px; 
+            }
+
+            .posters {
                 position: relative; 
-                filter: grayscale(100%) brightness(60%) sepia(100%) hue-rotate(-50deg) saturate(270%);     
+                /* below: good on my comp */
+                /* filter: grayscale(100%) brightness(60%) sepia(100%) hue-rotate(-50deg) saturate(270%);      */
+                /* below: better without bluelight canceling? */
+                filter: grayscale(100%) brightness(60%) sepia(100%) hue-rotate(-50deg) saturate(360%);  
                 opacity: .6;
+
 
                 /* filter: grayscale(100%) brightness(6%) sepia(100%) hue-rotate(-50deg) saturate(400%); */
                 /* filter: grayscale(100%) brightness(30%) sepia(100%) hue-rotate(-50deg) saturate(400%); 
                 opacity: .9;*/
                 padding: .3vw; 
-           
             }
 
-            img:hover{
-                   border: .3vw solid red; 
+            .posters:hover{
+                border: .3vw solid red; 
                    /* box-shadow: 0px 0px 12px 3px red;  */
                 filter:none; 
                 opacity: 1;
             }
 
+            .container {
+                display: flex; 
+            }
+
+            .column {
+                padding-right: 1vw; 
+                padding-left: 1vw; 
+                width: 18vw;
+                    /* below: 7 days/page */
+                    /* width: 12vw; */
+                height: 98vh; 
+                    /* below: w ads on bottom */
+                    /* height: 83vh;  */
+                overflow-y: auto; 
+                display: flex; 
+                flex-shrink: 0; 
+                flex-direction: column;
+                /* border-right: .6vw dotted red;  */
+                border-right: .1vw solid rgb(253, 0, 0); 
+            
+            }
+
+
+            .date, #menu, .more-info {
+                /* background-color: rgb(248, 107, 107); */
+                /* above is more pinkish */
+                background-color: rgb(252, 83, 83);
+                /* above is maybe right for non-bluelight-canceling? */
+                color: rgb(71, 0, 0);
+                box-shadow: 0px 3px 12px 3px rgb(120, 0, 0); 
+                z-index: 10;
+            }
+
+            .date {
+                position: absolute;
+                top: 45px;
+                width: 18vw; 
+                text-align: center;
+            }
+
+            #menu {
+                position: fixed; 
+                bottom: 0; 
+                padding: 15px; 
+                width: 210px; 
+                right: 0;  
+            }
+
+            input[type="checkbox"] {
+                accent-color: rgb(163, 1, 1); 
+                margin-right: 10px;
+            }
+
+
+            input[type="checkbox"]:checked {
+                border: 2px solid darkred;
+                margin-right: 10px;
+            }
+
+
+
+            #scrollRight {
+                font-size: 9vh; 
+                z-index: 10; 
+                position: fixed; 
+                right:1.5vw; 
+                top: 45vh; 
+            }
+
+            #scrollRight:hover{
+            color: red; 
+            text-shadow: -3px -3px 6px black; 
+            }
+
+
+            a {
+                color: black; 
+            }
+
+            #ads {
+                width: 100vw; 
+                height: 15vh; 
+                background-color: black;
+                left: 0; 
+                bottom: 0; 
+                position: fixed;
+                z-index: 100;
+
+            }
+
+            .more-info{
+                display: none; 
+                border: 3vw dotted rgb(142, 0, 0);
+                padding: 3vw; 
+                width: 48vw; 
+                position: fixed; 
+                left: 20vw; 
+                top: 20vh; 
    
-
-
-.container {
-    display: flex; /* Aligns columns side by side */
-    /* gap: 1vw;  */
-}
-
-.column {
-    padding-right: 1vw; 
-    padding-left: 1vw; 
-    width: 18vw;
-
-/* below: 7 days/page */
-    /* width: 12vw; */
-
-
-    height: 98vh; 
-
-/* below: w ads on bottom */
-    /* height: 83vh;  */
-
-    overflow-y: auto; 
-    display: flex; 
-    flex-shrink: 0; 
-    flex-direction: column;
-    /* border-right: .6vw dotted rgb(100, 2, 2);  */
-    border-right: .1vw solid rgb(253, 0, 0); 
-   
-}
-
-
-.date {
-    z-index: 10;
-    background-color: rgb(248, 107, 107);
-    position: absolute;
-    top: 45px;
-    width: 18vw; 
-    text-align: center;
-    color: rgb(71, 0, 0);
-    box-shadow: 0px 3px 12px 3px rgb(120, 0, 0); 
-}
-
-#toggling {
-    position: fixed; 
-    background-color: rgb(248, 107, 107);
-    color: rgb(52, 0, 0); 
-    z-index: 10;
-    /* bottom: 15vh;  */
-    bottom: 0; 
-    padding: 15px; 
-    /* border: .3vw solid red;  */
-    /* box-shadow: 0px 0px 12px 3px red;  */
-    box-shadow: 0px 3px 12px 3px rgb(120, 0, 0); 
-    width: 210px; 
-    right: 0;  
-    font-family: Helvetica; 
-}
-
-input[type="checkbox"] {
-
-    accent-color: rgb(163, 1, 1); 
-    margin-right: 10px;
-}
-
-
-input[type="checkbox"]:checked {
-    border: 2px solid darkred;
-    margin-right: 10px;
-}
-/* 
-input[type="checkbox"] {
-    width: 18px;
-    height: 18px; 
-    accent-color: red; 
-    appearance: none; 
-    border-radius: 50%; 
-    background-color: rgb(255, 177, 177);
-}
-
-input[type="checkbox"]:checked {
-    background-color: red;
-    border: 1px dashed darkred;
-}
-
-
-input[type="checkbox"]:checked::after {
-    content: "x"; 
-    color: black;
-    position: absolute;
-    left: 24px; 
-
-}
- */
-
-
-#scrollRight {
-    /* background-color: white;  
-    width: 10vw; 
-    height: 10vh; */
-    font-size: 9vh; 
-    z-index: 10; 
-    position: fixed; 
-    right:1.5vw; 
-    top: 45vh; 
-}
-
-#scrollRight:hover{
-   color: red; 
-   text-shadow: -3px -3px 6px black; 
-}
-
-
-a {
-    color: black; 
-}
-
-#ads {
-    width: 100vw; 
-    height: 15vh; 
-    background-color: black;
-    left: 0; 
-    bottom: 0; 
-    position: fixed;
-    z-index: 100;
-
-}
+            }
         </style>
 
     </head>
     <body>
-<!-- not working -->
+<!-- not working: -->
         <div id="scrollRight">→</div>
 
 
 <!-- <div id="ads">We love our sponsors! Check them out ↓ ↓ ↓ ↓</div> -->
 
-    <div id="toggling">Welcome to Red Calendar. 
+    <div id="menu">Welcome to Red Calendar. 
         
 
 <br><br>
@@ -200,136 +171,184 @@ a {
     <div class="container">
             <div class="column">
                 <div class="date">Mon</div>
-                <img src="posters/1.png"></img>
-                <img src="posters/2.png"></img>
-                <img src="posters/3.png"></img>
-                <img src="posters/4.png"></img>
-                <img src="posters/5.png"></img>
-                <img src="posters/6.png"></img>
-                <img src="posters/7.png"></img>
-                <img src="posters/8.png"></img>
-                <img src="posters/9.png"></img>  
-                <img src="posters/10.png"></img>
-                <img src="posters/11.png"></img>
+                <img class="posters" src="posters/1.png" onclick="showElement('great-event')"> 
+                <img class="posters" src="posters/2.png" onclick="showElement('sick-event')"> 
+                <img class="posters" src="posters/3.png" onclick="showElement('cool-event')"> 
+                <img class="posters" src="posters/4.png" onclick="showElement('party')"> 
+                <img class="posters" src="posters/5.png" onclick="showElement('best-event')"> 
+                <img class="posters" src="posters/6.png" onclick="showElement('nice-event')"> 
+                <img class="posters" src="posters/7.png" onclick="showElement('sweet-event')"> 
+                <img class="posters" src="posters/8.png" onclick="showElement('good-event')"> 
+                <img class="posters" src="posters/9.png" onclick="showElement('delicious-event')">   
+                <img class="posters" src="posters/10.png" onclick="showElement('sexy-event')"> 
+                <img class="posters" src="posters/11.png" onclick="showElement('commie-event')"> 
+
+                
+                <div class="more-info" id="great-event">
+                    
+                    Great event info</div>
+                <div class="more-info" id="sick-event">Sick event info </div>
+                <div class="more-info" id="cool-event">Cool event info </div>
+                <div class="more-info" id="party">Party info </div>
+                <div class="more-info" id="best-event">Best info</div>
+                <div class="more-info" id="nice-event">Nice info</div>
+                <div class="more-info" id="sweet-event">Sweet info</div>
+                <div class="more-info" id="good-event">Good info</div>
+                <div class="more-info" id="delicious-event">Delicious info</div>
+                <div class="more-info" id="sexy-event">Sexy info</div>
+                <div class="more-info" id="commie-event">Commie info</div>
+
+                
             </div>
             <div class="column">
                 <div class="date">Tues</div>
-                <img src="posters/6.png"></img>
-                <img src="posters/7.png"></img>
-                <img src="posters/8.png"></img>
-                <img src="posters/9.png"></img>  
-                <img src="posters/10.png"></img>
-                <img src="posters/11.png"></img>
-                <img src="posters/12.png"></img>  
-                <img src="posters/13.png"></img>
-                <img src="posters/14.jpg"></img>
-                <img src="posters/15.jpg"></img>
-                <img src="posters/16.jpg"></img>
+                <img class="posters" src="posters/6.png"> 
+                <img class="posters" src="posters/7.png"> 
+                <img class="posters" src="posters/8.png"> 
+                <img class="posters" src="posters/9.png">   
+                <img class="posters" src="posters/10.png"> 
+                <img class="posters" src="posters/11.png"> 
+                <img class="posters" src="posters/12.png">   
+                <img class="posters" src="posters/13.png"> 
+                <img class="posters" src="posters/14.jpg"> 
+                <img class="posters" src="posters/15.jpg"> 
+                <img class="posters" src="posters/16.jpg"> 
             </div>
 
             <div class="column">
                 <div class="date">Weds</div>
-                <img src="posters/1.png"></img>
-                <img src="posters/2.png"></img>
-                <img src="posters/3.png"></img>
-                <img src="posters/4.png"></img>
-                <img src="posters/5.png"></img>
-                <img src="posters/6.png"></img>
-                <img src="posters/7.png"></img>
-                <img src="posters/8.png"></img>
-                <img src="posters/9.png"></img>  
-                <img src="posters/10.png"></img>
-                <img src="posters/11.png"></img>
+                <img class="posters" src="posters/1.png"> 
+                <img class="posters" src="posters/2.png"> 
+                <img class="posters" src="posters/3.png"> 
+                <img class="posters" src="posters/4.png"> 
+                <img class="posters" src="posters/5.png"> 
+                <img class="posters" src="posters/6.png"> 
+                <img class="posters" src="posters/7.png"> 
+                <img class="posters" src="posters/8.png"> 
+                <img class="posters" src="posters/9.png">   
+                <img class="posters" src="posters/10.png"> 
+                <img class="posters" src="posters/11.png"> 
             </div>
             <div class="column">
                 <div class="date">Thur</div>
-                <img src="posters/6.png"></img>
-                <img src="posters/7.png"></img>
-                <img src="posters/8.png"></img>
-                <img src="posters/9.png"></img>  
-                <img src="posters/10.png"></img>
-                <img src="posters/11.png"></img>
-                <img src="posters/12.png"></img>  
-                <img src="posters/13.png"></img>
-                <img src="posters/14.jpg"></img>
-                <img src="posters/15.jpg"></img>
-                <img src="posters/16.jpg"></img>
+                <img class="posters" src="posters/6.png"> 
+                <img class="posters" src="posters/7.png"> 
+                <img class="posters" src="posters/8.png"> 
+                <img class="posters" src="posters/9.png">   
+                <img class="posters" src="posters/10.png"> 
+                <img class="posters" src="posters/11.png"> 
+                <img class="posters" src="posters/12.png">   
+                <img class="posters" src="posters/13.png"> 
+                <img class="posters" src="posters/14.jpg"> 
+                <img class="posters" src="posters/15.jpg"> 
+                <img class="posters" src="posters/16.jpg"> 
             </div>
 
             <div class="column">
                 <div class="date">Fri</div>
-                <img src="posters/1.png"></img>
-                <img src="posters/2.png"></img>
-                <img src="posters/3.png"></img>
-                <img src="posters/4.png"></img>
-                <img src="posters/5.png"></img>
-                <img src="posters/6.png"></img>
-                <img src="posters/7.png"></img>
-                <img src="posters/8.png"></img>
-                <img src="posters/9.png"></img>  
-                <img src="posters/10.png"></img>
-                <img src="posters/11.png"></img>
+                <img class="posters" src="posters/1.png"> 
+                <img class="posters" src="posters/2.png"> 
+                <img class="posters" src="posters/3.png"> 
+                <img class="posters" src="posters/4.png"> 
+                <img class="posters" src="posters/5.png"> 
+                <img class="posters" src="posters/6.png"> 
+                <img class="posters" src="posters/7.png"> 
+                <img class="posters" src="posters/8.png"> 
+                <img class="posters" src="posters/9.png">   
+                <img class="posters" src="posters/10.png"> 
+                <img class="posters" src="posters/11.png"> 
             </div>
             <div class="column">
                 <div class="date">Sat</div>
-                <img src="posters/6.png"></img>
-                <img src="posters/7.png"></img>
-                <img src="posters/8.png"></img>
-                <img src="posters/9.png"></img>  
-                <img src="posters/10.png"></img>
-                <img src="posters/11.png"></img>
-                <img src="posters/12.png"></img>  
-                <img src="posters/13.png"></img>
-                <img src="posters/14.jpg"></img>
-                <img src="posters/15.jpg"></img>
-                <img src="posters/16.jpg"></img>
+                <img class="posters" src="posters/6.png"> 
+                <img class="posters" src="posters/7.png"> 
+                <img class="posters" src="posters/8.png"> 
+                <img class="posters" src="posters/9.png">   
+                <img class="posters" src="posters/10.png"> 
+                <img class="posters" src="posters/11.png"> 
+                <img class="posters" src="posters/12.png">   
+                <img class="posters" src="posters/13.png"> 
+                <img class="posters" src="posters/14.jpg"> 
+                <img class="posters" src="posters/15.jpg"> 
+                <img class="posters" src="posters/16.jpg"> 
             </div>
 
             <div class="column">
                 <div class="date">Sun</div>
-                <img src="posters/1.png"></img>
-                <img src="posters/2.png"></img>
-                <img src="posters/3.png"></img>
-                <img src="posters/4.png"></img>
-                <img src="posters/5.png"></img>
-                <img src="posters/6.png"></img>
-                <img src="posters/7.png"></img>
-                <img src="posters/8.png"></img>
-                <img src="posters/9.png"></img>  
-                <img src="posters/10.png"></img>
-                <img src="posters/11.png"></img>
+                <img class="posters" src="posters/1.png"> 
+                <img class="posters" src="posters/2.png"> 
+                <img class="posters" src="posters/3.png"> 
+                <img class="posters" src="posters/4.png"> 
+                <img class="posters" src="posters/5.png"> 
+                <img class="posters" src="posters/6.png"> 
+                <img class="posters" src="posters/7.png"> 
+                <img class="posters" src="posters/8.png"> 
+                <img class="posters" src="posters/9.png">   
+                <img class="posters" src="posters/10.png"> 
+                <img class="posters" src="posters/11.png"> 
             </div>
             <div class="column">
                 <div class="date">Mon</div>
-                <img src="posters/6.png"></img>
-                <img src="posters/7.png"></img>
-                <img src="posters/8.png"></img>
-                <img src="posters/9.png"></img>  
-                <img src="posters/10.png"></img>
-                <img src="posters/11.png"></img>
-                <img src="posters/12.png"></img>  
-                <img src="posters/13.png"></img>
-                <img src="posters/14.jpg"></img>
-                <img src="posters/15.jpg"></img>
-                <img src="posters/16.jpg"></img>
+                <img class="posters" src="posters/6.png"> 
+                <img class="posters" src="posters/7.png"> 
+                <img class="posters" src="posters/8.png"> 
+                <img class="posters" src="posters/9.png">   
+                <img class="posters" src="posters/10.png"> 
+                <img class="posters" src="posters/11.png"> 
+                <img class="posters" src="posters/12.png">   
+                <img class="posters" src="posters/13.png"> 
+                <img class="posters" src="posters/14.jpg"> 
+                <img class="posters" src="posters/15.jpg"> 
+                <img class="posters" src="posters/16.jpg"> 
             </div>
 
             <div class="column">
                 <div class="date">Tues</div>
-                <img src="posters/6.png"></img>
-                <img src="posters/7.png"></img>
-                <img src="posters/8.png"></img>
-                <img src="posters/9.png"></img>  
-                <img src="posters/10.png"></img>
-                <img src="posters/11.png"></img>
-                <img src="posters/12.png"></img>  
-                <img src="posters/13.png"></img>
-                <img src="posters/14.jpg"></img>
-                <img src="posters/15.jpg"></img>
-                <img src="posters/16.jpg"></img>
+                <img class="posters" src="posters/6.png"> 
+                <img class="posters" src="posters/7.png"> 
+                <img class="posters" src="posters/8.png"> 
+                <img class="posters" src="posters/9.png">   
+                <img class="posters" src="posters/10.png"> 
+                <img class="posters" src="posters/11.png"> 
+                <img class="posters" src="posters/12.png">   
+                <img class="posters" src="posters/13.png"> 
+                <img class="posters" src="posters/14.jpg"> 
+                <img class="posters" src="posters/15.jpg"> 
+                <img class="posters" src="posters/16.jpg"> 
             </div>
     </div>
 
+
+    <script>
+        function showElement(id) {
+                const element = document.getElementById(id);
+
+                if (!element) return; // Safety check
+
+                // If the clicked element is already visible, hide it
+                if (element.style.display === "block") {
+                    element.style.display = "none";
+                    history.pushState(null, "", "?"); // Reset URL
+                } else {
+                    // Hide all other elements
+                    document.querySelectorAll('.more-info').forEach(el => el.style.display = "none");
+
+                    // Show the selected element
+                    element.style.display = "block";
+                    history.pushState(null, "", "?event=" + id);
+                }
+            }
+    
+        // Check URL on page load and show the correct element
+        window.onload = function() {
+            const params = new URLSearchParams(window.location.search);
+            const visibleElement = params.get("event");
+    
+            if (visibleElement) {
+                showElement(visibleElement);
+            }
+        };
+    </script>
 
     <script>
   document.getElementById("scrollRight").addEventListener("click", function() {
