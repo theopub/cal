@@ -19,7 +19,7 @@
 
       #toggling {
         position: fixed;
-        background-color: rgb(248, 107, 107);
+        background-color: rgb(253, 106, 106);
         color: rgb(52, 0, 0);
         z-index: 10;
         /* bottom: 15vh;  */
@@ -55,7 +55,7 @@
 
       form {
         position: relative;
-        background-color: rgb(248, 123, 107);
+        background-color: rgb(253, 106, 106);
         padding: 3vw;
         width: 45vw;
         left: 24.5vw;
@@ -96,11 +96,10 @@
         All events will be reviewed by an editor before they are posted to the
         calendar (this could take a day or two!) <br /><br />
         Before submitting your event, please check that it’s not already on the
-        calendar <3 <br /><br />
-
-        If you notice an error in an event that’s already listed, email ***.
+        calendar <3 If you notice an error in an event that’s already listed, email ***.
         Please try to get it right the first time though – Red Cal editors need
-        to make these edits manually and it’s kind of a pain!
+        to make these edits manually and it’s kind of a pain!<br /><br />
+        You'll receive an email confirmation after submitting. 
       </div>
       <br />
       <label for="name">Your name * </label>
@@ -223,10 +222,19 @@
             <br><br> -->
 
       <label for="description"
-        >Description [Include participants, accessibility notes, and anything
+        >Description [optional] &mdash; include participants, accessibility notes, and anything
         else!]:</label
       ><br />
       <textarea rows="3" id="description" name="description"></textarea>
+      <br /><br />
+
+
+      <label for="urlurl">Url [optional] </label>
+      <input type="text" id="urlurl" name="urlurl" />
+      <br /><br />
+
+      <label for="link">Link text for above url [optional] &mdash; eg. "Buy tickets!" or "RSVP here" or "Link to venue <3"</label>
+      <input type="text" id="link" name="link" />
       <br /><br />
 
       <label for="url"
@@ -242,7 +250,7 @@
         any edits will have to be done manually by a Red Cal editor.
       </div>
       <br />
-      <button type="submit">Submit [with caution! see note above]</button>
+      <button type="submit">Submit and return to Calendar</button>
     </form>
 
     <div id="toggling">
