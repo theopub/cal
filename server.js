@@ -145,21 +145,37 @@ app.post("/upload", upload.single("image"), async (req, res) => {
 app.get("/weekly", async (req, res) => {
   const date = new Date().toISOString().split('T')[0]
   let events = await executeGetEventsToDisplay(date);
-  // console.log(events)
-  res.redirect('/')
-  // res.render('index.ejs', events)
+  const utcToDay = ["sun", "mon", "tue", "wed", "thu", "fri", "sat"]
+  let eventsByDay = events.reduce((days, event) => {
+    const date = new Date(event.start_date)
+    const day = utcToDay[date.getUTCDay()]
+    if(!days[day]) days[day] = []
+    days[day].push(event)
+    return days
+  }, {sun:[], mon:[], tue:[], wed:[], thu: [], fri: [], sat: []})
+  console.log(eventsByDay)
+  res.render('weekly.ejs', eventsByDay)
 });
 
 app.get("/event", async (req, res) => {
-  const events = await executeGetEventDetails(eventId);
-
-  events.filter( e => {
-    console.log(new Date(e.start_date).getUTCDay())
-    return new Date(e.start_date).getUTCDay() == 0
-  })
-
-  res.redirect('/')
+  const event = await executeGetEventDetails(req.query.event_id);
+  res.render('event.ejs', {e: event})
 });
+
+async function weeklyEvents(){
+  const date = new Date().toISOString().split('T')[0]
+  let events = await executeGetEventsToDisplay(date);
+  const utcToDay = ["sun", "mon", "tue", "wed", "thu", "fri", "sat"]
+  let eventsByDay = events.reduce((days, event) => {
+    const date = new Date(event.start_date)
+    const day = utcToDay[date.getUTCDay()]
+    if(!days[day]) days[day] = []
+    days[day].push(event)
+    return days
+  }, {sun:[], mon:[], tue:[], wed:[], thu: [], fri: [], sat: []})
+
+  return eventsByDay
+}
 
 app.listen(80, function () {
   console.log("Example app listening on port 80!");
