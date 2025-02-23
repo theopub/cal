@@ -67,7 +67,7 @@ export const executeGetEventDetails = async (eventId) => {
 export const executeWriteEvent = async (event) => {
     try {
         const [rows] = await query(
-          'INSERT INTO events (name, start_date, cost, location, description, owner_name, email, event_url, image_url, approved) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?)',
+          'INSERT INTO events (name, start_date, cost, location, description, owner_name, email, event_url, image_url, created_at, approved) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)',
           [ 
             event.title,
             event.startDate,
@@ -78,6 +78,7 @@ export const executeWriteEvent = async (event) => {
             event.email,
             event.eventUrl,
             event.imageUrl,
+            event.created,
             event.approved,
           ]);
         console.log('Event written:', rows);

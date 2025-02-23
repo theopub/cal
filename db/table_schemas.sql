@@ -9,7 +9,7 @@ CREATE TABLE events(
     email VARCHAR(255) NOT NULL,
     event_url VARCHAR(512),
     image_url VARCHAR(512),
-    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    created_at DATETIME DEFAULT CURRENT_TIMESTAMP,
     approved BOOLEAN DEFAULT FALSE,
     PRIMARY KEY (id)
 ) CHARACTER SET 'utf8mb4' COLLATE 'utf8mb4_0900_ai_ci';

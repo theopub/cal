@@ -51,6 +51,7 @@ const testEventTemplate = {
   email: 'test-events@example.com', // Unique identifier for test events
   eventUrl: 'http://testevent.com',
   imageUrl: 'http://testevent.com/image.jpg',
+  created: '2023-12-31',
   approved: 1,
 };
 
