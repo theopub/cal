@@ -9,6 +9,12 @@ import t from 'tap';
 import dotenv from 'dotenv';
 import { format, addDays } from 'date-fns';
 import { fromZonedTime } from 'date-fns-tz';
+import {
+  map,
+  includes,
+  split,
+  length
+} from 'ramda';
 
 dotenv.config();
 
@@ -53,6 +59,7 @@ const testEventTemplate = {
   imageUrl: 'http://testevent.com/image.jpg',
   created: '2023-12-31',
   approved: 1,
+  tagIDs: [1, 7],
 };
 
 t.test('Write Event', async (t) => {
@@ -78,6 +85,7 @@ t.test('Get Event Details', async (t) => {
   t.same(details[0].name, testEvent.title, 'Should have correct title');
   t.same(format(details[0].start_date, 'yyyy-MM-dd'), testEvent.startDate, 'Should have correct start date');
   t.same(details[0].cost, testEvent.cost, 'Should have correct cost');
+  t.same(length(split(',', details[0].tags)), 2, 'Should have 2 tags');
 
   
   await deleteTestEvents();
@@ -107,9 +115,9 @@ t.test('Get Events to Display', async (t) => {
 
   // Test retrieval
   const displayEvents = await executeGetEventsToDisplay(testDates.exactDate);
-  const retrievedIds = displayEvents.map(e => e.id);
+  const retrievedIds = map(event => event.id, displayEvents);
   
-  t.ok(createdIds.every(id => retrievedIds.includes(id)), 
+  t.ok(createdIds.every(id => includes(id, retrievedIds)),
        'Should retrieve events from 5 days before, exact date, and 14 days after');
 
   await deleteTestEvents();

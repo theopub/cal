@@ -11,18 +11,16 @@ END$$
 
 CREATE PROCEDURE GetEventDetails (IN input_id INT)
 BEGIN
-    SELECT *
-    FROM events
-    WHERE id = input_id;
-END$$
-
-CREATE PROCEDURE GetEventTags (IN input_id INT)
-BEGIN
-    SELECT tag_name
-    FROM tags
-    JOIN event_tags
-    ON tags.id = event_tags.tag_id
-    WHERE event_tags.event_id = input_id;
+    SELECT 
+        e.*, 
+        GROUP_CONCAT(t.tag_name SEPARATOR ', ') AS tags
+    FROM events e
+    LEFT JOIN (
+        event_tags et 
+        INNER JOIN tags t ON et.tag_id = t.id
+    ) ON e.id = et.event_id
+    WHERE e.id = input_id
+    GROUP BY e.id;
 END$$
 
 DELIMITER ;
