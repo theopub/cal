@@ -49,7 +49,7 @@ async function deleteTestEvents() {
 // Test data template
 const testEventTemplate = {
   title: 'Test Event',
-  startDate: '2024-01-01',
+  startDate: '2024-01-01T14:30:00',
   cost: 20,
   location: 'Test Location',
   description: 'Test Description',
@@ -57,7 +57,7 @@ const testEventTemplate = {
   email: 'test-events@example.com', // Unique identifier for test events
   eventUrl: 'http://testevent.com',
   imageUrl: 'http://testevent.com/image.jpg',
-  created: '2023-12-31',
+  created: '2023-12-31T05:00:00',
   approved: 1,
   tagIDs: [1, 7],
 };
@@ -83,7 +83,7 @@ t.test('Get Event Details', async (t) => {
   const details = await executeGetEventDetails(eventId);
   t.same(details[0].id, eventId, 'Should retrieve event with matching ID');
   t.same(details[0].name, testEvent.title, 'Should have correct title');
-  t.same(format(details[0].start_date, 'yyyy-MM-dd'), testEvent.startDate, 'Should have correct start date');
+  t.same(details[0].start_date, fromZonedTime(testEvent.startDate, 'America/New_York'), 'Should have correct start date');
   t.same(details[0].cost, testEvent.cost, 'Should have correct cost');
   t.same(length(split(',', details[0].tags)), 2, 'Should have 2 tags');
 
