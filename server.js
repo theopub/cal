@@ -39,67 +39,6 @@ const upload = multer({
   storage: s3Storage,
 });
 
-app.get('/testWeekView', (req, res)=>{
-  // this will likely be the layout for data
-  // we will probably have to construct an obj that sorts by day and then once that is sorted send to client
-  
-  let allEvents = {
-    sunday: [{
-      title: 'my event',
-      startDate: new Date('2025-02-23').toUTCString(),
-      cost: '',
-      location: 'wonderville',
-      description: 'descriptiong',
-      ownerName: 'sam',
-      email: "test-events@example.com", // Unique identifier for test events
-      eventUrl: 'test1',
-      imageUrl: 'https://cal-red-space.nyc3.digitaloceanspaces.com/1739135708392',
-      approved: 1,
-    }],
-    monday: [{
-      title: 'my event',
-      startDate: new Date('2025-02-24').toUTCString(),
-      cost: '',
-      location: 'wonderville',
-      description: 'descriptiong',
-      ownerName: 'sam',
-      email: "test-events@example.com", // Unique identifier for test events
-      eventUrl: 'test2',
-      imageUrl: 'https://cal-red-space.nyc3.digitaloceanspaces.com/1739135708392',
-      approved: 1,
-    },
-    {
-      title: 'my event',
-      startDate: new Date('2025-02-24').toUTCString(),
-      cost: '',
-      location: 'wonderville',
-      description: 'descriptiong',
-      ownerName: 'sam',
-      email: "test-events@example.com", // Unique identifier for test events
-      eventUrl: 'test3',
-      imageUrl: 'https://cal-red-space.nyc3.digitaloceanspaces.com/1739135708392',
-      approved: 1,
-    }],
-    tuesday: [{
-      title: 'my event',
-      startDate: new Date('2025-02-25').toUTCString(),
-      cost: '',
-      location: 'wonderville',
-      description: 'descriptiong',
-      ownerName: 'sam',
-      email: "test-events@example.com", // Unique identifier for test events
-      eventUrl: 'test4',
-      imageUrl: 'https://cal-red-space.nyc3.digitaloceanspaces.com/1739135708392',
-      approved: 1,
-    }],
-    wed: [{}],
-    thurs: [{}],
-    fri: [{}],
-    sat: [{}]
-  };
-  res.render('index.ejs', allEvents)
-})
-
 // uploads image to bucket via s3 middleware and adds to db
 app.post("/upload", upload.single("image"), async (req, res) => {
   // req.body retrieves the data sent from the form
@@ -143,39 +82,38 @@ app.post("/upload", upload.single("image"), async (req, res) => {
 });
 
 app.get("/weekly", async (req, res) => {
+  // only get the date, time doesn't matter
   const date = new Date().toISOString().split('T')[0]
+  // retrieve the data to display from db from date
   let events = await executeGetEventsToDisplay(date);
+  // filter events for only 7 days
+  const today = new Date()
+  const nextWeek = new Date().setDate(today.getDate() + 7)
+  const filteredEvents = events.filter(event => {
+    const eventDate = new Date(event.start_date);
+    return eventDate >= today && eventDate <= nextWeek;
+  });
+  // arr to determine what day it is
   const utcToDay = ["sun", "mon", "tue", "wed", "thu", "fri", "sat"]
-  let eventsByDay = events.reduce((days, event) => {
-    const date = new Date(event.start_date)
-    const day = utcToDay[date.getUTCDay()]
-    if(!days[day]) days[day] = []
-    days[day].push(event)
-    return days
-  }, {sun:[], mon:[], tue:[], wed:[], thu: [], fri: [], sat: []})
-  console.log(eventsByDay)
-  res.render('weekly.ejs', eventsByDay)
+  // reorder so that week starts on current day
+  const orderedDays = [...utcToDay.slice(today.getDay()), ...utcToDay.slice(0, today.getDay())]
+  // create an object that will hold an array of every event data according to the day, 7 days ahead
+  let sortedEvents = {}
+  filteredEvents.forEach(e =>{
+    const d = new Date(e.start_date)
+    const day = utcToDay[d.getDay()]
+    if(!sortedEvents[day]) sortedEvents[day]=[]
+    sortedEvents[day].push(e)
+  })
+  // finalize object by mapping ordered days to the sorted events so that events are always sent in order from whatever current day it is now
+  const eventsFromToday = Object.fromEntries(orderedDays.map(day => [day, sortedEvents[day] || []]))
+  res.render('weekly.ejs', {events: eventsFromToday})
 });
 
 app.get("/event", async (req, res) => {
   const event = await executeGetEventDetails(req.query.event_id);
   res.render('event.ejs', {e: event})
 });
-
-async function weeklyEvents(){
-  const date = new Date().toISOString().split('T')[0]
-  let events = await executeGetEventsToDisplay(date);
-  const utcToDay = ["sun", "mon", "tue", "wed", "thu", "fri", "sat"]
-  let eventsByDay = events.reduce((days, event) => {
-    const date = new Date(event.start_date)
-    const day = utcToDay[date.getUTCDay()]
-    if(!days[day]) days[day] = []
-    days[day].push(event)
-    return days
-  }, {sun:[], mon:[], tue:[], wed:[], thu: [], fri: [], sat: []})
-
-  return eventsByDay
-}
 
 app.listen(80, function () {
   console.log("Example app listening on port 80!");

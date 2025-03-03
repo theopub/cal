@@ -1,5 +1,10 @@
-<div class="more-info" id="<%=e[0].event_url%>">
-    <div class="close" onclick="this.parentElement.style.display='none'">
+
+<% if(e[0].event_url != ''){ %>
+    <div class="more-info" id="<%=e[0].event_url%>">
+<% } else {%>
+    <div class="more-info" id="<%=e[0].id%>">
+<% }%>
+    <div class="close" onclick="closeElement('<%=e[0].id%>')">
         X
     </div>
     <img class="poster-inline" src="<%=e[0].image_url%>" />

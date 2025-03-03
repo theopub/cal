@@ -204,93 +204,42 @@
     </div>
 
     <div class="container">
-      <div class="column">
-        <div class="date">Mon</div>
-         <% mon.forEach((d)=>{ %> 
-                <img
-                class="posters"
-                src="<%=d.image_url%>"
-                onclick="showElement('<%=d.id%>')"
-                />
-            <% }) %> 
-    </div>
-    <div class="column">
-        <div class="date">Tue</div>
-         <% tue.forEach((d)=>{ %> 
-                <img
-                class="posters"
-                src="<%=d.image_url%>"
-                onclick="showElement('<%=d.id%>')"
-                />
-            <% }) %> 
-    </div>
-    <div class="column">
-        <div class="date">Wed</div>
-         <% wed.forEach((d)=>{ %> 
-                <img
-                class="posters"
-                src="<%=d.image_url%>"
-                onclick="showElement('<%=d.id%>')"
-                />
-            <% }) %> 
-    </div>
-    <div class="column">
-        <div class="date">Thurs</div>
-         <% thu.forEach((d)=>{ %> 
-                <img
-                class="posters"
-                src="<%=d.image_url%>"
-                onclick="showElement('<%=d.id%>')"
-                />
-                
-            <% }) %> 
-    </div>
-    <div class="column">
-        <div class="date">Fri</div>
-         <% fri.forEach((d)=>{ %> 
-                <img
-                class="posters"
-                src="<%=d.image_url%>"
-                onclick="showElement('<%=d.id%>')"
-                />
-            <% }) %> 
-    </div>
-    <div class="column">
-        <div class="date">Sat</div>
-         <% sat.forEach((d)=>{ %> 
-                <img
-                class="posters"
-                src="<%=d.image_url%>"
-                onclick="showElement('<%=d.id%>')"
-                />
-            <% }) %> 
-    </div>
-    <div class="column">
-        <div class="date">Sun</div>
-         <% sun.forEach((d)=>{ %> 
-                <img
-                class="posters"
-                src="<%=d.image_url%>"
-                onclick="showElement('<%=d.id%>')"
-                />
-            <% }) %> 
-    </div>
+      <% Object.entries(events).forEach(([day, event])=>{ %>
+          <div class="column">
+            <div class="date"><%= day %></div>
+            <% event.forEach((d)=>{ %> 
+                    <img
+                    class="posters"
+                    src="<%=d.image_url%>"
+                    onclick="showElement('<%=d.id%>')"
+                    />
+                <% }) %> 
+          </div>
+      <% }) %> 
     
-      
+      <div class="more-info" id="event-details-container">
 
+      </div>
+    </div>
     <script>
       async function showElement(id) {
         const p = new URLSearchParams({event_id: id})
-        let test = await fetch('/event?' + p)
+        const eventContainer = document.getElementById('event-details-container')
+
+        let test = await fetch('/event?' + p).then(response => response.text()).then(html => {
+            eventContainer.innerHTML = html
+            // console.log(html)
+            eventContainer.style.display = "block"
+          })
+
         const element = document.getElementById(id);
-
         if (!element) return; // Safety check
-
 
         // If the clicked element is already visible, hide it
         if (element.style.display === "block") {
           element.style.display = "none";
-          history.pushState(null, "", "?"); // Reset URL
+          eventContainer.style.display = "none"
+          history.pushState(null, "", "/weekly"); // Reset URL
         } else {
           // Hide all other elements
           document
@@ -299,9 +248,24 @@
 
           // Show the selected element
           element.style.display = "block";
+          eventContainer.style.display = "block"
           history.pushState(null, "", "?event=" + id);
+
         }
       }
+
+      function closeElement(id){
+        console.log('test')
+        let childElement = document.getElementById(id)
+        let parentElement = document.getElementById('event-details-container')
+
+        childElement.style.display = 'none'
+        parentElement.style.display = 'none'
+
+        parentElement.removeChild(parentElement.lastElementChild)
+
+        history.pushState(null, "", "/weekly");
+    }
 
       // Check URL on page load and show the correct element
       window.onload = function () {
@@ -312,17 +276,6 @@
           showElement(visibleElement);
         }
       };
-    </script>
-
-    <script>
-      document
-        .getElementById("scrollRight")
-        .addEventListener("click", function () {
-          document.documentElement.scrollBy({
-            left: window.innerWidth * 0.5, // Scroll right by 50% of viewport width
-            behavior: "smooth",
-          });
-        });
     </script>
   </body>
 </html>
