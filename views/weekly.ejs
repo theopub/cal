@@ -206,7 +206,7 @@
     <div class="container">
       <% Object.entries(events).forEach(([day, event])=>{ %>
           <div class="column">
-            <div class="date"><%= day %></div>
+            <div class="date"><%= day %> <%= event.start_date %></div>
             <% event.forEach((d)=>{ %> 
                     <img
                     class="posters"
@@ -225,14 +225,18 @@
       async function showElement(id) {
         const p = new URLSearchParams({event_id: id})
         const eventContainer = document.getElementById('event-details-container')
-
+        // console.log(p)
+        let eventId = id
         let test = await fetch('/event?' + p).then(response => response.text()).then(html => {
             eventContainer.innerHTML = html
             // console.log(html)
             eventContainer.style.display = "block"
+            if(eventContainer.children[0].id){
+              eventId = eventContainer.children[0].id
+            }
           })
 
-        const element = document.getElementById(id);
+        const element = document.getElementById(eventId);
         if (!element) return; // Safety check
 
         // If the clicked element is already visible, hide it
@@ -249,7 +253,7 @@
           // Show the selected element
           element.style.display = "block";
           eventContainer.style.display = "block"
-          history.pushState(null, "", "?event=" + id);
+          history.pushState(null, "", "?event=" + eventId);
 
         }
       }
