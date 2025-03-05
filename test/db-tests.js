@@ -8,7 +8,7 @@ import mysql from 'mysql2/promise';
 import t from 'tap';
 import dotenv from 'dotenv';
 import { format, addDays } from 'date-fns';
-import { fromZonedTime } from 'date-fns-tz';
+import { getDatePlusDay, groupEventsByDayPlusDate } from '../utilities/dates.js';
 import {
   map,
   includes,
@@ -81,11 +81,12 @@ t.test('Get Event Details', async (t) => {
 
   // Test details retrieval
   const details = await executeGetEventDetails(eventId);
-  t.same(details[0].id, eventId, 'Should retrieve event with matching ID');
-  t.same(details[0].name, testEvent.title, 'Should have correct title');
-  t.same(details[0].start_date, fromZonedTime(testEvent.startDate, 'America/New_York'), 'Should have correct start date');
-  t.same(details[0].cost, testEvent.cost, 'Should have correct cost');
-  t.same(length(split(',', details[0].tags)), 2, 'Should have 2 tags');
+  console.log('Date and day: ', getDatePlusDay(details.start_date));
+  t.same(details.id, eventId, 'Should retrieve event with matching ID');
+  t.same(details.name, testEvent.title, 'Should have correct title');
+  t.same(details.start_date, testEvent.startDate, 'Should have correct start date');
+  t.same(details.cost, testEvent.cost, 'Should have correct cost');
+  t.same(length(split(',', details.tags)), 2, 'Should have 2 tags');
 
   
   await deleteTestEvents();
@@ -93,10 +94,10 @@ t.test('Get Event Details', async (t) => {
 });
 
 t.test('Get Events to Display', async (t) => {
-  const baseDate = fromZonedTime('2024-02-01', 'America/New_York');
+  const baseDate = '2024-02-01T00:00:00';
   const testDates = {
     fiveDaysBefore: format(addDays(baseDate, -5), 'yyyy-MM-dd'),
-    exactDate: format(baseDate, 'yyyy-MM-dd'),
+    exactDate: baseDate,
     fourteenDaysAfter: format(addDays(baseDate, 14), 'yyyy-MM-dd'),
   };
 
@@ -115,6 +116,7 @@ t.test('Get Events to Display', async (t) => {
 
   // Test retrieval
   const displayEvents = await executeGetEventsToDisplay(testDates.exactDate);
+  console.log('Display Events:', groupEventsByDayPlusDate(displayEvents));
   const retrievedIds = map(event => event.id, displayEvents);
   
   t.ok(createdIds.every(id => includes(id, retrievedIds)),

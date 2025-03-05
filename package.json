@@ -14,7 +14,6 @@
     "@aws-sdk/client-s3": "^3.744.0",
     "aws-sdk": "^2.1692.0",
     "date-fns": "^4.1.0",
-    "date-fns-tz": "^3.2.0",
     "dotenv": "^16.4.7",
     "ejs": "^3.1.10",
     "express": "^4.21.2",

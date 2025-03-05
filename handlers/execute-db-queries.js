@@ -6,6 +6,7 @@ import {
     isNotEmpty,
     join,
 } from 'ramda';
+import { formatDateTime } from '../utilities/dates.js';
 
 dotenv.config();
 
@@ -20,9 +21,9 @@ const pool = mysql.createPool({
 
 export const executeGetTags = async () => {
     try {
-        const [rows] = await pool.query('SELECT * FROM tags');
-        console.log('Tags:', rows);
-        return rows;
+        const [tags] = await pool.query('SELECT * FROM tags');
+        console.log('Tags:', tags);
+        return tags;
     } catch (error) {
         console.error('Error executing executeGetTags query:', error);
         throw error;
@@ -31,9 +32,10 @@ export const executeGetTags = async () => {
 
 export const executeGetEventsToDisplay = async (date) => {
     try {
-        const [ [ rows ] ] = await pool.query('CALL GetEventsToDisplay(?)', [ date ]);
-        console.log('Events:', rows);
-        return rows;
+        const [ [ events ] ] = await pool.query('CALL GetEventsToDisplay(?)', [ date ]);
+        map((event) => event.start_date = formatDateTime(event.start_date), events);
+        console.log('Events:', events);
+        return events;
     } catch (error) {
         console.error('Error executing executeGetEventsToDisplay query:', error);
         throw error;
@@ -42,9 +44,10 @@ export const executeGetEventsToDisplay = async (date) => {
 
 export const executeGetEventDetails = async (eventId) => {
     try {
-        const [ [ rows ] ] = await pool.query('CALL GetEventDetails(?)', [ eventId ]);
-        console.log('Event Details:', rows);
-        return rows;
+        const [ [ [event] ] ] = await pool.query('CALL GetEventDetails(?)', [ eventId ]);
+        event.start_date = formatDateTime(event.start_date);
+        console.log('Event Details:', event);
+        return event;
     } catch (error) {
         console.error('Error executing executeGetEventDetails query:', error);
         throw error;
