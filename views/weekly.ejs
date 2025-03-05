@@ -227,7 +227,7 @@
         const eventContainer = document.getElementById('event-details-container')
         // console.log(p)
         let eventId = id
-        let test = await fetch('/event?' + p).then(response => response.text()).then(html => {
+        let fetchSingleEvent = await fetch('/event?' + p).then(response => response.text()).then(html => {
             eventContainer.innerHTML = html
             // console.log(html)
             eventContainer.style.display = "block"
@@ -259,7 +259,6 @@
       }
 
       function closeElement(id){
-        console.log('test')
         let childElement = document.getElementById(id)
         let parentElement = document.getElementById('event-details-container')
 
