@@ -1,15 +1,24 @@
-import { format } from 'date-fns/fp';
+import { format, addDays, isAfter } from 'date-fns/fp';
 import { reduce } from 'ramda';
 
 export const formatDateTime = format('yyyy-MM-dd\'T\'HH:mm:ss');
 
-export const getDatePlusDay = format('dd eee');
+export const getDatePlusDay = format('eee, LLL dd');
+
+export const createCalendar = (baseDate) => {
+    const startDate = addDays(-5)(baseDate);
+    const endDate = addDays(14)(baseDate);
+
+    let calendar = {};
+    for (let date = startDate; !isAfter(endDate)(date); date = addDays(1)(date)) {
+        const datePlusDay = getDatePlusDay(date);
+        calendar[getDatePlusDay(datePlusDay)] = [];
+    }
+    return calendar;
+}
 
 export const groupEventsByDayPlusDate = reduce((acc, event) => {
     const datePlusDay = getDatePlusDay(event.start_date);
-    if (!acc[datePlusDay]) {
-        acc[datePlusDay] = [];
-    }
     acc[datePlusDay].push(event);
     return acc;
-})({});
+});

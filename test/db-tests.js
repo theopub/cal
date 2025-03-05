@@ -8,7 +8,11 @@ import mysql from 'mysql2/promise';
 import t from 'tap';
 import dotenv from 'dotenv';
 import { format, addDays } from 'date-fns';
-import { getDatePlusDay, groupEventsByDayPlusDate } from '../utilities/dates.js';
+import {
+  getDatePlusDay,
+  groupEventsByDayPlusDate,
+  createCalendar,
+} from '../utilities/dates.js';
 import {
   map,
   includes,
@@ -116,8 +120,11 @@ t.test('Get Events to Display', async (t) => {
 
   // Test retrieval
   const displayEvents = await executeGetEventsToDisplay(testDates.exactDate);
-  console.log('Display Events:', groupEventsByDayPlusDate(displayEvents));
   const retrievedIds = map(event => event.id, displayEvents);
+
+  const calendar = createCalendar(baseDate);
+  const populateCalendar = groupEventsByDayPlusDate(calendar)(displayEvents);
+  console.log('Calendar:', populateCalendar);
   
   t.ok(createdIds.every(id => includes(id, retrievedIds)),
        'Should retrieve events from 5 days before, exact date, and 14 days after');

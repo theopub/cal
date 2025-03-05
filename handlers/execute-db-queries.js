@@ -42,6 +42,16 @@ export const executeGetEventsToDisplay = async (date) => {
     }
 };
 
+export const approveEvents = async (eventIds) => {
+    try {
+        await pool.query('UPDATE events SET approved = 1 WHERE id IN (?)', [ eventIds ]);
+        console.log('Event approved');
+    } catch (error) {
+        console.error('Error executing approveEvent query:', error);
+        throw error;
+    }
+}
+
 export const executeGetEventDetails = async (eventId) => {
     try {
         const [ [ [event] ] ] = await pool.query('CALL GetEventDetails(?)', [ eventId ]);
