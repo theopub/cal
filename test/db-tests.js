@@ -2,6 +2,7 @@ import {
     executeWriteEvent,
     executeGetEventDetails,
     executeGetEventsToDisplay,
+    executeApproveEvents,
     endPoolConnection,
 } from '../handlers/execute-db-queries.js';
 import mysql from 'mysql2/promise';
@@ -12,6 +13,7 @@ import {
   getDatePlusDay,
   groupEventsByDayPlusDate,
   createCalendar,
+  formatDateTime,
 } from '../utilities/dates.js';
 import {
   map,
@@ -119,7 +121,7 @@ t.test('Get Events to Display', async (t) => {
   }
 
   // Test retrieval
-  const displayEvents = await executeGetEventsToDisplay(testDates.exactDate);
+  const displayEvents = await executeGetEventsToDisplay(new Date(testDates.exactDate));
   const retrievedIds = map(event => event.id, displayEvents);
 
   const calendar = createCalendar(baseDate);
@@ -128,6 +130,22 @@ t.test('Get Events to Display', async (t) => {
   
   t.ok(createdIds.every(id => includes(id, retrievedIds)),
        'Should retrieve events from 5 days before, exact date, and 14 days after');
+
+  await deleteTestEvents();
+  t.end();
+});
+
+// test to approve events
+t.test('Approve Events', async (t) => {
+  // Create test event
+  const testEvent = { ...testEventTemplate, approved: 0 };
+  const writeResult = await executeWriteEvent(testEvent);
+  const eventId = writeResult.insertId;
+
+  // Test approval
+  await executeApproveEvents([eventId]);
+  const details = await executeGetEventDetails(eventId);
+  t.same(details.approved, 1, 'Event should be flagged as approved');
 
   await deleteTestEvents();
   t.end();

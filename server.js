@@ -7,7 +7,10 @@ import multerS3 from "multer-s3";
 import { executeWriteEvent, 
   executeGetEventsToDisplay,
   executeGetEventDetails } from "./handlers/execute-db-queries.js";
-import { fromZonedTime } from 'date-fns-tz';
+import {
+  groupEventsByDayPlusDate,
+  createCalendar,
+} from './utilities/dates.js';
 
 dotenv.config();
 
@@ -82,6 +85,17 @@ app.post("/upload", upload.single("image"), async (req, res) => {
 });
 
 app.get("/weekly", async (req, res) => {
+  // This is Haider. I am adding a comment here to demonstrate how to use the functions in utilities/dates.js to
+  // create and populate a calendar with events grouped by "day, month date".
+
+  // const date = new Date();
+  // const eventsToDisplay = await executeGetEventsToDisplay(date);
+  // const calendar = createCalendar(date);
+  // const populatedCalendar = groupEventsByDayPlusDate(calendar)(eventsToDisplay);
+
+  // You can now use the populatedCalendar object to display events today, 5 days in the past and 14 days in the future :)
+  // res.render('weekly.ejs', {events: populatedCalendar});
+
   // only get the date, time doesn't matter
   const date = new Date().toISOString().split('T')[0]
   // retrieve the data to display from db from date

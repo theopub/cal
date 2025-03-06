@@ -33,7 +33,9 @@ export const executeGetTags = async () => {
 export const executeGetEventsToDisplay = async (date) => {
     try {
         const [ [ events ] ] = await pool.query('CALL GetEventsToDisplay(?)', [ date ]);
-        map((event) => event.start_date = formatDateTime(event.start_date), events);
+        for (const event of events) {
+            event.start_date = formatDateTime(event.start_date);
+        }
         console.log('Events:', events);
         return events;
     } catch (error) {
@@ -42,12 +44,26 @@ export const executeGetEventsToDisplay = async (date) => {
     }
 };
 
-export const approveEvents = async (eventIds) => {
+export const executeApproveEvents = async (eventIds) => {
     try {
         await pool.query('UPDATE events SET approved = 1 WHERE id IN (?)', [ eventIds ]);
         console.log('Event approved');
     } catch (error) {
         console.error('Error executing approveEvent query:', error);
+        throw error;
+    }
+}
+
+export const executeGetEventsPendingApproval = async () => {
+    try {
+        const [ [ events ] ] = await pool.query('SELECT * FROM events WHERE approved = 0');
+        for (const event of events) {
+            event.start_date = formatDateTime(event.start_date);
+        }
+        console.log('Events:', events);
+        return events;
+    } catch (error) {
+        console.error('Error executing executeGetEventsPendingApproval query:', error);
         throw error;
     }
 }

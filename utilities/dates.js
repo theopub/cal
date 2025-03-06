@@ -12,7 +12,7 @@ export const createCalendar = (baseDate) => {
     let calendar = {};
     for (let date = startDate; !isAfter(endDate)(date); date = addDays(1)(date)) {
         const datePlusDay = getDatePlusDay(date);
-        calendar[getDatePlusDay(datePlusDay)] = [];
+        calendar[datePlusDay] = [];
     }
     return calendar;
 }
