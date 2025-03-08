@@ -6,7 +6,8 @@ import multerS3 from "multer-s3";
 
 import { executeWriteEvent, 
   executeGetEventsToDisplay,
-  executeGetEventDetails } from "./handlers/execute-db-queries.js";
+  executeGetEventDetails,
+  executeGetEventsPendingApproval } from "./handlers/execute-db-queries.js";
 import {
   groupEventsByDayPlusDate,
   createCalendar,
@@ -61,73 +62,54 @@ app.post("/upload", upload.single("image"), async (req, res) => {
     imgUrl: req.file.location
   }
   */
-  const date = req.body.when.split("T");
   let cost = 0
   if(req.body.cost != ''){
     cost = req.body.cost
   }
   const event = {
     title: req.body.title,
-    startDate: date[0],
+    startDate: req.body.when,
     cost: cost,
     location: req.body.where,
     description: req.body.description,
     ownerName: req.body.name,
     // email: req.body.email,
-    email: "test-events@example.com", // Unique identifier for test events
+    email: req.body.email, // Unique identifier for test events
     eventUrl: req.body.url,
     imageUrl: req.file.location,
-    approved: 1,
+    approved: 0,
   };
   const result = await executeWriteEvent(event);
   console.log(result.insertId);
-  res.redirect("/");
+  res.redirect("/weekly");
 });
 
 app.get("/weekly", async (req, res) => {
   // This is Haider. I am adding a comment here to demonstrate how to use the functions in utilities/dates.js to
   // create and populate a calendar with events grouped by "day, month date".
 
-  // const date = new Date();
-  // const eventsToDisplay = await executeGetEventsToDisplay(date);
-  // const calendar = createCalendar(date);
-  // const populatedCalendar = groupEventsByDayPlusDate(calendar)(eventsToDisplay);
+  const date = new Date();
+  const eventsToDisplay = await executeGetEventsToDisplay(date);
+  const calendar = createCalendar(date);
+  const populatedCalendar = groupEventsByDayPlusDate(calendar)(eventsToDisplay);
 
   // You can now use the populatedCalendar object to display events today, 5 days in the past and 14 days in the future :)
-  // res.render('weekly.ejs', {events: populatedCalendar});
-
-  // only get the date, time doesn't matter
-  const date = new Date().toISOString().split('T')[0]
-  // retrieve the data to display from db from date
-  let events = await executeGetEventsToDisplay(date);
-  // filter events for only 7 days
-  const today = new Date()
-  const nextWeek = new Date().setDate(today.getDate() + 7)
-  const filteredEvents = events.filter(event => {
-    const eventDate = new Date(event.start_date);
-    return eventDate >= today && eventDate <= nextWeek;
-  });
-  // arr to determine what day it is
-  const utcToDay = ["sun", "mon", "tue", "wed", "thu", "fri", "sat"]
-  // reorder so that week starts on current day
-  const orderedDays = [...utcToDay.slice(today.getDay()), ...utcToDay.slice(0, today.getDay())]
-  // create an object that will hold an array of every event data according to the day, 7 days ahead
-  let sortedEvents = {}
-  filteredEvents.forEach(e =>{
-    const d = new Date(e.start_date)
-    const day = utcToDay[d.getDay()]
-    if(!sortedEvents[day]) sortedEvents[day]=[]
-    sortedEvents[day].push(e)
-  })
-  // finalize object by mapping ordered days to the sorted events so that events are always sent in order from whatever current day it is now
-  const eventsFromToday = Object.fromEntries(orderedDays.map(day => [day, sortedEvents[day] || []]))
-  res.render('weekly.ejs', {events: eventsFromToday})
+  res.render('weekly.ejs', {events: populatedCalendar});
 });
 
 app.get("/event", async (req, res) => {
   const event = await executeGetEventDetails(req.query.event_id);
-  res.render('event.ejs', {e: event})
+  res.render('event.ejs', event)
 });
+
+app.get('/awaiting', async (req, res)=>{
+  
+  const events = await executeGetEventsPendingApproval()
+
+  // console.log(events)
+
+  res.render("approve.ejs", {e: events})
+})
 
 app.listen(80, function () {
   console.log("Example app listening on port 80!");

@@ -1,0 +1,52 @@
+<html>
+    <head>
+        <link href="approveStyle.css" rel="stylesheet">
+    </head>
+    <body>
+        <div class="column-headers">
+            <div class="header event-title b">
+                <h1>event</h1>
+            </div>
+            <div class="header contact-title b">
+                <h1>contact</h1>
+            </div>
+            <div class="header cost b">
+                <h1>cost</h1>
+            </div>
+            <div class="header time b">
+                <h1>time</h1>
+            </div>
+            <div class="header loc b">
+                <h1>location</h1>
+            </div>
+            <div class="header categories b">
+                <h1>categories</h1>
+            </div>
+            <div class="header description b">
+                <h1>description (optional)</h1>
+            </div>
+            <div class="header url b">
+                <h1>event url</h1>
+            </div>
+            <div class="header custom-url b">
+                <h1>our url</h1>
+            </div>
+            <div class="header approve">
+            </div>
+        </div>
+        <% e.forEach((event)=>{ %>
+            <div class="row">
+                <div class="title"></div>
+                <div class="contact"></div>
+                <div class="cost"></div>
+                <div class="time"></div>
+                <div class="loc"></div>
+                <div class="categories"></div>
+                <div class="description"></div>
+                <div class="url"></div>
+                <div class="custom-url"></div>
+                <div class="approve"><button value="approve"></button></div>
+            </div>
+        <% }) %>
+    </body>
+</html>

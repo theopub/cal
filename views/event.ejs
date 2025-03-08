@@ -1,16 +1,16 @@
 
-  <div class="more-info" id="<%=e[0].id%>">
-      <div class="close" onclick="closeElement('<%=e[0].id%>')"> X
+  <div class="more-info" id="<%=id%>">
+      <div class="close" onclick="closeElement('<%=id%>')"> X
     </div>
-      <img class="poster-inline" src="<%=e[0].image_url%>" />
-      <span class="title"><%=e[0].title%></span><br /><br />
-      <% let date = e[0].start_date.toISOString().split('T') %>
+      <img class="poster-inline" src="<%=image_url%>" />
+      <span class="title"><%=name%></span><br /><br />
+      <% let date = start_date.split('T') %>
       When: <%=date[0]%> <%=date[1].substring(0,8)%><br /><br />
-      Where: <%=e[0].location%><br /><br />
-      Cost: <%=e[0].cost%><br /><br />
+      Where: <%=location%><br /><br />
+      Cost: <%=cost%><br /><br />
       Cals: [list of cals]<br /><br />
       Link: [optional]<br /><br />
-      <%=e[0].description%>
+      <%=description%>
     </div>
   </div>
 </div>

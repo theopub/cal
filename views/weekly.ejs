@@ -206,7 +206,7 @@
     <div class="container">
       <% Object.entries(events).forEach(([day, event])=>{ %>
           <div class="column">
-            <div class="date"><%= day %> <%= event.start_date %></div>
+            <div id="<%= day.substring(5) %>" class="date"><%= day %> <%= event.start_date %></div>
             <% event.forEach((d)=>{ %> 
                     <img
                     class="posters"
@@ -272,12 +272,17 @@
 
       // Check URL on page load and show the correct element
       window.onload = function () {
+        // check url 
         const params = new URLSearchParams(window.location.search);
         const visibleElement = params.get("event");
 
         if (visibleElement) {
           showElement(visibleElement);
         }
+
+        // check date
+        let date = new Date().getDate()
+        console.log(date)
       };
     </script>
   </body>
