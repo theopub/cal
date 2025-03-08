@@ -85,7 +85,7 @@ export const executeUpdateEvent = async (event) => {
     try {
         await connection.beginTransaction();
         await connection.query(
-            'UPDATE events SET name = ?, start_date = ?, cost = ?, location = ?, description = ?, owner_name = ?, email = ?, event_url = ?, image_url = ? WHERE id = ?',
+            'UPDATE events SET name = ?, start_date = ?, cost = ?, location = ?, description = ?, owner_name = ?, owner_url = ?, email = ?, event_url = ?, event_url_text = ?, image_url = ? WHERE id = ?',
             [
                 event.title,
                 event.startDate,
@@ -93,8 +93,10 @@ export const executeUpdateEvent = async (event) => {
                 event.location,
                 event.description,
                 event.ownerName,
+                event.ownerUrl,
                 event.email,
                 event.eventUrl,
+                event.eventUrlText,
                 event.imageUrl,
                 event.id,
             ]);
@@ -132,14 +134,16 @@ export const executeWriteEvent = async (event) => {
             'location',
             'description',
             'owner_name',
+            'owner_url',
             'email',
             'event_url',
+            'event_url_text',
             'image_url',
             'created_at',
             'approved',
         ];
         const [insertEventResult] = await connection.query(
-            `INSERT INTO events (${join(', ', fields)}) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)`,
+            `INSERT INTO events (${join(', ', fields)}) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)`,
             [
                 event.title,
                 event.startDate,
@@ -147,8 +151,10 @@ export const executeWriteEvent = async (event) => {
                 event.location,
                 event.description,
                 event.ownerName,
+                event.ownerUrl,
                 event.email,
                 event.eventUrl,
+                event.eventUrlText,
                 event.imageUrl,
                 event.created,
                 event.approved,
