@@ -71,8 +71,6 @@ export const executeGetEventsPendingApproval = async () => {
 export const executeGetEventDetails = async (eventId) => {
     try {
         const [ [ [ event ] ] ] = await pool.query('CALL GetEventDetails(?)', [ eventId ]);
-        const [ [ tags ] ] = await pool.query('CALL GetEventTags(?)', [ eventId ]);
-        event.tags = tags;
         event.start_date = formatDateTime(event.start_date);
         console.log('Event Details:', event);
         return event;
@@ -81,6 +79,47 @@ export const executeGetEventDetails = async (eventId) => {
         throw error;
     }
 };
+
+export const executeUpdateEvent = async (event) => {
+    const connection = await pool.getConnection();
+    try {
+        await connection.beginTransaction();
+        await connection.query(
+            'UPDATE events SET name = ?, start_date = ?, cost = ?, location = ?, description = ?, owner_name = ?, email = ?, event_url = ?, image_url = ? WHERE id = ?',
+            [
+                event.title,
+                event.startDate,
+                event.cost,
+                event.location,
+                event.description,
+                event.ownerName,
+                event.email,
+                event.eventUrl,
+                event.imageUrl,
+                event.id,
+            ]);
+        await connection.query('DELETE FROM event_tags WHERE event_id = ?', [ event.id ]);
+        if (isNotNil(event.tagIDs) && isNotEmpty(event.tagIDs)) {
+            const values = map((tagId) => [event.id, tagId], event.tagIDs);
+            await connection.query(
+                'INSERT INTO event_tags (event_id, tag_id) VALUES ?',
+                [values]
+            );
+        }
+        await connection.commit();
+        console.log('Event updated successfully');
+    } catch (error) {
+        if (connection) {
+            await connection.rollback();
+        }
+        console.error('Error executing executeUpdateEvent transaction:', error);
+        throw error;
+    } finally {
+        if (connection) {
+            connection.release();
+        }
+    }
+}
 
 export const executeWriteEvent = async (event) => {
     const connection = await pool.getConnection();
