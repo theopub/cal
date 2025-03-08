@@ -88,9 +88,11 @@ app.post("/upload", upload.single("image"), async (req, res) => {
     location: req.body.where,
     description: req.body.description,
     ownerName: req.body.name,
+    ownerUrl: req.body.yourUrl,
     // email: req.body.email,
     email: req.body.email, // Unique identifier for test events
     eventUrl: req.body.urlurl,
+    eventUrlText: req.body.link,
     imageUrl: req.file.location,
     approved: 0,
     tagIDs: tagIds
@@ -114,6 +116,7 @@ app.get("/", async (req, res) => {
 
 app.get("/event", async (req, res) => {
   const event = await executeGetEventDetails(req.query.event_id);
+  // console.log(event)
   res.render('event.ejs', event)
 });
 

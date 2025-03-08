@@ -10,12 +10,15 @@
       Cost: <%=cost%><br /><br />
       <% if(event_url) { %>
         <a href="<%=event_url%>">
-          <% if(url_text){ %>
-
-          <% } %> 
+          <% if(event_url_text){ %>
+            <%= event_url_text %>
+          <% } else {%> 
+              Event Link
+          <%}%>
         </a>
       <% }%>
       <%=description%>
+      <p class="tags">tags: <%= tags %></p>
     </div>
   </div>
 </div>
