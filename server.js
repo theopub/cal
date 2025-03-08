@@ -138,6 +138,6 @@ app.get('/approve', async (req, res)=>{
   res.redirect('/awaiting')
 })
 
-app.listen(80, function () {
+app.listen(3001, function () {
   // console.log("Example app listening on port 80!");
 });
