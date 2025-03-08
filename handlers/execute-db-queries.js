@@ -70,7 +70,9 @@ export const executeGetEventsPendingApproval = async () => {
 
 export const executeGetEventDetails = async (eventId) => {
     try {
-        const [ [ [event] ] ] = await pool.query('CALL GetEventDetails(?)', [ eventId ]);
+        const [ [ [ event ] ] ] = await pool.query('CALL GetEventDetails(?)', [ eventId ]);
+        const [ [ tags ] ] = await pool.query('CALL GetEventTags(?)', [ eventId ]);
+        event.tags = tags;
         event.start_date = formatDateTime(event.start_date);
         console.log('Event Details:', event);
         return event;
