@@ -23,4 +23,15 @@ BEGIN
     GROUP BY e.id;
 END$$
 
+CREATE PROCEDURE GetEventTags (IN event_id INT)
+BEGIN
+    SELECT tag_name
+    FROM tags
+    WHERE id IN (
+        SELECT tag_id
+        FROM event_tags
+        WHERE event_id = event_id
+    );
+END$$
+
 DELIMITER ;

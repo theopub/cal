@@ -225,8 +225,9 @@
         >Description [optional] &mdash; include participants, accessibility notes, and anything
         else!]:</label
       ><br />
-      <textarea rows="3" id="description" name="description"></textarea>
-      <br /><br />
+      <textarea rows="3" id="description" name="description" maxlength="1200"></textarea>
+      <div id="charCount">1200 characters left</div>
+      <br />
 
 
       <label for="urlurl">Url [optional] </label>
@@ -260,6 +261,16 @@
 
       <a href="about.html">About.</a>
     </div>
+
+    <script>
+      document.getElementById("description").addEventListener("input", function () {
+        let maxLength = this.getAttribute("maxlength");
+        let currentLength = this.value.length;
+        let remaining = maxLength - currentLength;
+        
+        document.getElementById("charCount").textContent = remaining + " characters remaining";
+      });
+    </script>
 
     <script>
       function toggleCost(show) {
