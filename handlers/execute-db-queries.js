@@ -4,6 +4,7 @@ import {
     map,
     isNotNil,
     isNotEmpty,
+    isEmpty,
     join,
 } from 'ramda';
 import { formatDateTime } from '../utilities/dates.js';
@@ -45,6 +46,10 @@ export const executeGetEventsToDisplay = async (date) => {
 };
 
 export const executeApproveEvents = async (eventIds) => {
+    if (!Array.isArray(eventIds) || isEmpty(eventIds)) {
+        console.log('No events to approve');
+        return;
+    }
     try {
         await pool.query('UPDATE events SET approved = 1 WHERE id IN (?)', [ eventIds ]);
         console.log('Event approved');
