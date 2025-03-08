@@ -56,7 +56,7 @@ export const executeApproveEvents = async (eventIds) => {
 
 export const executeGetEventsPendingApproval = async () => {
     try {
-        const [ [ events ] ] = await pool.query('SELECT * FROM events WHERE approved = 0');
+        const [ events ] = await pool.query('SELECT * FROM events WHERE approved = 0');
         for (const event of events) {
             event.start_date = formatDateTime(event.start_date);
         }
