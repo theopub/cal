@@ -3,50 +3,59 @@
         <link href="approveStyle.css" rel="stylesheet">
     </head>
     <body>
-        <div class="column-headers">
-            <div class="header event-title b">
+        <table>
+        <thead class="column-headers">
+            <th class="header event-title b">
                 <h1>event</h1>
-            </div>
-            <div class="header contact-title b">
+            </th>
+            <th class="header contact-title b">
                 <h1>contact</h1>
-            </div>
-            <div class="header cost b">
+            </th>
+            <th class="header cost b">
                 <h1>cost</h1>
-            </div>
-            <div class="header time b">
+            </th>
+            <th class="header time b">
                 <h1>time</h1>
-            </div>
-            <div class="header loc b">
+            </th>
+            <th class="header loc b">
                 <h1>location</h1>
-            </div>
-            <div class="header categories b">
+            </th>
+            <th class="header categories b">
                 <h1>categories</h1>
-            </div>
-            <div class="header description b">
+            </th>
+            <th class="header description b">
                 <h1>description (optional)</h1>
-            </div>
-            <div class="header url b">
+            </th>
+            <th class="header url b">
                 <h1>event url</h1>
-            </div>
-            <div class="header custom-url b">
+            </th>
+            <th class="header custom-url b">
                 <h1>our url</h1>
-            </div>
-            <div class="header approve">
-            </div>
-        </div>
+            </th>
+            <th class="header approve">
+            </th>
+        </thead>
+        <tbody>
         <% e.forEach((event)=>{ %>
-            <div class="row">
-                <div class="title"></div>
-                <div class="contact"></div>
-                <div class="cost"></div>
-                <div class="time"></div>
-                <div class="loc"></div>
-                <div class="categories"></div>
-                <div class="description"></div>
-                <div class="url"></div>
-                <div class="custom-url"></div>
-                <div class="approve"><button value="approve"></button></div>
-            </div>
+            <tr class="row">
+                <td class="title b"><%=event.name %></td>
+                <td class="contac b"><%=event.owner_name %></td>
+                <td class="cost b"><%=event.cost %></td>
+                <td class="time b"><%=event.start_date %></td>
+                <td class="loc b"><%=event.location %></td>
+                <td class="categories b"></td>
+                <td class="description b"><%=event.description %></td>
+                <td class="url b"><%=event.event_url %></td>
+                <td class="custom-url b"></td>
+                <td class="approve">
+                    <form method="GET" action="/approve">
+                        <input type="hidden" name="id" value="<%=event.id%>">
+                        <input type="submit" value="approve">
+                    </form>
+                </td>
+            </tr>
         <% }) %>
+        </tbody>
+    </table>
     </body>
 </html>

@@ -183,7 +183,7 @@
       <input type="checkbox" checked />performance/dance<br />
       <input type="checkbox" checked />rebel code/artsy tech<br /><br />
 
-      <a href="add.html">Add your public event (free).</a><br /><br />
+      <a href="/add">Add your public event (free).</a><br /><br />
 
       <span id="about-click" onclick="showElement('about')"><u>About.</u></span>
     </div>
@@ -243,7 +243,7 @@
         if (element.style.display === "block") {
           element.style.display = "none";
           eventContainer.style.display = "none"
-          history.pushState(null, "", "/weekly"); // Reset URL
+          history.pushState(null, "", "/"); // Reset URL
         } else {
           // Hide all other elements
           document
@@ -267,7 +267,7 @@
 
         parentElement.removeChild(parentElement.lastElementChild)
 
-        history.pushState(null, "", "/weekly");
+        history.pushState(null, "", "/");
     }
 
       // Check URL on page load and show the correct element

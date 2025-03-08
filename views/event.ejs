@@ -8,8 +8,13 @@
       When: <%=date[0]%> <%=date[1].substring(0,8)%><br /><br />
       Where: <%=location%><br /><br />
       Cost: <%=cost%><br /><br />
-      Cals: [list of cals]<br /><br />
-      Link: [optional]<br /><br />
+      <% if(event_url) { %>
+        <a href="<%=event_url%>">
+          <% if(url_text){ %>
+
+          <% } %> 
+        </a>
+      <% }%>
       <%=description%>
     </div>
   </div>

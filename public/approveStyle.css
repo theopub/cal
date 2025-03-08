@@ -1,14 +1,18 @@
-.column-headers{
-    display: flex;
+table{
+    /* display: flex;
     flex-direction: row;
-    justify-content: space-around;
+    justify-content: space-around; */
     border-bottom: 1px solid red;
 }
-
+/*
 .header{
     flex-grow: 1;
     text-align: center;
 }
+
+.row > div{
+    flex-grow: 1;
+} */
 
 .b{
     border-right: 1px solid red;

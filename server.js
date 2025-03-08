@@ -7,7 +7,9 @@ import multerS3 from "multer-s3";
 import { executeWriteEvent, 
   executeGetEventsToDisplay,
   executeGetEventDetails,
-  executeGetEventsPendingApproval } from "./handlers/execute-db-queries.js";
+  executeGetTags,
+  executeGetEventsPendingApproval,
+  executeApproveEvents } from "./handlers/execute-db-queries.js";
 import {
   groupEventsByDayPlusDate,
   createCalendar,
@@ -66,6 +68,19 @@ app.post("/upload", upload.single("image"), async (req, res) => {
   if(req.body.cost != ''){
     cost = req.body.cost
   }
+
+  const tags = await executeGetTags()
+
+  const categories = req.body.categories
+  let tagIds = []
+  categories.forEach((c)=>{
+    tags.forEach((t)=>{
+      if(c == t.tag_name){
+        tagIds.push(t.id)
+      }
+    })
+  })
+
   const event = {
     title: req.body.title,
     startDate: req.body.when,
@@ -75,16 +90,16 @@ app.post("/upload", upload.single("image"), async (req, res) => {
     ownerName: req.body.name,
     // email: req.body.email,
     email: req.body.email, // Unique identifier for test events
-    eventUrl: req.body.url,
+    eventUrl: req.body.urlurl,
     imageUrl: req.file.location,
     approved: 0,
+    tagIDs: tagIds
   };
   const result = await executeWriteEvent(event);
-  console.log(result.insertId);
-  res.redirect("/weekly");
+  res.redirect("/");
 });
 
-app.get("/weekly", async (req, res) => {
+app.get("/", async (req, res) => {
   // This is Haider. I am adding a comment here to demonstrate how to use the functions in utilities/dates.js to
   // create and populate a calendar with events grouped by "day, month date".
 
@@ -106,11 +121,23 @@ app.get('/awaiting', async (req, res)=>{
   
   const events = await executeGetEventsPendingApproval()
 
-  // console.log(events)
-
   res.render("approve.ejs", {e: events})
 })
 
+app.get('/add', async (req, res)=>{
+
+  const tagList = await executeGetTags()
+
+  res.render("add.ejs", {tags: tagList})
+})
+
+app.get('/approve', async (req, res)=>{
+  const eConvert = [req.query.id]
+
+  const events = await executeApproveEvents(eConvert)
+  res.redirect('/awaiting')
+})
+
 app.listen(80, function () {
-  console.log("Example app listening on port 80!");
+  // console.log("Example app listening on port 80!");
 });
