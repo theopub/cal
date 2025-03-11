@@ -192,7 +192,6 @@
         >Which of the following describes your event (choose up to 3): *</label
       ><br />
 
-      <% console.log(tags)%>
       <% tags.forEach((t)=>{ %>
         <input type="checkbox" id="<%=t.id%>" name="categories" value="<%=t.tag_name%>">
         <label for="<%=t.id%>"><%=t.tag_name%></label><br />

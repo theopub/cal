@@ -109,10 +109,29 @@ app.get("/", async (req, res) => {
   const eventsToDisplay = await executeGetEventsToDisplay(date);
   const calendar = createCalendar(date);
   const populatedCalendar = groupEventsByDayPlusDate(calendar)(eventsToDisplay);
+  const tagList = await executeGetTags()
 
   // You can now use the populatedCalendar object to display events today, 5 days in the past and 14 days in the future :)
-  res.render('weekly.ejs', {events: populatedCalendar});
+  res.render('weekly.ejs', {events: populatedCalendar, tags: tagList});
 });
+
+// TODO
+app.post('/filtered-weekly', async (req, res)=>{
+
+  let filteredTags = []
+  if(req.query.filter){
+
+  }
+  const date = new Date();
+  const eventsToDisplay = await executeGetEventsToDisplay(date);
+  const calendar = createCalendar(date);
+  const populatedCalendar = groupEventsByDayPlusDate(calendar)(eventsToDisplay);
+  console.log(populatedCalendar)
+  const tagList = await executeGetTags()
+
+  // You can now use the populatedCalendar object to display events today, 5 days in the past and 14 days in the future :)
+  res.render('weekly.ejs', {events: populatedCalendar, tags: tagList});
+})
 
 app.get("/event", async (req, res) => {
   const event = await executeGetEventDetails(req.query.event_id);
@@ -141,6 +160,6 @@ app.get('/approve', async (req, res)=>{
   res.redirect('/awaiting')
 })
 
-app.listen(3001, function () {
+app.listen(8080, function () {
   // console.log("Example app listening on port 80!");
 });
