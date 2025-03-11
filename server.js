@@ -133,7 +133,7 @@ app.post('/filtered-weekly', async (req, res)=>{
   res.render('weekly.ejs', {events: populatedCalendar, tags: tagList});
 })
 
-app.get("/event", async (req, res) => {
+app.get("/single-event", async (req, res) => {
   const event = await executeGetEventDetails(req.query.event_id);
   // console.log(event)
   res.render('event.ejs', event)
@@ -160,6 +160,6 @@ app.get('/approve', async (req, res)=>{
   res.redirect('/awaiting')
 })
 
-app.listen(8080, function () {
+app.listen(3001, function () {
   // console.log("Example app listening on port 80!");
 });

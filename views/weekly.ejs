@@ -244,7 +244,7 @@
         //     // console.log(html)
         //     eventContainer.style.display = "block"
         //   })
-        let fetchSingleEvent = await fetch('/event?' + p).then(response => response.text())
+        let fetchSingleEvent = await fetch('/single-event?' + p).then(response => response.text())
         eventContainer.innerHTML = fetchSingleEvent
 
         const element = document.getElementById(eventId);
@@ -257,7 +257,7 @@
       }
 
       function closeElement(id){
-        console.log('closed')
+        // console.log('closed')
         let childElement = document.getElementById(id)
         let parentElement = document.getElementById('event-details-container')
 
@@ -277,7 +277,7 @@
 
       const formatFilteredTagIds = filteredTagNames.join(',')
 
-      console.log(JSON.stringify(filteredTagNames))
+      // console.log(JSON.stringify(filteredTagNames))
 
       fetch('/filtered-weekly?filter='+formatFilteredTagIds, {
         method: "POST",
@@ -300,7 +300,7 @@
 
         // check date
         let date = new Date().getDate()
-        console.log(date)
+        // console.log(date)
       };
     </script>
   </body>
