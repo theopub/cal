@@ -238,11 +238,14 @@
         const eventContainer = document.getElementById('event-details-container')
         // console.log(p)
         let eventId = id
-        let fetchSingleEvent = await fetch('/event?' + p).then(response => response.text()).then(html => {
-            eventContainer.innerHTML = html
-            // console.log(html)
-            eventContainer.style.display = "block"
-          })
+        // ad blocker issue?
+        // let fetchSingleEvent = await fetch('/event?' + p).then(response => response.text()).then(html => {
+        //     eventContainer.innerHTML = html
+        //     // console.log(html)
+        //     eventContainer.style.display = "block"
+        //   })
+        let fetchSingleEvent = await fetch('/event?' + p).then(response => response.text())
+        eventContainer.innerHTML = fetchSingleEvent
 
         const element = document.getElementById(eventId);
         if (!element) return; // Safety check
