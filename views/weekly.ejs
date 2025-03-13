@@ -1,6 +1,6 @@
 <html>
   <head>
-    <title>Calendar</title>
+    <title>Red Calendar</title>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
 
@@ -179,7 +179,7 @@
 
       <% tags.forEach((t)=>{ %>
         <input type="checkbox" checked id="<%=t.id%>" class="tag_checkboxes" name="categories" value="<%=t.tag_name%>" onchange="filterEventsByTag()">
-        <label for="<%=t.id%>"><%=t.tag_name%></label><br />
+        <label for="<%=t.id%>"><%=t.tag_name%></label><br /><br />
       <% }) %>
 
       <a href="/add">Add your public event (free).</a><br /><br />
