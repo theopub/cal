@@ -60,12 +60,14 @@ const testEventTemplate = {
   location: 'Test Location',
   description: 'Test Description',
   ownerName: 'Test Owner',
+  ownerUrl: 'http://testowner.com',
   email: 'test-events@example.com', // Unique identifier for test events
   eventUrl: 'http://testevent.com',
+  eventUrlText: 'Event URL',
   imageUrl: 'http://testevent.com/image.jpg',
   created: '2023-12-31T05:00:00',
   approved: 1,
-  tagIDs: [1, 7],
+  tagIDs: [20, 21],
 };
 
 t.test('Write Event', async (t) => {
