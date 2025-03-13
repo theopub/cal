@@ -3,6 +3,7 @@ import {
     executeGetEventDetails,
     executeGetEventsToDisplay,
     executeApproveEvents,
+    executeGetEventsbyTagIDs,
     endPoolConnection,
 } from '../handlers/execute-db-queries.js';
 import mysql from 'mysql2/promise';
@@ -13,13 +14,12 @@ import {
   getDatePlusDay,
   groupEventsByDayPlusDate,
   createCalendar,
-  formatDateTime,
 } from '../utilities/dates.js';
 import {
   map,
-  includes,
   split,
-  length
+  length,
+  intersection,
 } from 'ramda';
 
 dotenv.config();
@@ -106,14 +106,22 @@ t.test('Get Events to Display', async (t) => {
   const testDates = {
     fiveDaysBefore: format(addDays(baseDate, -5), 'yyyy-MM-dd'),
     exactDate: baseDate,
+    fiveDaysAfter: format(addDays(baseDate, 5), 'yyyy-MM-dd'),
     fourteenDaysAfter: format(addDays(baseDate, 14), 'yyyy-MM-dd'),
+    thirtyDaysAfter: format(addDays(baseDate, 30), 'yyyy-MM-dd'),
+    thirtyOneDaysAfter: format(addDays(baseDate, 31), 'yyyy-MM-dd'),
+    fourtyDaysAfter: format(addDays(baseDate, 40), 'yyyy-MM-dd'),
   };
 
   // Create test events
   const eventsToCreate = [
     { ...testEventTemplate, startDate: testDates.fiveDaysBefore },
     { ...testEventTemplate, startDate: testDates.exactDate },
+    { ...testEventTemplate, startDate: testDates.fiveDaysAfter },
     { ...testEventTemplate, startDate: testDates.fourteenDaysAfter },
+    { ...testEventTemplate, startDate: testDates.thirtyDaysAfter },
+    { ...testEventTemplate, startDate: testDates.thirtyOneDaysAfter },
+    { ...testEventTemplate, startDate: testDates.fourtyDaysAfter },
   ];
 
   const createdIds = [];
@@ -124,14 +132,15 @@ t.test('Get Events to Display', async (t) => {
 
   // Test retrieval
   const displayEvents = await executeGetEventsToDisplay(new Date(testDates.exactDate));
+  console.log('Display Events:', displayEvents);
   const retrievedIds = map(event => event.id, displayEvents);
 
   const calendar = createCalendar(baseDate);
   const populateCalendar = groupEventsByDayPlusDate(calendar)(displayEvents);
   console.log('Calendar:', populateCalendar);
   
-  t.ok(createdIds.every(id => includes(id, retrievedIds)),
-       'Should retrieve events from 5 days before, exact date, and 14 days after');
+  t.ok(length(intersection(intersection(createdIds, retrievedIds), [createdIds[1], createdIds[2], createdIds[3], createdIds[4]])) === 4,
+       'Should retrieve events starting from today and up to 30 days in the future');
 
   await deleteTestEvents();
   t.end();
@@ -148,6 +157,34 @@ t.test('Approve Events', async (t) => {
   await executeApproveEvents([eventId]);
   const details = await executeGetEventDetails(eventId);
   t.same(details.approved, 1, 'Event should be flagged as approved');
+
+  await deleteTestEvents();
+  t.end();
+});
+
+// test to get events by tag IDs
+t.test('Get Events by Tag IDs', async (t) => {
+  // Create test events
+  const testEvent1 = { ...testEventTemplate, tagIDs: [20, 21] };
+  const testEvent2 = { ...testEventTemplate, tagIDs: [21, 22] };
+  const testEvent3 = { ...testEventTemplate, tagIDs: [22, 23] };
+  const testEvent4 = { ...testEventTemplate, tagIDs: [23, 24] };
+  const testEvent5 = { ...testEventTemplate, tagIDs: [24, 25] };
+
+  const eventsToCreate = [testEvent1, testEvent2, testEvent3, testEvent4, testEvent5];
+  const createdIds = [];
+  for (const event of eventsToCreate) {
+    const result = await executeWriteEvent(event);
+    createdIds.push(result.insertId);
+  }
+
+  // Test retrieval
+  const tagIDs = [21, 22];
+  const events = await executeGetEventsbyTagIDs(tagIDs);
+  console.log('Events:', events);
+  const retrievedIds = map(event => event.id, events);
+
+  t.same(length(intersection(createdIds, retrievedIds)), 3, 'Should retrieve events with matching tag IDs');
 
   await deleteTestEvents();
   t.end();

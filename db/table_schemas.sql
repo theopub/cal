@@ -31,5 +31,3 @@ CREATE TABLE event_tags (
     FOREIGN KEY (event_id) REFERENCES events(id) ON DELETE CASCADE,
     FOREIGN KEY (tag_id) REFERENCES tags(id) ON DELETE CASCADE
 ) CHARACTER SET 'utf8mb4' COLLATE 'utf8mb4_0900_ai_ci';
-
-INSERT INTO tags (tag_name) VALUES ('activism'), ('readings'), ('music'), ('performance'), ('dance'), ('rebel code'), ('artsy tech'), ('education'), ('protest'), ('mutual aid'), ('fashion'), ('film'), ('theatre'), ('comedy'), ('literature'), ('religion'), ('politics'), ('community'), ('environment');

@@ -6,11 +6,10 @@ export const formatDateTime = format('yyyy-MM-dd\'T\'HH:mm:ss');
 export const getDatePlusDay = format('eee, LLL dd');
 
 export const createCalendar = (baseDate) => {
-    const startDate = addDays(-5)(baseDate);
-    const endDate = addDays(14)(baseDate);
+    const endDate = addDays(30)(baseDate);
 
-    let calendar = {};
-    for (let date = startDate; !isAfter(endDate)(date); date = addDays(1)(date)) {
+    const calendar = {};
+    for (let date = baseDate; !isAfter(endDate)(date); date = addDays(1)(date)) {
         const datePlusDay = getDatePlusDay(date);
         calendar[datePlusDay] = [];
     }

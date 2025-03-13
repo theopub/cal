@@ -73,6 +73,25 @@ export const executeGetEventsPendingApproval = async () => {
     }
 }
 
+export const executeGetEventsbyTagIDs = async (tagIDs) => {
+    if (!Array.isArray(tagIDs) || isEmpty(tagIDs)) {
+        console.log('No tag IDs provided');
+        return [];
+    }
+    const tagIDsString = join(',', tagIDs);
+    try {
+        const [ [ events ] ] = await pool.query('CALL GetEventsbyTagID(?)', [ tagIDsString ]);
+        for (const event of events) {
+            event.start_date = formatDateTime(event.start_date);
+        }
+        console.log('Events:', events);
+        return events;
+    } catch (error) {
+        console.error('Error executing executeGetEventsbyTagIDs query:', error);
+        throw error;
+    }
+}
+
 export const executeGetEventDetails = async (eventId) => {
     try {
         const [ [ [ event ] ] ] = await pool.query('CALL GetEventDetails(?)', [ eventId ]);

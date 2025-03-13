@@ -4,3 +4,4 @@ NodeWebhooks/
 .env
 .tap
 public/testing/
+.qodo
