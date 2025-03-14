@@ -105,6 +105,7 @@ t.test('Get Events to Display', async (t) => {
   const baseDate = '2024-02-01T00:00:00';
   const testDates = {
     fiveDaysBefore: format(addDays(baseDate, -5), 'yyyy-MM-dd'),
+    OneDayBefore: format(addDays(baseDate, -1), 'yyyy-MM-dd'),
     exactDate: baseDate,
     fiveDaysAfter: format(addDays(baseDate, 5), 'yyyy-MM-dd'),
     fourteenDaysAfter: format(addDays(baseDate, 14), 'yyyy-MM-dd'),
@@ -116,6 +117,7 @@ t.test('Get Events to Display', async (t) => {
   // Create test events
   const eventsToCreate = [
     { ...testEventTemplate, startDate: testDates.fiveDaysBefore },
+    { ...testEventTemplate, startDate: testDates.OneDayBefore },
     { ...testEventTemplate, startDate: testDates.exactDate },
     { ...testEventTemplate, startDate: testDates.fiveDaysAfter },
     { ...testEventTemplate, startDate: testDates.fourteenDaysAfter },
@@ -139,7 +141,7 @@ t.test('Get Events to Display', async (t) => {
   const populateCalendar = groupEventsByDayPlusDate(calendar)(displayEvents);
   console.log('Calendar:', populateCalendar);
   
-  t.ok(length(intersection(intersection(createdIds, retrievedIds), [createdIds[1], createdIds[2], createdIds[3], createdIds[4]])) === 4,
+  t.ok(length(intersection(intersection(createdIds, retrievedIds), [createdIds[1], createdIds[2], createdIds[3], createdIds[4], createdIds[5]])) === 5,
        'Should retrieve events starting from today and up to 30 days in the future');
 
   await deleteTestEvents();

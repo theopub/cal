@@ -106,6 +106,7 @@ app.get("/", async (req, res) => {
   const date = new Date();
   const eventsToDisplay = await executeGetEventsToDisplay(date);
   const calendar = createCalendar(date);
+  console.log('calendar: ', calendar);
   const populatedCalendar = groupEventsByDayPlusDate(calendar)(eventsToDisplay);
   const tagList = await executeGetTags()
 
