@@ -5,6 +5,7 @@ import {
     isNotNil,
     isNotEmpty,
     isEmpty,
+    split,
     join,
 } from 'ramda';
 import { formatDateTime } from '../utilities/dates.js';
@@ -36,6 +37,7 @@ export const executeGetEventsToDisplay = async (date) => {
         const [ [ events ] ] = await pool.query('CALL GetEventsToDisplay(?)', [ date ]);
         for (const event of events) {
             event.start_date = formatDateTime(event.start_date);
+            event.tag_ids = map((id) => Number(id))(split(',', event.tag_ids));
         }
         console.log('Events:', events);
         return events;
@@ -69,25 +71,6 @@ export const executeGetEventsPendingApproval = async () => {
         return events;
     } catch (error) {
         console.error('Error executing executeGetEventsPendingApproval query:', error);
-        throw error;
-    }
-}
-
-export const executeGetEventsbyTagIDs = async (tagIDs) => {
-    if (!Array.isArray(tagIDs) || isEmpty(tagIDs)) {
-        console.log('No tag IDs provided');
-        return [];
-    }
-    const tagIDsString = join(',', tagIDs);
-    try {
-        const [ [ events ] ] = await pool.query('CALL GetEventsbyTagID(?)', [ tagIDsString ]);
-        for (const event of events) {
-            event.start_date = formatDateTime(event.start_date);
-        }
-        console.log('Events:', events);
-        return events;
-    } catch (error) {
-        console.error('Error executing executeGetEventsbyTagIDs query:', error);
         throw error;
     }
 }

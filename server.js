@@ -14,6 +14,7 @@ import {
   groupEventsByDayPlusDate,
   createCalendar,
 } from './utilities/dates.js';
+import { filterEventsbyTags } from './utilities/filtering.js';
 
 dotenv.config();
 
@@ -102,34 +103,31 @@ app.post("/upload", upload.single("image"), async (req, res) => {
 });
 
 app.get("/", async (req, res) => {
-  // This is Haider. I am adding a comment here to demonstrate how to use the functions in utilities/dates.js to
-  // create and populate a calendar with events grouped by "day, month date".
-
   const date = new Date();
   const eventsToDisplay = await executeGetEventsToDisplay(date);
   const calendar = createCalendar(date);
   const populatedCalendar = groupEventsByDayPlusDate(calendar)(eventsToDisplay);
   const tagList = await executeGetTags()
 
-  // You can now use the populatedCalendar object to display events today, 5 days in the past and 14 days in the future :)
+  // You can now use the populatedCalendar object to display events today,  and 30 days in advance
   res.render('weekly.ejs', {events: populatedCalendar, tags: tagList});
 });
 
 // TODO
 app.post('/filtered-weekly', async (req, res)=>{
 
-  let filteredTags = []
+  let filteringTagIds = []
   if(req.query.filter){
 
   }
   const date = new Date();
   const eventsToDisplay = await executeGetEventsToDisplay(date);
   const calendar = createCalendar(date);
-  const populatedCalendar = groupEventsByDayPlusDate(calendar)(eventsToDisplay);
+  const populatedCalendar = groupEventsByDayPlusDate(calendar)(filterEventsbyTags(filteringTagIds)(eventsToDisplay));
   console.log(populatedCalendar)
   const tagList = await executeGetTags()
 
-  // You can now use the populatedCalendar object to display events today, 5 days in the past and 14 days in the future :)
+  // You can now use the populatedCalendar object to display events today, and 30 days in advance
   res.render('weekly.ejs', {events: populatedCalendar, tags: tagList});
 })
 

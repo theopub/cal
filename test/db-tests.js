@@ -3,7 +3,6 @@ import {
     executeGetEventDetails,
     executeGetEventsToDisplay,
     executeApproveEvents,
-    executeGetEventsbyTagIDs,
     endPoolConnection,
 } from '../handlers/execute-db-queries.js';
 import mysql from 'mysql2/promise';
@@ -21,6 +20,7 @@ import {
   length,
   intersection,
 } from 'ramda';
+import { filterEventsbyTags } from '../utilities/filtering.js';
 
 dotenv.config();
 
@@ -162,8 +162,8 @@ t.test('Approve Events', async (t) => {
   t.end();
 });
 
-// test to get events by tag IDs
-t.test('Get Events by Tag IDs', async (t) => {
+// test to filter events by tag IDs
+t.test('Filter Events by Tag IDs', async (t) => {
   // Create test events
   const testEvent1 = { ...testEventTemplate, tagIDs: [20, 21] };
   const testEvent2 = { ...testEventTemplate, tagIDs: [21, 22] };
@@ -180,10 +180,11 @@ t.test('Get Events by Tag IDs', async (t) => {
 
   // Test retrieval
   const tagIDs = [21, 22];
-  const events = await executeGetEventsbyTagIDs(tagIDs);
+  const events = await executeGetEventsToDisplay(new Date('2024-01-01T14:30:00'));
   console.log('Events:', events);
-  const retrievedIds = map(event => event.id, events);
-
+  const filteredEvents = filterEventsbyTags(tagIDs)(events);
+  console.log('Filtered Events:', filteredEvents);
+  const retrievedIds = map(event => event.id, filteredEvents);
   t.same(length(intersection(createdIds, retrievedIds)), 3, 'Should retrieve events with matching tag IDs');
 
   await deleteTestEvents();
