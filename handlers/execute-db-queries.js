@@ -37,7 +37,7 @@ export const executeGetEventsToDisplay = async (date) => {
         const [ [ events ] ] = await pool.query('CALL GetEventsToDisplay(?)', [ date ]);
         for (const event of events) {
             event.start_date = formatDateTime(event.start_date);
-            event.tag_ids = map((id) => Number(id))(split(',', event.tag_ids));
+            event.tag_ids = isNotNil(event.tag_ids) ? map((id) => Number(id))(split(',', event.tag_ids)): [];
         }
         console.log('Events:', events);
         return events;
