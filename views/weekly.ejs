@@ -178,7 +178,11 @@
       Welcome to Red Calendar. <br /><br />
 
       <% tags.forEach((t)=>{ %>
-        <input type="checkbox" checked id="<%=t.id%>" class="tag_checkboxes" name="categories" value="<%=t.tag_name%>" onchange="filterEventsByTag()">
+        <% if(t.checked) { %>
+          <input type="checkbox" checked id="<%=t.id%>" class="tag_checkboxes" name="categories" value="<%=t.tag_name%>" onchange="filterEventsByTag()">
+        <% } else { %>
+        <input type="checkbox"  id="<%=t.id%>" class="tag_checkboxes" name="categories" value="<%=t.tag_name%>" onchange="filterEventsByTag()">
+        <% } %> 
         <label for="<%=t.id%>"><%=t.tag_name%></label><br /><br />
       <% }) %>
 
@@ -270,22 +274,20 @@
     }
 
     // TODO
-    function filterEventsByTag(){
+    async function filterEventsByTag(){
       const checkedTags = Array.from(document.getElementsByClassName("tag_checkboxes")).filter(checkedTag => checkedTag.checked)
 
-      const filteredTagNames = checkedTags.map(c => c.value.replace(" ", "-"))
-
+      let filteredTagNames = checkedTags.map((c) => c.value.replace(/( \/ )/g, "-"))
+      // filteredTagNames.forEach((t)=>{t.replace(" ", "_")})
+      filteredTagNames = filteredTagNames.map(t => t.replace(/ /g, '_') )
       const formatFilteredTagIds = filteredTagNames.join(',')
 
-      // console.log(JSON.stringify(filteredTagNames))
+      // console.log(filteredTagNames)
 
-      fetch('/filtered-weekly?filter='+formatFilteredTagIds, {
-        method: "POST",
-        headers: {
-          'Content-Type': 'application/json'
-        }, 
-        body: JSON.stringify(filteredTagNames)
-      })
+      // await fetch('/filtered-weekly?filter='+formatFilteredTagIds, {
+      //   method: "GET"
+      // })
+      window.location.href = "/filtered-weekly?filter="+formatFilteredTagIds;
     }
 
       // Check URL on page load and show the correct element

@@ -74,13 +74,22 @@ app.post("/upload", upload.single("image"), async (req, res) => {
 
   const categories = req.body.categories
   let tagIds = []
-  categories.forEach((c)=>{
+  // checks for only 1 category sent
+  if(typeof categories == "string"){
     tags.forEach((t)=>{
-      if(c == t.tag_name){
+      if(categories == t.tag_name){
         tagIds.push(t.id)
       }
     })
-  })
+  } else {
+    tags.forEach((t)=>{
+      categories.forEach((c)=>{
+        if(c == t.tag_name){
+          tagIds.push(t.id)
+        }
+      })
+    })
+  }
 
   const event = {
     title: req.body.title,
@@ -106,27 +115,38 @@ app.get("/", async (req, res) => {
   const date = new Date();
   const eventsToDisplay = await executeGetEventsToDisplay(date);
   const calendar = createCalendar(date);
-  console.log('calendar: ', calendar);
+  // console.log('calendar: ', calendar);
   const populatedCalendar = groupEventsByDayPlusDate(calendar)(eventsToDisplay);
   const tagList = await executeGetTags()
+  tagList.forEach((t)=> t.checked = true)
 
   // You can now use the populatedCalendar object to display events today,  and 30 days in advance
   res.render('weekly.ejs', {events: populatedCalendar, tags: tagList});
 });
 
 // TODO
-app.post('/filtered-weekly', async (req, res)=>{
+app.get('/filtered-weekly', async (req, res)=>{
 
   let filteringTagIds = []
-  if(req.query.filter){
+  // console.log(req.query.filter)
+  let tags = req.query.filter.split(",")
 
-  }
+  const tagList = await executeGetTags()
+
+  tags.forEach((tag) => {
+    let formattedTag = tag.replace(/_/g, ' ')
+    formattedTag = formattedTag.replace(/-/g, " / ")
+    tagList.forEach((t)=>{
+      if(t.tag_name == formattedTag){
+        t.checked = true
+        filteringTagIds.push(t.id)
+      } 
+    })
+  })
   const date = new Date();
   const eventsToDisplay = await executeGetEventsToDisplay(date);
   const calendar = createCalendar(date);
   const populatedCalendar = groupEventsByDayPlusDate(calendar)(filterEventsbyTags(filteringTagIds)(eventsToDisplay));
-  console.log(populatedCalendar)
-  const tagList = await executeGetTags()
 
   // You can now use the populatedCalendar object to display events today, and 30 days in advance
   res.render('weekly.ejs', {events: populatedCalendar, tags: tagList});
