@@ -273,21 +273,23 @@
         history.pushState(null, "", "/");
     }
 
-    // TODO
+    // filters the page by the tags
     async function filterEventsByTag(){
+      // pulls currently checked tags into array
       const checkedTags = Array.from(document.getElementsByClassName("tag_checkboxes")).filter(checkedTag => checkedTag.checked)
 
+      // format spaces and / to comma separated url friendly string
       let filteredTagNames = checkedTags.map((c) => c.value.replace(/( \/ )/g, "-"))
-      // filteredTagNames.forEach((t)=>{t.replace(" ", "_")})
       filteredTagNames = filteredTagNames.map(t => t.replace(/ /g, '_') )
       const formatFilteredTagIds = filteredTagNames.join(',')
 
-      // console.log(filteredTagNames)
-
-      // await fetch('/filtered-weekly?filter='+formatFilteredTagIds, {
-      //   method: "GET"
-      // })
-      window.location.href = "/filtered-weekly?filter="+formatFilteredTagIds;
+      // make a request for filtering
+      const filteredCalendar = await fetch('/filtered-weekly?filter='+formatFilteredTagIds, {
+        method: "GET"
+      }).then(response => response.text())
+      
+      // update html based on tags
+      document.body.innerHTML = filteredCalendar
     }
 
       // Check URL on page load and show the correct element
