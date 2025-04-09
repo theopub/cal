@@ -5,15 +5,15 @@
       <img class="poster-inline" src="<%=image_url%>" />
       <span class="title"><%=name%></span><br /><br />
       <% let date = start_date.split('T') %>
-      When: <%=date[0]%> <%=date[1].substring(0,8)%><br /><br />
-      Where: <%=location%><br /><br />
-      Cost: <%=cost%><br /><br />
+      <b>When:</b> <%=date[0]%> <%=date[1].substring(0,8)%><br /><br />
+      <b>Where:</b> <%=location%><br /><br />
+      <b>Cost:</b> <%=cost%><br /><br />
       <% if(event_url) { %>
         <a href="<%=event_url%>">
           <% if(event_url_text){ %>
             <%= event_url_text %>
           <% } else {%> 
-              Event Link
+              Link
           <%}%>
         </a><br />
       <% }%>

@@ -1,6 +1,54 @@
 <html>
     <head>
         <link href="approveStyle.css" rel="stylesheet">
+
+        <style>
+
+      #menu {
+        position: fixed;
+        bottom: 0;
+        padding: 2vw;
+        width: 210px;
+        right: 0;
+      }
+
+      .date,
+      #menu,
+      .more-info,
+      .close,
+      #about {
+        background-color: rgb(252, 83, 83);
+        color: rgb(71, 0, 0);
+        box-shadow: 0px 3px 12px 3px rgb(120, 0, 0);
+        z-index: 10;
+      }
+
+      @media only screen and (max-width: 750px) {
+                .more-info, #about {
+                    left: 3vw; 
+                    width: 92.3vw; 
+                }
+
+                .notmobile{
+                    display: none; 
+                }
+
+                #menu {
+                    width: 96vw; 
+                    right: none; 
+                    left: 0; 
+                }
+
+
+                .mobileonly {
+                  display: inline; 
+                }
+
+
+            }
+
+
+        </style>
     </head>
     <body>
         <table>
@@ -55,6 +103,14 @@
                 </td>
             </tr>
         <% }) %>
+
+
+        <div id="menu">
+            <a href="/add">Add another event.</a>
+            <a href="/">Back to Calendar.</a>
+
+        </div>
+
         </tbody>
     </table>
     </body>
