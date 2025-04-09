@@ -7,6 +7,8 @@ import {
     isEmpty,
     split,
     join,
+    prop,
+    sortBy,
 } from 'ramda';
 import { formatDateTime } from '../utilities/dates.js';
 
@@ -25,7 +27,7 @@ export const executeGetTags = async () => {
     try {
         const [tags] = await pool.query('SELECT * FROM tags');
         console.log('Tags:', tags);
-        return tags;
+        return sortBy(prop('id'))(tags);
     } catch (error) {
         console.error('Error executing executeGetTags query:', error);
         throw error;

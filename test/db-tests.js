@@ -169,9 +169,9 @@ t.test('Filter Events by Tag IDs', async (t) => {
   // Create test events
   const testEvent1 = { ...testEventTemplate, tagIDs: [20, 21] };
   const testEvent2 = { ...testEventTemplate, tagIDs: [21, 22] };
-  const testEvent3 = { ...testEventTemplate, tagIDs: [22, 23] };
-  const testEvent4 = { ...testEventTemplate, tagIDs: [23, 24] };
-  const testEvent5 = { ...testEventTemplate, tagIDs: [24, 25] };
+  const testEvent3 = { ...testEventTemplate, tagIDs: [22, 24] };
+  const testEvent4 = { ...testEventTemplate, tagIDs: [24, 25] };
+  const testEvent5 = { ...testEventTemplate, tagIDs: [25, 26] };
 
   const eventsToCreate = [testEvent1, testEvent2, testEvent3, testEvent4, testEvent5];
   const createdIds = [];
@@ -188,7 +188,6 @@ t.test('Filter Events by Tag IDs', async (t) => {
   console.log('Filtered Events:', filteredEvents);
   const retrievedIds = map(event => event.id, filteredEvents);
   t.same(length(intersection(createdIds, retrievedIds)), 3, 'Should retrieve events with matching tag IDs');
-
   await deleteTestEvents();
   t.end();
 });
