@@ -212,11 +212,13 @@
         <% } %> 
         <label for="<%=t.id%>"><%=t.tag_name%></label>
         <span class="notmobile"><br /></span>
-        <span class="mobileonly">~~~~~~</span>
+        <span class="mobileonly">~~~</span>
       <% }) %>
 
       <span class="mobileonly"><br /></span>
-      <br /><a href="/add">Add your public event (free).</a><br /><br />
+      <br /><a href="/add">Add your public event (free).</a>
+      <span class="notmobile"><br /><br /></span>
+      <span class="mobileonly">~~~</span>
 
       <span id="about-click" onclick="showElement('about')"><u>About.</u></span>
     </div>
