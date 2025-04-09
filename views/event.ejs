@@ -6,7 +6,7 @@
       <span class="title"><%=name%></span><br /><br />
       <% let date = start_date.split('T') %>
       <b>When:</b> <%=date[0]%> <%=date[1].substring(0,8)%><br /><br />
-      <b>Where:</b> <%=location%><br /><br />
+      <b>Where:</b> <span class="linebreaks"><%=location%></span><br /><br />
       <b>Cost:</b> <%=cost%><br /><br />
       <% if(event_url) { %>
         <a href="<%=event_url%>">
@@ -17,7 +17,7 @@
           <%}%>
         </a><br />
       <% }%>
-      <span id="description"> <%=description%></span>
+      <span class="linebreaks"><%=description%></span>
       <p class="tags">tags: <%= tags %></p>
     </div>
   </div>
