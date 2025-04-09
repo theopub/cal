@@ -167,7 +167,7 @@
                 body {
                     font-size: 12.9px; 
                     overflow-y: hidden;
-                    /* despite above, still issue where it scrolls all the way down  */
+                    /* despite above, still issue where it scrolls all the way down on android */
                 }
 
                 .notmobile{
@@ -194,7 +194,7 @@
   </head>
   <body>
     <div id="menu">
-      Welcome to Red Calendar. <br /><br />
+      <span class="notmobile">Welcome to Red Calendar.</span> <br /><br />
 
       <% tags.forEach((t)=>{ %>
         <% if(t.checked) { %>
@@ -202,7 +202,7 @@
         <% } else { %>
         <input type="checkbox"  id="<%=t.id%>" class="tag_checkboxes" name="categories" value="<%=t.tag_name%>" onchange="filterEventsByTag()">
         <% } %> 
-        <label for="<%=t.id%>"><%=t.tag_name%></label><br />
+        <label for="<%=t.id%>"><%=t.tag_name%></label><span class="notmobile"><br /></span>
       <% }) %>
 
       <br /><a href="/add">Add your public event (free).</a><br /><br />
