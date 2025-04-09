@@ -157,6 +157,10 @@
         cursor: pointer;
       }
 
+      .mobileonly {
+        display:none;
+      }
+
 
       @media only screen and (max-width: 750px) {
                 .more-info, #about {
@@ -188,13 +192,17 @@
                 .column, .date {
                   width: 30vw;
                 }
+
+                .mobileonly {
+                  display: inline; 
+                }
             }
 
     </style>
   </head>
   <body>
     <div id="menu">
-      <span class="notmobile">Welcome to Red Calendar.</span> <br /><br />
+      <span class="notmobile">Welcome to Red Calendar. <br /><br /></span>
 
       <% tags.forEach((t)=>{ %>
         <% if(t.checked) { %>
@@ -202,9 +210,12 @@
         <% } else { %>
         <input type="checkbox"  id="<%=t.id%>" class="tag_checkboxes" name="categories" value="<%=t.tag_name%>" onchange="filterEventsByTag()">
         <% } %> 
-        <label for="<%=t.id%>"><%=t.tag_name%></label><span class="notmobile"><br /></span>
+        <label for="<%=t.id%>"><%=t.tag_name%></label>
+        <span class="notmobile"><br /></span>
+        <span class="mobileonly">~~~~~~</span>
       <% }) %>
 
+      <span class="mobileonly"><br /></span>
       <br /><a href="/add">Add your public event (free).</a><br /><br />
 
       <span id="about-click" onclick="showElement('about')"><u>About.</u></span>
