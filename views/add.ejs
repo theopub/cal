@@ -136,8 +136,7 @@ Strong preference for cheap events.
 
       <label for="image"
         >Event image/poster [accepts .jpg, .png, .gif. Height to width ratio
-        must be 4:3 or less. Please make sure your file is under 1MB (online
-        compression tools rock)] *</label
+        must be 4:3 or less. Please make sure your file is under 1MB.] *</label
       >
       <input
         type="file"
@@ -252,12 +251,39 @@ Strong preference for cheap events.
       <a>About.</a>
     </div>
 
+
+    <script>
+      function previewImage(event) {
+        const file = event.target.files[0];
+    
+        if (!file) return;
+    
+        // Check file size (1MB = 1,048,576 bytes)
+        if (file.size > 1048576) {
+          alert("This image is bigger than 1MB! Please upload an image under 1MB (online compression tools rock.)");
+          event.target.value = ""; // Clear the file input
+          document.getElementById("preview").style.display = "none"; // Hide preview
+          return;
+        }
+    
+        // ✅ Show preview if file size is okay
+        const reader = new FileReader();
+        reader.onload = function () {
+          const preview = document.getElementById("preview");
+          preview.src = reader.result;
+          preview.style.display = "block";
+        };
+        reader.readAsDataURL(file);
+      }
+    </script>
+    
+
     <script>
       // Get current date and time
       const now = new Date();
       
       // Set the time to 7 PM (19:00)
-      now.setHours(19, 0, 0, 0); // 19:00:00.000
+      now.setHours(16, 0, 0, 0); // 19:00:00.000
     
       // Format date to `YYYY-MM-DDTHH:MM` (datetime-local expected format)
       const formattedDateTime = now.toISOString().slice(0, 16); 
