@@ -17,16 +17,13 @@
         font-size: 15px;
       }
 
-      #toggling {
+      #menu {
         position: fixed;
         background-color: rgb(253, 106, 106);
         color: rgb(52, 0, 0);
         z-index: 10;
-        /* bottom: 15vh;  */
         bottom: 0;
-        padding: 15px;
-        /* border: .3vw solid red;  */
-        /* box-shadow: 0px 0px 12px 3px red;  */
+        padding: 2vw;
         box-shadow: 0px 3px 12px 3px rgb(120, 0, 0);
         width: 210px;
         right: 0;
@@ -56,7 +53,6 @@
       form {
         position: relative;
         background-color: rgb(253, 106, 106);
-        /* background-color: black;  */
         padding: 3vw;
         width: 45vw;
         left: 24.5vw;
@@ -76,17 +72,24 @@
       }
 
       #notes {
-        /* border: rgb(129, 1, 1) dashed 45px;  */
         box-shadow: 0px 3px 12px 3px rgb(120, 0, 0);
         padding: 15px;
       }
 
       #caution {
-        /* background-color: red;  */
         box-shadow: 0px 3px 12px 3px rgb(120, 0, 0);
         padding: 15px;
-        /* border: rgb(129, 1, 1) dashed 3px;  */
       }
+
+      @media only screen and (max-width: 750px) {
+        #menu {
+                    width: 96vw; 
+                    right: none; 
+                    left: 0; 
+                }
+      }
+
+
     </style>
   </head>
   <body>
@@ -115,7 +118,7 @@
       <input type="email" id="email" name="email" required />
       <br /><br />
 
-      <label for="your-url">A url where we can find you/your stuff (ie., personal webpage, social media account, etc.)</label><br />
+      <label for="your-url">A url where we can find you/your stuff (ie., personal webpage, social media account, etc.) [optional]</label><br />
       <input type="text" id="your-url" name="yourUrl"/>
       <br /><br />
 
@@ -125,7 +128,7 @@
       <br /><br />
 
       <label for="image"
-        >Event image/poster [Accepts .jpg, .png, .gif. Height to width ratio
+        >Event image/poster [accepts .jpg, .png, .gif. Height to width ratio
         must be 4:3 or less. Please make sure your file is under 1MB (online
         compression tools rock)] *</label
       >
@@ -234,7 +237,7 @@
       <button type="submit">Submit (with caution! see note above) and return to Calendar</button>
     </form>
 
-    <div id="toggling">
+    <div id="menu">
       Welcome to Red Calendar.<br /><br />
 
       <a href="/">Return to the calendar.</a><br /><br />
