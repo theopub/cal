@@ -6,8 +6,6 @@
 
     <style>
       body {
-        /* overflow-y: hidden; */
-        /* background-color: black;  */
         font-family: Helvetica;
         background-color: rgb(101, 0, 0);
         font-size: 15px;
@@ -15,23 +13,15 @@
 
       .posters {
         position: relative;
-        /* below: good on my comp */
-        /* filter: grayscale(100%) brightness(60%) sepia(100%) hue-rotate(-50deg) saturate(270%);      */
-        /* below: better without bluelight canceling? */
         filter: grayscale(100%) brightness(60%) sepia(100%) hue-rotate(-50deg)
           saturate(360%);
         opacity: 0.6;
         cursor: pointer;
-
-        /* filter: grayscale(100%) brightness(6%) sepia(100%) hue-rotate(-50deg) saturate(400%); */
-        /* filter: grayscale(100%) brightness(30%) sepia(100%) hue-rotate(-50deg) saturate(400%); 
-                opacity: .9;*/
         padding: 0.3vw;
       }
 
       .posters:hover {
         border: 0.3vw solid red;
-        /* box-shadow: 0px 0px 12px 3px red;  */
         filter: none;
         opacity: 1;
       }
@@ -44,8 +34,6 @@
         padding-right: 1vw;
         padding-left: 1vw;
         width: 18vw;
-        /* below: 7 days/page */
-        /* width: 12vw; */
         height: 98vh;
         /* below: w ads on bottom */
         /* height: 83vh;  */
@@ -62,10 +50,7 @@
       .more-info,
       .close,
       #about {
-        /* background-color: rgb(248, 107, 107); */
-        /* above is more pinkish */
         background-color: rgb(252, 83, 83);
-        /* above is maybe right for non-bluelight-canceling? */
         color: rgb(71, 0, 0);
         box-shadow: 0px 3px 12px 3px rgb(120, 0, 0);
         z-index: 10;
@@ -132,6 +117,11 @@
         position: fixed;
         left: 24vw;
         top: 12vh;
+     
+      }
+
+      .more-info {
+        white-space: pre-wrap;
       }
 
       .title {
@@ -166,14 +156,43 @@
       #about-click {
         cursor: pointer;
       }
+
+
+      @media only screen and (max-width: 750px) {
+                .more-info, #about {
+                    left: 3vw; 
+                    width: 92.3vw; 
+                }
+
+                body {
+                    font-size: 12.9px; 
+                    overflow-y: hidden;
+                    /* despite above, still issue where it scrolls all the way down  */
+                }
+
+                .notmobile{
+                    display: none; 
+                }
+
+                #menu {
+                    width: 98vw; 
+                    right: none; 
+                    left: 0; 
+                }
+
+                .poster-inline {
+                    width: 60vw; 
+                }
+
+
+                .column, .date {
+                  width: 30vw;
+                }
+            }
+
     </style>
   </head>
   <body>
-    <!-- not working: -->
-    <!-- <div id="scrollRight">→</div> -->
-
-    <!-- <div id="ads">We love our sponsors! Check them out ↓ ↓ ↓ ↓</div> -->
-
     <div id="menu">
       Welcome to Red Calendar. <br /><br />
 
@@ -183,7 +202,7 @@
         <% } else { %>
         <input type="checkbox"  id="<%=t.id%>" class="tag_checkboxes" name="categories" value="<%=t.tag_name%>" onchange="filterEventsByTag()">
         <% } %> 
-        <label for="<%=t.id%>"><%=t.tag_name%></label><br /><br />
+        <label for="<%=t.id%>"><%=t.tag_name%></label><br />
       <% }) %>
 
       <a href="/add">Add your public event (free).</a><br /><br />
@@ -193,17 +212,11 @@
 
     <div id="about">
       <u>About Red Calendar</u><br /><br />
-      [Description... A pocketknife is a knife with one or more blades that fold
-      into the handle. They are also known as jackknives, folding knives, EDC
-      knife, or may be referred to as a penknife, though a penknife may also be
-      a specific kind of pocketknife.[1][2] A typical blade length is 5 to 15
-      centimetres (2 to 6 in).[3]Pocketknives are versatile tools, and may be
-      used for anything from whittling and woodcarving, to butchering small
-      game, gutting and filleting small fish, aiding in the preparation of
-      tinder and kindling for fires, boring holes in soft material, to opening
-      an envelope, cutting twine, slicing fruits and vegetables or as a means of
-      self-defense.[4]Pocketknives may also be used in conjunction with other
-      tools and equipment for woodcraft and bushcraft.[5]]
+      Red Calendar is an arts and action calendar that helps NYC gather AFK without using social media. Managed by a team of lightly-paid editors, the calendar also exists to encourage cross-pollination amongst NYC’s often-siloed leftist/arts/culture communities. And anyone can add events for free, pending editor approval. <br /><br />
+
+      We are not politically neutral, and stand firmly in support of trans rights, immigrant rights, reproductive freedom, Palestine, environmental justice, etc. We are called Red Calendar because we wanted a color, and this was the shortest (and cheapest) url we could find that incorporated “calendar” and a color. <br /><br />
+      
+      Our team of editors includes: Jessica Hallock, Aristilde Kirby, Romke Hoogwaerts, Kira M, Theo Ellin Ballew, and **.       
     </div>
 
     <div class="container">
@@ -240,14 +253,8 @@
       async function showElement(id) {
         const p = new URLSearchParams({event_id: id})
         const eventContainer = document.getElementById('event-details-container')
-        // console.log(p)
         let eventId = id
-        // ad blocker issue?
-        // let fetchSingleEvent = await fetch('/event?' + p).then(response => response.text()).then(html => {
-        //     eventContainer.innerHTML = html
-        //     // console.log(html)
-        //     eventContainer.style.display = "block"
-        //   })
+  
         let fetchSingleEvent = await fetch('/single-event?' + p).then(response => response.text())
         eventContainer.innerHTML = fetchSingleEvent
 

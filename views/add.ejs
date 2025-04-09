@@ -56,6 +56,7 @@
       form {
         position: relative;
         background-color: rgb(253, 106, 106);
+        /* background-color: black;  */
         padding: 3vw;
         width: 45vw;
         left: 24.5vw;
@@ -95,23 +96,27 @@
       <div id="notes">
         All events will be reviewed by an editor before they are posted to the
         calendar (this could take a day or two!) <br /><br />
+** We don't care much about the formatting, and in fact welcome you to play with the formatting we've suggested (what is a desription?) Example of something we would accept: a poetry reading put on by high schoolers. Example of something we wouldn't accept: something at Knockdown Center. 
+
+**See about page for more info
+
         Before submitting your event, please check that it’s not already on the
-        calendar <3 If you notice an error in an event that’s already listed, email ***.
-        Please try to get it right the first time though – Red Cal editors need
+        calendar! If you notice an error in an event that’s already listed, email info@oral.pub.
+        Please try to get it right the first time though&mdash;Red Cal editors need
         to make these edits manually and it’s kind of a pain!<br /><br />
         You'll receive an email confirmation after submitting. 
       </div>
       <br />
-      <label for="name">Your name * </label>
-      <input type="text" id="name" name="name" required />
+      <label for="name">Your name</label>
+      <input type="text" id="name" name="name"  />
       <br /><br />
 
       <label for="email">Your email *</label><br />
       <input type="email" id="email" name="email" required />
       <br /><br />
 
-      <label for="your-url">A url where we can find you/your stuff (ie., personal webpage, social media account, etc.) *</label><br />
-      <input type="text" id="your-url" name="yourUrl" required />
+      <label for="your-url">A url where we can find you/your stuff (ie., personal webpage, social media account, etc.)</label><br />
+      <input type="text" id="your-url" name="yourUrl"/>
       <br /><br />
 
 
@@ -196,30 +201,7 @@
         <input type="checkbox" id="<%=t.id%>" name="categories" value="<%=t.tag_name%>">
         <label for="<%=t.id%>"><%=t.tag_name%></label><br />
       <% }) %>
-      <!-- <input type="checkbox" id="activism" name="categories" value="activism" />
-      <label for="activism">Activism/Mutual Aid</label><br />
-
-      <input type="checkbox" id="literary" name="categories" value="literary" />
-      <label for="literary">Literary/Readings</label><br />
-
-      <input type="checkbox" id="music" name="categories" value="music" />
-      <label for="music">Music/Sound</label><br />
-
-      <input
-        type="checkbox"
-        id="performance"
-        name="categories"
-        value="performance"
-      />
-      <label for="performance">Performance/Dance</label><br />
-
-      <input
-        type="checkbox"
-        id="rebel-code"
-        name="categories"
-        value="rebel-code"
-      />
-      <label for="rebel-code">Rebel Code/Artsy Tech</label><br /> -->
+     
 
       <p id="warning" style="border: 9px solid red; display: none">
         No more than 3 <3
@@ -228,8 +210,7 @@
 
 
       <label for="description"
-        >Description [optional] &mdash; include participants, accessibility notes, and anything
-        else!]:</label
+        >Description [optional] &mdash; accessibility, participants, etc.]:</label
       ><br />
       <textarea rows="3" id="description" name="description"></textarea>
       <br /><br />
@@ -260,6 +241,20 @@
 
       <a href="about.html">About.</a>
     </div>
+
+    <script>
+      // Get current date and time
+      const now = new Date();
+      
+      // Set the time to 7 PM (19:00)
+      now.setHours(19, 0, 0, 0); // 19:00:00.000
+    
+      // Format date to `YYYY-MM-DDTHH:MM` (datetime-local expected format)
+      const formattedDateTime = now.toISOString().slice(0, 16); 
+    
+      // Set the default value in the input field
+      document.getElementById("when").value = formattedDateTime;
+    </script>
 
     <script>
       function toggleCost(show) {
