@@ -23,10 +23,13 @@
           <% } else {%> 
               Link
           <%}%>
-        </a>  <br /><br />
+        </a> 
       <% }%>
-  
-      <span class="linebreaks"><%=description%></span>
+
+      <% if (description) { %>
+        <br /><br />
+        <span class="linebreaks"><%=description%></span>
+      <% } %>
       
       <p class="tags">tags: <%= tags %></p>
     </div>
