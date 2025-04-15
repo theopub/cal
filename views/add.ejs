@@ -98,17 +98,17 @@
     </style>
   </head>
   <body>
-    <form action="/upload" method="post" enctype="multipart/form-data" onsubmit="return checkDateChanged()">
+    <form action="/upload" method="post" enctype="multipart/form-data" onsubmit="return verify()" >
       <div id="title-add">Add an event to Red Calendar here:</div>
       <br />
       <div id="notes">
         All events will be reviewed by an editor before they are posted to the
         calendar (this could take a day or two!) <br /><br />
-** We don't care much about the formatting, and in fact welcome you to play with the formatting we've suggested (what is a desription?) Example of something we would accept: a poetry reading put on by high schoolers. Example of something we wouldn't accept: something at Knockdown Center. 
+        ** We don't care much about the formatting, and in fact welcome you to play with the formatting we've suggested (what is a desription?) Example of something we would accept: a poetry reading put on by high schoolers. Example of something we wouldn't accept: something at Knockdown Center. 
 
-**See about page for more info
+        **See about page for more info
 
-Strong preference for cheap events. 
+        Strong preference for cheap events. 
 
         Before submitting your event, please check that it’s not already on the
         calendar! If you notice an error in an event that’s already listed, email info@oral.pub.
@@ -274,7 +274,7 @@ Strong preference for cheap events.
       // Set the default value in the input field
       document.getElementById("when").value = formattedDateTime;
 
-      function checkDateChanged() {
+      function verify() {
         const currentValue = document.getElementById("when").value;
         if (currentValue === formattedDateTime) {
           alert("Hi! Looks like you forgot to update the date.");
