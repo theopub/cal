@@ -98,7 +98,7 @@
     </style>
   </head>
   <body>
-    <form action="/upload" method="post" enctype="multipart/form-data">
+    <form action="/upload" method="post" enctype="multipart/form-data" onsubmit="return checkDateChanged()">
       <div id="title-add">Add an event to Red Calendar here:</div>
       <br />
       <div id="notes">
@@ -131,8 +131,7 @@ Strong preference for cheap events.
 
 
       <label for="image"
-        >Event image/poster [accepts .jpg, .png, .gif. Height to width ratio
-        must be 4:3 or less. Please make sure your file is under 1MB.] *</label
+        >Event image/poster [JPG or PNG under 1MB.] *</label
       >
       <input
         type="file"
@@ -160,6 +159,7 @@ Strong preference for cheap events.
       <label for="cost">Cost *</label><br />
       <input type="text" id="cost" name="cost" required />
       <br /><br />
+
 
       <!-- <input
         type="radio"
@@ -196,13 +196,13 @@ Strong preference for cheap events.
       </div>
       <br /> -->
 
-      <label for="when">Date & Time *</label><br />
+      <label for="when">When *</label><br />
       <input type="datetime-local" id="when" name="when" required />
       <br /><br />
 
       <label for="where"
-        >Location * [Whatever you type here
-        will be included as-is! Please include the neighborhood/zone, ie. "Bed-Stuy" or "Chinatown."]</label
+        >Where/neighborhood * [Whatever you type here
+        will be included as-is! Include whatever information you want.]</label
       ><br />
       <textarea rows="3" id="where" name="where" required></textarea>
       <br /><br />
@@ -286,15 +286,26 @@ Strong preference for cheap events.
     <script>
       // Get current date and time
       const now = new Date();
+
+      now.setDate(now.getDate() - 1); //set to yesterday
       
       // Set the time to 7 PM (19:00)
-      now.setHours(16, 0, 0, 0); // 19:00:00.000
+      now.setHours(16, 0, 0, 0); 
     
       // Format date to `YYYY-MM-DDTHH:MM` (datetime-local expected format)
       const formattedDateTime = now.toISOString().slice(0, 16); 
     
       // Set the default value in the input field
       document.getElementById("when").value = formattedDateTime;
+
+      function checkDateChanged() {
+        const currentValue = document.getElementById("when").value;
+        if (currentValue === formattedDateTime) {
+          alert("Hi! Looks like you forgot to update the date.");
+          return false;
+        }
+        return true;
+      }
     </script>
 
     <script>

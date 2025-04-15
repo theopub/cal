@@ -7,10 +7,8 @@
       <span class="title"><%=name%></span><br /><br />
       <% let date = start_date.split('T') %>
 
-      <!-- <b>When:</b> <%=date[0]%> <%=date[1].substring(0,8)%><br /><br />
- -->
-
       <% const fullDateTime = new Date(`${date[0]}T${date[1]}`); %>
+
       <b>When:</b>
       <%= fullDateTime.toLocaleDateString('en-US', { weekday: 'short', month: 'short', day: 'numeric' }) %> at <%= fullDateTime.toLocaleTimeString('en-US', { hour: 'numeric', minute: '2-digit' }) %><br /><br />
  
@@ -26,9 +24,9 @@
           <% } else {%> 
               Link
           <%}%>
-        </a>
+        </a>  <br /><br />
       <% }%>
-      <br /><br />
+  
       <span class="linebreaks"><%=description%></span>
       <p class="tags">tags: <%= tags %></p>
     </div>
