@@ -10,8 +10,10 @@
       <!-- <b>When:</b> <%=date[0]%> <%=date[1].substring(0,8)%><br /><br />
  -->
 
+      <% const fullDateTime = new Date(`${date[0]}T${date[1]}`); %>
       <b>When:</b>
-      <%= new Date(date[0]).toLocaleDateString('en-US', { weekday: 'short', month: 'short', day: 'numeric' }) %> at <%= new Date(date[1]).toLocaleTimeString('en-US', { hour: 'numeric', minute: '2-digit' }) %><br /><br />
+      <%= fullDateTime.toLocaleDateString('en-US', { weekday: 'short', month: 'short', day: 'numeric' }) %> at <%= fullDateTime.toLocaleTimeString('en-US', { hour: 'numeric', minute: '2-digit' }) %><br /><br />
+ 
 
       <b>Where:</b> <span class="linebreaks"><%=location%></span><br /><br />
 
