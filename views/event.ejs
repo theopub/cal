@@ -11,7 +11,6 @@
 
       <b>When:</b>
       <%= fullDateTime.toLocaleDateString('en-US', { weekday: 'short', month: 'short', day: 'numeric' }) %> at <%= fullDateTime.toLocaleTimeString('en-US', { hour: 'numeric', minute: '2-digit' }) %><br /><br />
- 
 
       <b>Where:</b> <span class="linebreaks"><%=location%></span><br /><br />
 
@@ -24,10 +23,11 @@
           <% } else {%> 
               Link
           <%}%>
-        </a>  <br />
+        </a>  <br /><br />
       <% }%>
   
-      <span class="linebreaks"><%=description%><br /></span>
+      <span class="linebreaks"><%=description%></span>
+      
       <p class="tags">tags: <%= tags %></p>
     </div>
   </div>

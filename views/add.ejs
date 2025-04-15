@@ -155,60 +155,22 @@
       <br /><br />
 
 
-
       <label for="cost">Cost *</label><br />
       <input type="text" id="cost" name="cost" required />
       <br /><br />
 
-
-      <!-- <input
-        type="radio"
-        id="free"
-        name="event_cost"
-        value="free"
-        required
-        onclick="toggleCost(false)"
-      />
-
-      <label for="free">It's free or notaflof</label><br />
-
-      <input
-        type="radio"
-        id="not-free"
-        name="event_cost"
-        value="not-free"
-        required
-        onclick="toggleCost(true)"
-      />
-
-      <label for="not-free">You need to pay to enter</label><br />
-
-      <div id="cost-field">
-        <label for="cost">How much?</label>
-        <input
-          type="number"
-          id="cost"
-          name="cost"
-          min="0"
-          step="0.01"
-          placeholder="0.00"
-        /><br />
-      </div>
-      <br /> -->
 
       <label for="when">When *</label><br />
       <input type="datetime-local" id="when" name="when" required />
       <br /><br />
 
       <label for="where"
-        >Where/neighborhood * [Whatever you type here
-        will be included as-is! Include whatever information you want.]</label
+        >Where * [Include neighborhood/zone!]</label
       ><br />
       <textarea rows="3" id="where" name="where" required></textarea>
       <br /><br />
 
-      <label
-        >Which of the following describes your event (choose up to 3): *</label
+      <label>Categories (choose up to 3): *</label
       ><br />
 
       <% tags.forEach((t)=>{ %>
@@ -224,7 +186,7 @@
 
 
       <label for="description"
-        >Description [optional] &mdash; accessibility, participants, etc.]:</label
+        >Description [optional &mdash; accessibility notes, participants, etc.]:</label
       ><br />
       <textarea rows="3" id="description" name="description"></textarea>
       <br /><br />
@@ -238,7 +200,6 @@
       <input type="text" id="link" name="link" />
       <br /><br />
 
-      <br /><br />
       <div id="caution">
         Before submitting your event,
         <u><b>check everything twice or thrice!</b></u> Once you click submit,
@@ -260,35 +221,27 @@
     
 
     <script>
-      // Get current date and time
-      const now = new Date();
 
-      now.setDate(now.getDate() - 1); //set to yesterday
-      
-      // Set the time to 7 PM (19:00)
-      now.setHours(16, 0, 0, 0); 
-    
-      // Format date to `YYYY-MM-DDTHH:MM` (datetime-local expected format)
+      const now = new Date();   //get current date and time
+      now.setDate(now.getDate() - 1); //make it yesterday yesterday
+      now.setHours(16, 0, 0, 0); //make it 7pm
       const formattedDateTime = now.toISOString().slice(0, 16); 
-    
-      // Set the default value in the input field
-      document.getElementById("when").value = formattedDateTime;
+      document.getElementById("when").value = formattedDateTime;//set default time/date in form
 
       function verify() {
         const currentValue = document.getElementById("when").value;
+        const file = document.getElementById("image").files[0];
+
         if (currentValue === formattedDateTime) {
           alert("Hi! Looks like you forgot to update the date.");
           return false;
         }
-        return true;
-      }
-    </script>
 
-    <script>
-      function toggleCost(show) {
-        document.getElementById("cost-field").style.display = show
-          ? "block"
-          : "none";
+        if (file && file.size > 1048576) {
+          alert("Your img is bigger than 1MB! Please compress.");
+          return false;
+        }
+        return true;
       }
     </script>
 
