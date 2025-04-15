@@ -2,7 +2,7 @@ CREATE TABLE events(
     id INT NOT NULL AUTO_INCREMENT,
     name VARCHAR(255) NOT NULL,
     start_date DATETIME,
-    cost INT,
+    cost VARCHAR(255),
     location VARCHAR(255),
     description TEXT,
     owner_name VARCHAR(100) NOT NULL,
