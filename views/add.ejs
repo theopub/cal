@@ -117,8 +117,8 @@ Strong preference for cheap events.
         You'll receive an email confirmation after submitting. 
       </div>
       <br />
-      <label for="name">Your name</label>
-      <input type="text" id="name" name="name"  />
+      <label for="name">Your name *</label>
+      <input type="text" id="name" name="name" required />
       <br /><br />
 
       <label for="email">Your email *</label><br />
@@ -130,10 +130,6 @@ Strong preference for cheap events.
       <br /><br />
 
 
-      <label for="title">Event title *</label><br />
-      <input type="text" id="title" name="title" required />
-      <br /><br />
-
       <label for="image"
         >Event image/poster [accepts .jpg, .png, .gif. Height to width ratio
         must be 4:3 or less. Please make sure your file is under 1MB.] *</label
@@ -144,7 +140,7 @@ Strong preference for cheap events.
         name="image"
         accept="image/*"
         required
-        onchange="previewImage(event)"
+        onchange="previewImage(event)" required
       />
       <img
         id="preview"
@@ -154,9 +150,18 @@ Strong preference for cheap events.
       />
       <br /><br />
 
-      <label>Is your event free or notaflof? *</label><br />
 
-      <input
+      <label for="title">Event title *</label><br />
+      <input type="text" id="title" name="title" required />
+      <br /><br />
+
+
+
+      <label for="event_cost">Cost *</label><br />
+      <input type="text" id="event_cost" name="event_cost" required />
+      <br /><br />
+
+      <!-- <input
         type="radio"
         id="free"
         name="event_cost"
@@ -189,15 +194,15 @@ Strong preference for cheap events.
           placeholder="0.00"
         /><br />
       </div>
-      <br />
+      <br /> -->
 
       <label for="when">Date & Time *</label><br />
       <input type="datetime-local" id="when" name="when" required />
       <br /><br />
 
       <label for="where"
-        >Location * [Include venue name and/or address. Whatever you type here
-        will be included as-is!]</label
+        >Location * [Whatever you type here
+        will be included as-is! We strongly encourage explicitly stating the neighborhood/zone, ie. "Bed-Stuy" or "Chinatown."]</label
       ><br />
       <textarea rows="3" id="where" name="where" required></textarea>
       <br /><br />
