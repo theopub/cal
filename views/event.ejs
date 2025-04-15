@@ -3,11 +3,20 @@
       <div class="close" onclick="closeElement('<%=id%>')"> X
     </div>
       <img class="poster-inline" src="<%=image_url%>" />
+      
       <span class="title"><%=name%></span><br /><br />
       <% let date = start_date.split('T') %>
-      <b>When:</b> <%=date[0]%> <%=date[1].substring(0,8)%><br /><br />
+
+      <!-- <b>When:</b> <%=date[0]%> <%=date[1].substring(0,8)%><br /><br />
+ -->
+
+      <b>When:</b>
+      <%= new Date(date[0]).toLocaleDateString('en-US', { weekday: 'short', month: 'short', day: 'numeric' }) %> at <%= new Date(date[1]).toLocaleTimeString('en-US', { hour: 'numeric', minute: '2-digit' }) %><br /><br />
+
       <b>Where:</b> <span class="linebreaks"><%=location%></span><br /><br />
+
       <b>Cost:</b> <%=cost%><br /><br />
+
       <% if(event_url) { %>
         <a href="<%=event_url%>">
           <% if(event_url_text){ %>
@@ -15,8 +24,9 @@
           <% } else {%> 
               Link
           <%}%>
-        </a><br /><br />
+        </a>
       <% }%>
+      <br /><br />
       <span class="linebreaks"><%=description%></span>
       <p class="tags">tags: <%= tags %></p>
     </div>
