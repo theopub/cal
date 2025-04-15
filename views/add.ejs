@@ -125,7 +125,7 @@ Strong preference for cheap events.
       <input type="email" id="email" name="email" required />
       <br /><br />
 
-      <label for="your-url">A url where we can find you/your stuff (ie., personal webpage, social media account, etc.) [optional]</label><br />
+      <label for="your-url">A url for you/your stuff (personal webpage, social media, etc.) [optional]</label><br />
       <input type="text" id="your-url" name="yourUrl"/>
       <br /><br />
 
@@ -257,30 +257,6 @@ Strong preference for cheap events.
     </div>
 
 
-    <script>
-      function previewImage(event) {
-        const file = event.target.files[0];
-    
-        if (!file) return;
-    
-        // Check file size (1MB = 1,048,576 bytes)
-        if (file.size > 1048576) {
-          alert("This image is bigger than 1MB! Please upload an image under 1MB (online compression tools rock.)");
-          event.target.value = ""; // Clear the file input
-          document.getElementById("preview").style.display = "none"; // Hide preview
-          return;
-        }
-    
-        // ✅ Show preview if file size is okay
-        const reader = new FileReader();
-        reader.onload = function () {
-          const preview = document.getElementById("preview");
-          preview.src = reader.result;
-          preview.style.display = "block";
-        };
-        reader.readAsDataURL(file);
-      }
-    </script>
     
 
     <script>
