@@ -75,9 +75,7 @@
     <body>
         <table>
             <tr>
-                <th>contact name</th>
-                <th>contact email</th>
-                <th>contact url</th>
+                <th>contact</th>
                 <th>img</th>
                 <th>title</th>
                 <th>cost</th>
@@ -91,9 +89,7 @@
         
             <% e.forEach((event)=>{ %>
                 <tr>
-                    <td><%=event.owner_name %></td>
-                    <td>[email address]</td>
-                    <td>[their link]</td>
+                    <td><%=event.owner_name %>, [email], [url]</td>
                     <td><img class="poster-inline" src="<%= event.image_url%>"/></td>
                     <td><%=event.name %></td>
                     <td><%=event.cost %></td>
@@ -111,21 +107,22 @@
                               <%= event.event_url_text || "Link" %>
                             </a>
                           <% } %>
-                        <!-- <a href="<%=event.event_url%>">
-                            <% if(event.event_url_text){ %>
-                              <%= event.event_url_text %>
-                            <% } else {%> 
-                                Link
-                            <%}%>
-                          </a>  -->
+    
                     </td>
                  
-                    <td class="approve">
+                    <td>
                         <form method="GET" action="/approve">
                             <input type="hidden" name="id" value="<%=event.id%>">
                             <input type="submit" value="approve">
                         </form>
+                        <!-- <form method="POST" action="/remove">
+                            <input type="hidden" name="id" value="<%=event.id%>">
+                            <input type="submit" value="remove">
+                        </form> -->
                     </td>
+
+           
+               
                 </tr>
                 <% }) %>
 
