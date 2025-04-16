@@ -91,18 +91,22 @@
                     <td><%= event.tags %></td>
                     <td>
                         <% if (event.description) { %>
-                            <br /><br />
                             <span class="linebreaks"><%= event.description%></span>
                           <% } %>
                     </td>
                     <td>
-                        <a href="<%=event.event_url%>">
+                        <% if (event.event_url) { %>
+                            <a href="<%= event.event_url %>">
+                              <%= event.event_url_text || "Link" %>
+                            </a>
+                          <% } %>
+                        <!-- <a href="<%=event.event_url%>">
                             <% if(event.event_url_text){ %>
                               <%= event.event_url_text %>
                             <% } else {%> 
                                 Link
                             <%}%>
-                          </a> 
+                          </a>  -->
                     </td>
                  
                     <td class="approve">
@@ -112,6 +116,7 @@
                         </form>
                     </td>
                 </tr>
+                <% }) %>
 
                 </table>
     
