@@ -8,7 +8,6 @@
         font-family: Helvetica;
         background-color: rgb(101, 0, 0);
         font-size: 15px;
-        /* color: white;  */
       }
 
 
@@ -64,6 +63,61 @@
     </head>
     <body>
         <table>
+            <tr>
+                <th>contact name</th>
+                <th>contact email</th>
+                <th>contact url</th>
+                <th>img</th>
+                <th>title</th>
+                <th>cost</th>
+                <th>when</th>
+                <th>where</th>
+                <th>categories</th>
+                <th>described</th>
+                <th>link</th>
+                <th>actions</th>
+            </tr>
+        
+            <% e.forEach((event)=>{ %>
+                <tr>
+                    <td><%=event.owner_name %></td>
+                    <td>[email address]</td>
+                    <td>[their link]</td>
+                    <td><img class="poster-inline" src="<%= event.image_url%>"/></td>
+                    <td><%=event.name %></td>
+                    <td><%=event.cost %></td>
+                    <td><%=event.start_date %></td>
+                    <td><%=event.location %></td>
+                    <td><%= event.tags %></td>
+                    <td>
+                        <% if (event.description) { %>
+                            <br /><br />
+                            <span class="linebreaks"><%= event.description%></span>
+                          <% } %>
+                    </td>
+                    <td>
+                        <a href="<%=event.event_url%>">
+                            <% if(event.event_url_text){ %>
+                              <%= event.event_url_text %>
+                            <% } else {%> 
+                                Link
+                            <%}%>
+                          </a> 
+                    </td>
+                 
+                    <td class="approve">
+                        <form method="GET" action="/approve">
+                            <input type="hidden" name="id" value="<%=event.id%>">
+                            <input type="submit" value="approve">
+                        </form>
+                    </td>
+                </tr>
+
+                </table>
+    
+
+
+        <!-- <table>
         <thead class="column-headers">
             <th class="header event-title b">
                 <h1>event</h1>
@@ -114,7 +168,7 @@
                     </form>
                 </td>
             </tr>
-        <% }) %>
+        <% }) %> -->
 
 
         <div id="menu">
