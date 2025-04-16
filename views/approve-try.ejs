@@ -1,0 +1,143 @@
+<html>
+    <head>
+        <style>
+    body {
+        font-family: Helvetica;
+        background-color: rgb(101, 0, 0);
+        font-size: 15px;
+      }
+
+      .poster-inline {
+        width: 30vw;
+        float: left;
+        box-shadow: 0px 3px 3px 3px rgb(202, 0, 0);
+      }
+
+
+      a {
+        color: black;
+      }
+
+      #menu {
+        position: fixed;
+        bottom: 0;
+        padding: 2vw;
+        width: 210px;
+        right: 0;
+      }
+
+      .date,
+      #menu,
+      .more-info,
+      .close,
+      #about, table {
+        background-color: rgb(252, 83, 83);
+        color: rgb(71, 0, 0);
+        box-shadow: 0px 3px 12px 3px rgb(120, 0, 0);
+        z-index: 10;
+      }
+
+      @media only screen and (max-width: 750px) {
+                .more-info, #about {
+                    left: 3vw; 
+                    width: 92.3vw; 
+                }
+
+                .notmobile{
+                    display: none; 
+                }
+
+                #menu {
+                    width: 96vw; 
+                    right: none; 
+                    left: 0; 
+                }
+
+
+                .mobileonly {
+                  display: inline; 
+                }
+
+
+            }
+
+
+        </style>
+    </head>
+    <body>
+        <table>
+        <tr>
+            <th>contact name</th>
+            <th>contact email</th>
+            <th>contact url</th>
+            <th>img</th>
+            <th>title</th>
+            <th>cost</th>
+            <th>when</th>
+            <th>where</th>
+            <th>categories</th>
+            <th>described</th>
+            <th>link</th>
+            <th>actions</th>
+        </tr>
+        <tr>
+        <% e.forEach((event)=>{ %>
+                <td><%=event.owner_name %></td>
+                <td>[email address]</td>
+                <td>[their link]</td>
+                <td><img class="poster-inline" src="<%=image_url%>"/></td>
+                <td><%=event.name %></td>
+                <td><%=event.cost %></td>
+                <td><%=event.start_date %></td>
+                <td><%=event.location %></td>
+                <td><%= tags %></td>
+                <td>
+                    <% if (description) { %>
+                        <br /><br />
+                        <span class="linebreaks"><%=description%></span>
+                      <% } %>
+                </td>
+                <td>
+                    <% if(event_url) { %>
+                        <br /><br />
+                        <a href="<%=event_url%>">
+                          <% if(event_url_text){ %>
+                            <%= event_url_text %>
+                          <% } else {%> 
+                              Link
+                          <%}%>
+                        </a> 
+                      <% }%>
+                </td>
+             
+                <td class="approve">
+                    <form method="GET" action="/approve">
+                        <input type="hidden" name="id" value="<%=event.id%>">
+                        <input type="submit" value="approve">
+                    </form>
+                </td>
+
+
+
+                <!-- <td class="remove">
+                    <form method="GET" action="/remove">
+                        <input type="hidden" name="id" value="<%=event.id%>">
+                        <input type="submit" value="remove">
+                    </form>
+                </td> -->
+            </tr>
+        <% }) %>
+
+
+        <div id="menu">
+            <a href="/add">Add another event.</a>
+            <span class="notmobile"><br /><br /></span>
+            <span class="mobileonly">~~~</span>
+            <a href="/">Back to Calendar.</a>
+
+        </div>
+
+        </tbody>
+    </table>
+    </body>
+</html>
