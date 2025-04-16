@@ -10,6 +10,12 @@
         font-size: 15px;
       }
 
+      .poster-inline {
+        width: 30vw;
+        float: left;
+        box-shadow: 0px 3px 3px 3px rgb(202, 0, 0);
+      }
+
 
       a {
         color: black;
@@ -33,6 +39,10 @@
         box-shadow: 0px 3px 12px 3px rgb(120, 0, 0);
         z-index: 10;
       }
+
+      table, th, td {
+        border: 1px solid;
+        }
 
       @media only screen and (max-width: 750px) {
                 .more-info, #about {
@@ -88,7 +98,7 @@
                     <td><%=event.cost %></td>
                     <td><%=event.start_date %></td>
                     <td><%=event.location %></td>
-                    <td><%= event.tags %></td>
+                    <td><%=event.tags %></td>
                     <td>
                         <% if (event.description) { %>
                             <span class="linebreaks"><%= event.description%></span>
