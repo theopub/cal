@@ -1,9 +1,7 @@
 <html>
     <head>
-        <link href="approveStyle.css" rel="stylesheet">
 
         <style>
-
     body {
         font-family: Helvetica;
         background-color: rgb(101, 0, 0);
@@ -122,66 +120,13 @@
                     </td>
 
            
-               
+
                 </tr>
                 <% }) %>
 
                 </table>
     
 
-
-        <!-- <table>
-        <thead class="column-headers">
-            <th class="header event-title b">
-                <h1>event</h1>
-            </th>
-            <th class="header contact-title b">
-                <h1>contact</h1>
-            </th>
-            <th class="header cost b">
-                <h1>cost</h1>
-            </th>
-            <th class="header time b">
-                <h1>time</h1>
-            </th>
-            <th class="header loc b">
-                <h1>location</h1>
-            </th>
-            <th class="header categories b">
-                <h1>categories</h1>
-            </th>
-            <th class="header description b">
-                <h1>description (optional)</h1>
-            </th>
-            <th class="header url b">
-                <h1>event url</h1>
-            </th>
-            <th class="header custom-url b">
-                <h1>our url</h1>
-            </th>
-            <th class="header approve">
-            </th>
-        </thead>
-        <tbody>
-        <% e.forEach((event)=>{ %>
-            <tr class="row">
-                <td class="title b"><%=event.name %></td>
-                <td class="contac b"><%=event.owner_name %></td>
-                <td class="cost b"><%=event.cost %></td>
-                <td class="time b"><%=event.start_date %></td>
-                <td class="loc b"><%=event.location %></td>
-                <td class="categories b"></td>
-                <td class="description b"><%=event.description %></td>
-                <td class="url b"><%=event.event_url %></td>
-                <td class="custom-url b"></td>
-                <td class="approve">
-                    <form method="GET" action="/approve">
-                        <input type="hidden" name="id" value="<%=event.id%>">
-                        <input type="submit" value="approve">
-                    </form>
-                </td>
-            </tr>
-        <% }) %> -->
 
 
         <div id="menu">
