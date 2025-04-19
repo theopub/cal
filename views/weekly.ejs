@@ -228,7 +228,7 @@
     <div id="menu">
       <span class="notmobile">Welcome to Red Calendar. <br /><br /></span>
 
-      <span id="categories"></span>
+      <span id="categories">
       <% tags.forEach((t)=>{ %>
         <% if(t.checked) { %>
           <input type="checkbox" checked id="<%=t.id%>" class="tag_checkboxes" name="categories" value="<%=t.tag_name%>" onchange="filterEventsByTag()">
@@ -236,18 +236,18 @@
         <input type="checkbox"  id="<%=t.id%>" class="tag_checkboxes" name="categories" value="<%=t.tag_name%>" onchange="filterEventsByTag()">
         <% } %> 
         <label for="<%=t.id%>"><%=t.tag_name%></label>
-        <br /></span>
+        <br />
         <!-- <span class="mobileonly">~~~</span> -->
-      <% }) %>
+      <% }) %></span>
 
       <!-- <span class="mobileonly"><br /></span> -->
      <br /><a href="/add">Add your public event (free).</a>
       <span class="notmobile"><br /><br /></span>
       <span class="mobileonly">~~~</span>
 
-      <span id="about-click" onclick="showElement('about')"><u>About.</u></span>
+      <span id="about-click" onclick="showStaticElement('about')"><u>About.</u></span>
 
-      <span class="mobileonly" onclick="showElement('categories')">~~~ <u>Filter.</u></span>
+      <span class="mobileonly" onclick="showStaticElement('categories')">~~~ <u>Filter.</u></span>
     </div>
 
     <div id="about">
@@ -298,7 +298,7 @@ Middleware: Sam Heckle
     </div>
 
     <script>
-      function showElement(id) {
+      function showStaticElement(id) {
         document.getElementById(id).style.display = 'block';
       }
     </script>
