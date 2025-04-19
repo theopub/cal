@@ -176,7 +176,7 @@
                     /* despite above, still issue where it scrolls all the way down on android */
                 }
 
-                .notmobile{
+                .notmobile, #categories {
                     display: none; 
                 }
 
@@ -205,7 +205,7 @@
                 }
 
                 .column {
-                  height: 84vh; 
+                  height: 81vh; 
                 }
 
             }
@@ -228,6 +228,7 @@
     <div id="menu">
       <span class="notmobile">Welcome to Red Calendar. <br /><br /></span>
 
+      <span id="categories"></span>
       <% tags.forEach((t)=>{ %>
         <% if(t.checked) { %>
           <input type="checkbox" checked id="<%=t.id%>" class="tag_checkboxes" name="categories" value="<%=t.tag_name%>" onchange="filterEventsByTag()">
@@ -235,8 +236,8 @@
         <input type="checkbox"  id="<%=t.id%>" class="tag_checkboxes" name="categories" value="<%=t.tag_name%>" onchange="filterEventsByTag()">
         <% } %> 
         <label for="<%=t.id%>"><%=t.tag_name%></label>
-        <span class="notmobile"><br /></span>
-        <span class="mobileonly">~~~</span>
+        <br /></span>
+        <!-- <span class="mobileonly">~~~</span> -->
       <% }) %>
 
       <!-- <span class="mobileonly"><br /></span> -->
@@ -246,16 +247,35 @@
 
       <span id="about-click" onclick="showElement('about')"><u>About.</u></span>
 
-      <!-- <span class="mobileonly">~~~ <u>Filter.</u></span> -->
+      <span class="mobileonly" onclick="showElement('categories')">~~~ <u>Filter.</u></span>
     </div>
 
     <div id="about">
-      <u>About Red Calendar</u><br /><br />
-      Red Calendar is an arts and action calendar that helps NYC gather AFK without using social media. Managed by a team of lightly-paid editors, the calendar also exists to encourage cross-pollination amongst NYC’s often-siloed leftist/arts/culture communities. And anyone can add events for free, pending editor approval. <br /><br />
+      <b>About Red Calendar</b><br /><br />
+
+
+Red Calendar is an arts and action calendar that helps NYC gather AFK without big tech. The Calendar also encourages cross-pollination among NYC’s leftist/arts/culture communities. <br /><br />
+
+Anyone can add events for free, pending editor approval! <br /><br />
+
+We are big-tech-free – no Meta, no AWS, no GCal. We are called Red Calendar because we wanted a color, and this was the shortest (and cheapest) url we could find that incorporated “calendar” and a color.<br /><br />
+
+Red Calendar is managed by a team of editors: <br />
+Jessica Hallock<br />
+Aristilde Kirby<br />
+Romke Hoogwaerts<br />
+Kira M<br />
+Theo Ellin Ballew<br /><br />
+
+Backend development: Haider<br />
+Frontend development: Theo Ellin Ballew<br />
+Middleware: Sam Heckle
+
+      <!-- Red Calendar is an arts and action calendar that helps NYC gather AFK without using social media. Managed by a team of lightly-paid editors, the calendar also exists to encourage cross-pollination amongst NYC’s often-siloed leftist/arts/culture communities. And anyone can add events for free, pending editor approval. <br /><br />
 
       We are not politically neutral, and stand firmly in support of trans rights, immigrant rights, reproductive freedom, Palestine, environmental justice, etc. We are called Red Calendar because we wanted a color, and this was the shortest (and cheapest) url we could find that incorporated “calendar” and a color. <br /><br />
       
-      Our team of editors includes: Jessica Hallock, Aristilde Kirby, Romke Hoogwaerts, Kira M, Theo Ellin Ballew, and **.       
+      Our team of editors includes: Jessica Hallock, Aristilde Kirby, Romke Hoogwaerts, Kira M, Theo Ellin Ballew, and **.        -->
     </div>
 
     <div class="container">
@@ -276,7 +296,16 @@
 
       </div>
     </div>
+
     <script>
+      function showElement(id) {
+        document.getElementById(id).style.display = 'block';
+      }
+    </script>
+
+    <script>
+
+      
       let prevClick
       async function toggleElement(e, id){
         
