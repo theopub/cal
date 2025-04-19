@@ -125,13 +125,13 @@
       <input type="email" id="email" name="email" required />
       <br /><br />
 
-      <label for="your-url">A url for you/your stuff (personal webpage, social media, etc.) [optional]</label><br />
+      <label for="your-url">A url for you (personal webpage, social media, etc.) [optional]</label><br />
       <input type="text" id="your-url" name="yourUrl"/>
       <br /><br />
 
 
       <label for="image"
-        >Event image/poster [JPG or PNG under 1MB. Compress using "Export as" function or <a href="https://cloudconvert.com/compress-jpg">here</a>.] *</label
+        >Event image/poster [JPG or PNG under 1MB.] *</label
       >
       <input
         type="file"
@@ -141,12 +141,14 @@
         required
         onchange="previewImage(event)" required
       />
+      
       <img
         id="preview"
         src=""
         alt="Image Preview"
         style="display: none; width: 100%; height: auto"
       />
+      Compress using "Export as" function or <a href="https://cloudconvert.com/compress-jpg">here</a>.
       <br /><br />
 
 
