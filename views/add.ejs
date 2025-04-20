@@ -200,7 +200,8 @@
       <label for="description"
         >Description [optional &mdash; incl. accessibility notes, age limit, participants, etc.]:</label
       ><br />
-      <textarea rows="3" id="description" name="description"></textarea>
+      <textarea rows="3" id="description" name="description" maxlength="1200"></textarea>
+      <div id="charCount">1200 characters left</div>
       <br /><br />
 
 
@@ -231,7 +232,16 @@
 
 
     
-
+    <script>
+      document.getElementById("description").addEventListener("input", function () {
+        let maxLength = this.getAttribute("maxlength");
+        let currentLength = this.value.length;
+        let remaining = maxLength - currentLength;
+        
+        document.getElementById("charCount").textContent = remaining + " characters remaining";
+      });
+    </script>
+    
     <script>
 
       const now = new Date();   //get current date and time

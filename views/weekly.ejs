@@ -65,6 +65,12 @@
         z-index: 10;
       }
 
+      .date, #menu, .close {
+        user-select: none;
+        -webkit-user-select: none; 
+        -ms-user-select: none; 
+      }
+
       .date {
         position: absolute;
         /* top: 45px; */
@@ -143,21 +149,17 @@
       }
 
       .close {
-        /* color: rgb(193, 3, 3); 
-                background-color: rgb(108, 0, 0);  */
         border-radius: 50%;
         position: absolute;
         top: 0vw;
         right: 0vw;
-        /* top: -4.5vw;
-                right: -3.3vw; */
         cursor: pointer;
         font-size: 21px; 
       }
 
       .close:hover {
         color: rgb(166, 1, 1);
-        box-shadow: 0px 3px 12px 9px red; 
+        box-shadow: 0px 3px 12px 9px rgb(166, 1, 1); 
       }
 
       #about-click {
@@ -299,7 +301,7 @@
       <b><span id="about-title">About Red Calendar</span></b><br /><br />
       Red Calendar is an arts and action calendar that helps NYC gather without big tech middlemen. Managed by a team of editors, the Calendar also encourages cross-pollination among NYC’s leftist/arts/culture communities. Anyone can add events for free, pending editor approval! <br /><br />
 
-      Red Calendar is big-tech-free&mdash;no Meta, no AWS, no GCal. The events on each day shuffle their order every time you refresh. We are called Red Calendar because we wanted a color, and this was the shortest (and cheapest) url we could find that incorporated “calendar” and a color.
+      Red Calendar is big-tech-free&mdash;no Meta, no AWS, no GCal. Each day's events reorder when you refresh. We are called Red Calendar because we wanted a color, and this was the shortest (and cheapest) url we could find that incorporated “calendar” and a color.
       <br /><br />
 Editors: <br />
 <a href="https://nyc-noise.com/">JH</a> <br />
