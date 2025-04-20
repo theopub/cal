@@ -248,6 +248,12 @@
       }
     </script> -->
 
+
+
+
+
+
+
     <div id="menu">
       <span class="notmobile">Welcome to Red Calendar. <br /><br /></span>
 
@@ -260,17 +266,32 @@
         <% } %> 
         <label for="<%=t.id%>"><%=t.tag_name%></label>
         <br /> 
-      <% }) %></span>
+      <% }) %>     <br /> </span>
+
 
     <div id="mobileclickers">
-   <a href="/add">Add your event (free).</a>
-      <span class="notmobile"><br /><br /></span>
-      <span class="mobileonly">~~~</span>
 
-      <span id="about-click" onclick="toggleGuys('about')"><u>About.</u></span>
+      <span class="notmobile">
+      <a href="/add">Add your event (free).</a>
+      <br /><br /></span>
+
+
+      <span id="about-click" onclick="toggleGuys('about')"><u>
+        About.</u></span>
+
+
+      <span class="mobileonly">~~~
+        <a href="/add">Add your event (free).</a>
+
+      </span>
 
       <span class="mobileonly" onclick="toggleGuys('categories')">~~~ <u>Filter.</u></span>
     </div>
+
+
+
+    
+
     </div>
 
     <div id="about">
