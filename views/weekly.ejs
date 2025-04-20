@@ -1,12 +1,15 @@
 <html>
   <head>
     <title>Red Calendar</title>
+    <meta name="description" content="Red Calendar is an arts and action calendar that helps NYC gather without big tech middlemen.">
+    
+    <link rel="icon" type="image/x-icon" href="cal.ico">
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
 
     <style>
       body {
-        font-family: Helvetica;
+        font-family: Helvetica, sans-serif; 
         background-color: rgb(101, 0, 0);
         font-size: 15px;
       }
@@ -245,9 +248,9 @@
       <span class="notmobile"><br /><br /></span>
       <span class="mobileonly">~~~</span>
 
-      <span id="about-click" onclick="toggleElement('about')"><u>About.</u></span>
+      <span id="about-click" onclick="toggleGuys('about')"><u>About.</u></span>
 
-      <span class="mobileonly" onclick="toggleElement('categories')">~~~ <u>Filter.</u></span>
+      <span class="mobileonly" onclick="toggleGuys('categories')">~~~ <u>Filter.</u></span>
     </div>
 
     <div id="about">
@@ -298,11 +301,28 @@ Middleware: Sam Heckle
     </div>
 
     <script>
-      function toggleElement(id) {
-        const el = document.getElementById(id);
-        el.style.display = (el.style.display === 'block') ? 'none' : 'block';
-      }
-    </script>
+      function toggleGuys(id) {
+              const element = document.getElementById(id);
+
+              if (!element) return; // Safety check
+
+              // If the clicked element is already visible, hide it
+              if (element.style.display === "block") {
+                  element.style.display = "none";
+                  history.pushState(null, "", "?"); // Reset URL
+              } else {
+                  // Hide all other elements
+                  document.querySelectorAll('.more-info').forEach(el => el.style.display = "none");
+
+                  // Show the selected element
+                  element.style.display = "block";
+                  history.pushState(null, "", "?event=" + id);
+              }
+          }
+  
+      // Check URL on page load and show the correct element
+
+  </script>
 
     <script>
 
@@ -368,6 +388,7 @@ Middleware: Sam Heckle
     }
 
       // Check URL on page load and show the correct element
+
       window.onload = function () {
         // check url 
         const params = new URLSearchParams(window.location.search);
