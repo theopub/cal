@@ -3,7 +3,7 @@
     <title>Red Calendar</title>
     <meta name="description" content="Red Calendar is an arts and action calendar that helps NYC gather without big tech middlemen.">
     
-    <link rel="icon" type="image/x-icon" href="cal.ico">
+    <link rel="icon" type="image/x-icon" href="/cal.ico">
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
 
@@ -170,6 +170,10 @@
         display: inline; 
       }
 
+      #about-title {
+        text-align: center; 
+      }
+
 
       @media only screen and (max-width: 750px) {
                 .more-info, #about {
@@ -258,7 +262,7 @@
     </div>
 
     <div id="about">
-      <b>About Red Calendar</b><br /><br />
+      <b><span id="about-title">About Red Calendar</span></b><br /><br />
       Red Calendar is an arts and action calendar that helps NYC gather without big tech middlemen. Managed by a team of editors, the Calendar also encourages cross-pollination among NYC’s leftist/arts/culture communities. Anyone can add events for free, pending editor approval! <br /><br />
 
       Red Calendar is big-tech-free – no Meta, no AWS, no GCal. We are called Red Calendar because we wanted a color, and this was the shortest (and cheapest) url we could find that incorporated “calendar” and a color.
@@ -271,7 +275,7 @@ Kira M<br />
 <a href="https://theo.land/">Theo Ellin Ballew</a><br /><br />
 
 Backend development: Haider<br />
-Frontend development: <a href="https://theo.land/">Theo Ellin Ballew</a><br />
+Direction and frontend development: <a href="https://theo.land/">Theo Ellin Ballew</a><br />
 Middleware: <a href="https://samheckle.com/">Sam Heckle</a>
 
     </div>
@@ -388,6 +392,11 @@ Middleware: <a href="https://samheckle.com/">Sam Heckle</a>
         // check url 
         const params = new URLSearchParams(window.location.search);
         const visibleElement = params.get("event");
+
+        if (visibleElement === "about") {
+          document.getElementById("about").style.display = "block";
+          return;
+        }
 
         if (visibleElement) {
           showElement(visibleElement);
