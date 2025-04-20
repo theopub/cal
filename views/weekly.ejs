@@ -202,7 +202,11 @@
                     width: 96vw; 
                     right: none; 
                     left: 0; 
-                    text-align: center; 
+                 
+                }
+
+                #mobileclickers {
+                  text-align: center; 
                 }
 
                 .poster-inline {
@@ -258,7 +262,7 @@
         <br />  <br />
       <% }) %></span>
 
-    
+    <div id="mobileclickers">
    <a href="/add">Add your event (free).</a>
       <span class="notmobile"><br /><br /></span>
       <span class="mobileonly">~~~</span>
@@ -266,6 +270,7 @@
       <span id="about-click" onclick="toggleGuys('about')"><u>About.</u></span>
 
       <span class="mobileonly" onclick="toggleGuys('categories')">~~~ <u>Filter.</u></span>
+    </div>
     </div>
 
     <div id="about">
