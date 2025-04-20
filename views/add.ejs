@@ -163,12 +163,12 @@
 
 
       <label for="title">Event title *</label><br />
-      <input type="text" id="title" name="title" required />
+      <input type="text" id="title" name="title" maxlength="300" required />
       <br /><br />
 
 
       <label for="cost">Cost *</label><br />
-      <input type="text" id="cost" name="cost" required />
+      <input type="text" id="cost" name="cost" maxlength="300" required />
       <br /><br />
 
 
@@ -179,7 +179,7 @@
       <label for="where"
         >Where * [include neighborhood]</label
       ><br />
-      <textarea rows="3" id="where" name="where" required></textarea>
+      <textarea rows="3" id="where" name="where" maxlength="300" required></textarea>
       <br /><br />
 
       <label>Categories (choose up to 3): *</label
@@ -210,13 +210,13 @@
       <br /><br />
 
       <label for="link">Link text for above url [optional] &mdash; eg. "Buy tickets!" or "RSVP here" or "Link to venue <3"</label>
-      <input type="text" id="link" name="link" />
+      <input type="text" id="link" name="link" maxlength="300"/>
       <br /><br />
 
       <div id="caution">
         Before submitting your event,
         <u><b>check everything twice or thrice!</b></u> Once you click submit,
-        any edits will have to be done manually by a Red Cal editor. You <b><u>won’t receive email</b> </u>confirmation when you upload an event (but that feature is coming soon!)
+        any edits will have to be done manually by a Red Cal editor. You <b><u>won’t receive an email</b> </u>confirmation when you upload an event (but that feature is coming soon!)
       </div>
       <br />
       <button type="submit">Submit and return to Calendar</button>
@@ -241,7 +241,7 @@
         document.getElementById("charCount").textContent = remaining + " characters remaining";
       });
     </script>
-    
+
     <script>
 
       const now = new Date();   //get current date and time
