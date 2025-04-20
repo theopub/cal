@@ -290,13 +290,24 @@ Middleware: <a href="https://samheckle.com/">Sam Heckle</a>
       <% Object.entries(events).forEach(([day, event])=>{ %>
           <div class="column">
             <div id="<%= day.substring(5) %>" class="date"><%= day %> <%= event.start_date %></div>
-            <% event.forEach((d)=>{ %> 
+            <%
+            const shuffled = [...event].sort(() => 0.5 - Math.random());
+            shuffled.forEach((d) => {
+          %>
+            <img
+              class="posters"
+              src="<%= d.image_url %>"
+              onclick="toggleElement(this, '<%= d.id %>')"
+            />
+          <% }) %>
+
+            <!-- <% event.forEach((d)=>{ %> 
                     <img
                     class="posters"
                     src="<%=d.image_url%>"
                     onclick="toggleElement(this, '<%=d.id%>')"
                     />
-                <% }) %> 
+                <% }) %>  -->
           </div>
       <% }) %> 
     
