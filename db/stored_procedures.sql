@@ -10,7 +10,7 @@ BEGIN
     FROM events e
     LEFT JOIN event_tags et ON e.id = et.event_id
     WHERE e.approved = TRUE
-    AND e.start_date BETWEEN input_date AND DATE_ADD(input_date, INTERVAL 30 DAY)
+    AND e.start_date BETWEEN input_date AND DATE_ADD(input_date, INTERVAL 14 DAY)
     GROUP BY e.id, e.start_date, e.image_url
     ORDER BY e.start_date ASC;
 END$$
