@@ -192,6 +192,15 @@ export const executeWriteEvent = async (event) => {
     }
 };
 
+export const executeDeleteEvent = async (eventId) => {
+    try {
+        await pool.query('DELETE FROM events WHERE id = ?', [eventId]);
+        console.log('Event deleted successfully');
+    } catch (error) {
+        console.error('Error executing executeDeleteEvent query:', error);
+        throw error;
+    }
+};
 export const endPoolConnection = async () => {
     try {
         await pool.end();
