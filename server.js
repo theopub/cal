@@ -101,7 +101,6 @@ app.post("/upload", upload.single("image"), async (req, res) => {
     description: req.body.description,
     ownerName: req.body.name,
     ownerUrl: req.body.yourUrl,
-    // email: req.body.email,
     email: req.body.email, // Unique identifier for test events
     eventUrl: req.body.urlurl,
     eventUrlText: req.body.link,
