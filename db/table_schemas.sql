@@ -12,7 +12,7 @@ CREATE TABLE events(
     event_url_text VARCHAR(512),
     image_url VARCHAR(512),
     created_at DATETIME DEFAULT CURRENT_TIMESTAMP,
-    approved BOOLEAN DEFAULT FALSE,
+    approved TINYINT DEFAULT 0,
     PRIMARY KEY (id)
 ) CHARACTER SET 'utf8mb4' COLLATE 'utf8mb4_0900_ai_ci';
 

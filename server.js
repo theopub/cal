@@ -9,7 +9,8 @@ import { executeWriteEvent,
   executeGetEventDetails,
   executeGetTags,
   executeGetEventsPendingApproval,
-  executeApproveEvents } from "./handlers/execute-db-queries.js";
+  executeApproveEvents,
+  executeRejectEvents } from "./handlers/execute-db-queries.js";
 import {
   groupEventsByDayPlusDate,
   createCalendar,
@@ -160,6 +161,7 @@ app.get("/single-event", async (req, res) => {
 
 app.get('/awaiting', async (req, res)=>{
   
+  // get all future events
   const events = await executeGetEventsPendingApproval()
 
   res.render("approve.ejs", {e: events})
@@ -176,6 +178,13 @@ app.get('/approve', async (req, res)=>{
   const eConvert = [req.query.id]
 
   const events = await executeApproveEvents(eConvert)
+  res.redirect('/awaiting')
+})
+
+app.get('/reject', async (req, res)=>{
+  const eConvert = [req.query.id]
+
+  const events = await executeRejectEvents(eConvert)
   res.redirect('/awaiting')
 })
 

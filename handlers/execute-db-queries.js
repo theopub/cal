@@ -192,12 +192,12 @@ export const executeWriteEvent = async (event) => {
     }
 };
 
-export const executeDeleteEvent = async (eventId) => {
+export const executeRejectEvents = async (eventIds) => {
     try {
-        await pool.query('DELETE FROM events WHERE id = ?', [eventId]);
-        console.log('Event deleted successfully');
+        await pool.query('UPDATE events SET approved = -1 WHERE id IN (?)', [ eventIds ]);
+        console.log('Events unapproved');
     } catch (error) {
-        console.error('Error executing executeDeleteEvent query:', error);
+        console.error('Error executing executeUnApproveEvents query:', error);
         throw error;
     }
 };
