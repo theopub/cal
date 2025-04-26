@@ -63,16 +63,16 @@ export const executeApproveEvents = async (eventIds) => {
     }
 }
 
-export const executeGetEventsPendingApproval = async () => {
+export const executeGetFutureEvents = async () => {
     try {
-        const [ events ] = await pool.query('SELECT * FROM events WHERE approved = 0');
+        const [ events ] = await pool.query('SELECT * FROM events WHERE approved >= 0 AND DATE(start_date) >= CURDATE()');
         for (const event of events) {
             event.start_date = formatDateTime(event.start_date);
         }
         console.log('Events:', events);
         return events;
     } catch (error) {
-        console.error('Error executing executeGetEventsPendingApproval query:', error);
+        console.error('Error executing executeGetFutureEvents query:', error);
         throw error;
     }
 }

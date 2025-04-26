@@ -8,7 +8,7 @@ import { executeWriteEvent,
   executeGetEventsToDisplay,
   executeGetEventDetails,
   executeGetTags,
-  executeGetEventsPendingApproval,
+  executeGetFutureEvents,
   executeApproveEvents,
   executeRejectEvents } from "./handlers/execute-db-queries.js";
 import {
@@ -121,7 +121,6 @@ app.get("/", async (req, res) => {
   const tagList = await executeGetTags()
   tagList.forEach((t)=> t.checked = true)
 
-  // You can now use the populatedCalendar object to display events today,  and 30 days in advance
   res.render('weekly.ejs', {events: populatedCalendar, tags: tagList});
 });
 
@@ -149,20 +148,17 @@ app.get('/filtered-weekly', async (req, res)=>{
   const calendar = createCalendar(date);
   const populatedCalendar = groupEventsByDayPlusDate(calendar)(filterEventsbyTags(filteringTagIds)(eventsToDisplay));
 
-  // You can now use the populatedCalendar object to display events today, and 30 days in advance
   res.render('weekly.ejs', {events: populatedCalendar, tags: tagList});
 })
 
 app.get("/single-event", async (req, res) => {
   const event = await executeGetEventDetails(req.query.event_id);
-  // console.log(event)
   res.render('event.ejs', event)
 });
 
 app.get('/awaiting', async (req, res)=>{
   
-  // get all future events
-  const events = await executeGetEventsPendingApproval()
+  const events = await executeGetFutureEvents()
 
   res.render("approve.ejs", {e: events})
 })
