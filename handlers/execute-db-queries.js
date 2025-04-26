@@ -9,6 +9,8 @@ import {
     join,
     prop,
     sortBy,
+    sortWith,
+    descend,
 } from 'ramda';
 import { formatDateTime } from '../utilities/dates.js';
 
@@ -70,6 +72,7 @@ export const executeGetFutureApprovedEvents = async () => {
             event.start_date = formatDateTime(event.start_date);
         }
         console.log('Events:', events);
+        // just use normal sorting
         return events;
     } catch (error) {
         console.error('Error executing executeGetFutureEvents query:', error);
