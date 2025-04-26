@@ -54,11 +54,25 @@
         border: 1px solid;
         }
 
-        #approve-css {
+        .approve-css {
+            all: unset;
             box-shadow: 0px 3px 3px 3px rgb(202, 0, 0);
             font-size: 45px; 
-            background-color: yellow; 
+            height: 6vh; 
+            border-radius: 50%; 
+            color: white; 
+            text-shadow:1px 1px 6px 3px rgb(101, 0, 0); 
+            background-color: rgb(255, 0, 230); 
         }
+
+        .reject-css {
+            all: unset;
+            box-shadow: 0px 3px 3px 3px rgb(202, 0, 0);
+            font-size: 6px; 
+            background-color:white; 
+
+        }
+
 
       @media only screen and (max-width: 750px) {
                 .more-info, #about {
@@ -102,7 +116,7 @@
                 <th>actions</th>
             </tr>
         
-            <% pendingEvents.forEach((event)=>{ %>
+            <% e.forEach((event)=>{ %>
                 <tr>
                     <td><%=event.owner_name %>, [email], [url]</td>
                     <td><img class="poster-inline" src="<%= event.image_url%>"/></td>
@@ -128,63 +142,47 @@
                     <td>
                         <form method="GET" action="/approve">
                             <input type="hidden" name="id" value="<%=event.id%>">
-                            <span id="approve-css"><input type="submit" value="approve"></span>
+                            <input class="approve-css" type="submit" value="approve">
                         </form>
 
-                        <form method="GET" action="/reject">
+                        <form method="GET" action="/reject" onsubmit="return doubleConfirm()">
                             <input type="hidden" name="id" value="<%=event.id%>">
-                            <input type="submit" value="reject">
+                            <input class="reject-css" type="submit" value="reject">
                         </form>
-<<<<<<< HEAD
-=======
         
->>>>>>> 97932e5 (approve css)
                     </td>
+
+           
+
                 </tr>
                 <% }) %>
 
-                <% approvedEvents.forEach((event)=>{ %>
-                <tr>
-                    <td><%=event.owner_name %>, [email], [url]</td>
-                    <td><img class="poster-inline" src="<%= event.image_url%>"/></td>
-                    <td><%=event.name %></td>
-                    <td><%=event.cost %></td>
-                    <td><%=event.start_date %></td>
-                    <td><%=event.location %></td>
-                    <td><%=event.tags %></td>
-                    <td>
-                        <% if (event.description) { %>
-                            <span class="linebreaks"><%= event.description%></span>
-                          <% } %>
-                    </td>
-                    <td>
-                        <% if (event.event_url) { %>
-                            <a href="<%= event.event_url %>">
-                              <%= event.event_url_text || "Link" %>
-                            </a>
-                          <% } %>
+                </table>
     
-                    </td>
-                 
-                    <td>
-                        <form method="GET" action="/reject">
-                            <input type="hidden" name="id" value="<%=event.id%>">
-                            <input type="submit" value="reject">
-                        </form>
-                    </td>
-                </tr>
-                <% }) %>
-        </table>
 
         <div id="menu">
             <a href="/add">Add another event.</a>
             <span class="notmobile"><br /><br /></span>
             <span class="mobileonly">~~~</span>
             <a href="/">Back to Calendar.</a>
+
         </div>
+
+
+<script>
+    function doubleConfirm() {
+      if (confirm('Are you sure you want to reject this event? It will disappear BOTH from the Calendar and from this editor-facing page. [NOTE: It will remain in the database.]')) {
+        return confirm('Press OK once more to confirm that you mean to delete this event permanently.');
+      } else {
+        return false;
+      }
+    }
+    </script>
 
         <script>
             alert("Hello! Haider and I are working on this right now -- please don't do anything on this page till this alert is gone, thanks! -Theo");
-        </script>
+          </script>
+        </tbody>
+    </table>
     </body>
 </html>
