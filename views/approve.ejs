@@ -96,7 +96,7 @@
                 <th>actions</th>
             </tr>
         
-            <% e.forEach((event)=>{ %>
+            <% pendingEvents.forEach((event)=>{ %>
                 <tr>
                     <td><%=event.owner_name %>, [email], [url]</td>
                     <td><img class="poster-inline" src="<%= event.image_url%>"/></td>
@@ -128,32 +128,52 @@
                             <input type="hidden" name="id" value="<%=event.id%>">
                             <input type="submit" value="reject">
                         </form>
-                        <!-- <form method="POST" action="/remove">
-                            <input type="hidden" name="id" value="<%=event.id%>">
-                            <input type="submit" value="remove">
-                        </form> -->
                     </td>
-
-           
-
                 </tr>
                 <% }) %>
 
-                </table>
+                <% approvedEvents.forEach((event)=>{ %>
+                <tr>
+                    <td><%=event.owner_name %>, [email], [url]</td>
+                    <td><img class="poster-inline" src="<%= event.image_url%>"/></td>
+                    <td><%=event.name %></td>
+                    <td><%=event.cost %></td>
+                    <td><%=event.start_date %></td>
+                    <td><%=event.location %></td>
+                    <td><%=event.tags %></td>
+                    <td>
+                        <% if (event.description) { %>
+                            <span class="linebreaks"><%= event.description%></span>
+                          <% } %>
+                    </td>
+                    <td>
+                        <% if (event.event_url) { %>
+                            <a href="<%= event.event_url %>">
+                              <%= event.event_url_text || "Link" %>
+                            </a>
+                          <% } %>
     
+                    </td>
+                 
+                    <td>
+                        <form method="GET" action="/reject">
+                            <input type="hidden" name="id" value="<%=event.id%>">
+                            <input type="submit" value="reject">
+                        </form>
+                    </td>
+                </tr>
+                <% }) %>
+        </table>
 
         <div id="menu">
             <a href="/add">Add another event.</a>
             <span class="notmobile"><br /><br /></span>
             <span class="mobileonly">~~~</span>
             <a href="/">Back to Calendar.</a>
-
         </div>
 
         <script>
             alert("Hello! Haider and I are working on this right now -- please don't do anything on this page till this alert is gone, thanks! -Theo");
-          </script>
-        </tbody>
-    </table>
+        </script>
     </body>
 </html>

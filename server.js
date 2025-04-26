@@ -8,7 +8,8 @@ import { executeWriteEvent,
   executeGetEventsToDisplay,
   executeGetEventDetails,
   executeGetTags,
-  executeGetFutureEvents,
+  executeGetFuturePendingApprovalEvents,
+  executeGetFutureApprovedEvents,
   executeApproveEvents,
   executeRejectEvents } from "./handlers/execute-db-queries.js";
 import {
@@ -158,9 +159,10 @@ app.get("/single-event", async (req, res) => {
 
 app.get('/awaiting', async (req, res)=>{
   
-  const events = await executeGetFutureEvents()
+  const pendingEvents = await executeGetFuturePendingApprovalEvents();
+  const approvedEvents = await executeGetFutureApprovedEvents();
 
-  res.render("approve.ejs", {e: events})
+  res.render("approve.ejs", {pendingEvents: pendingEvents, approvedEvents: approvedEvents})
 })
 
 app.get('/add', async (req, res)=>{
