@@ -72,8 +72,7 @@ export const executeGetFutureApprovedEvents = async () => {
             event.start_date = formatDateTime(event.start_date);
         }
         console.log('Events:', events);
-        // just use normal sorting
-        return events;
+        return sortWith([descend(prop('created_at'))])(events);
     } catch (error) {
         console.error('Error executing executeGetFutureEvents query:', error);
         throw error;
@@ -87,7 +86,7 @@ export const executeGetFuturePendingApprovalEvents = async () => {
             event.start_date = formatDateTime(event.start_date);
         }
         console.log('Events:', events);
-        return events;
+        return sortWith([descend(prop('created_at'))])(events);
     } catch (error) {
         console.error('Error executing executeGetFutureEvents query:', error);
         throw error;
