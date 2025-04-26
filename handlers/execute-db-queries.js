@@ -9,6 +9,8 @@ import {
     join,
     prop,
     sortBy,
+    descend,
+    sortWith,
 } from 'ramda';
 import { formatDateTime } from '../utilities/dates.js';
 
@@ -70,7 +72,8 @@ export const executeGetFutureApprovedEvents = async () => {
             event.start_date = formatDateTime(event.start_date);
         }
         console.log('Events:', events);
-        return sortBy(prop('created_at'))(events);
+        return sortWith([descend(prop('start_date'))])(events);
+        // return sortWith([descend(prop('created_at'))])(events);
     } catch (error) {
         console.error('Error executing executeGetFutureEvents query:', error);
         throw error;
@@ -84,7 +87,8 @@ export const executeGetFuturePendingApprovalEvents = async () => {
             event.start_date = formatDateTime(event.start_date);
         }
         console.log('Events:', events);
-        return sortBy(prop('created_at'))(events);
+        return sortWith([descend(prop('start_date'))])(events);
+        // return sortWith([descend(prop('created_at'))])(events);
     } catch (error) {
         console.error('Error executing executeGetFutureEvents query:', error);
         throw error;
@@ -162,11 +166,10 @@ export const executeWriteEvent = async (event) => {
             'event_url',
             'event_url_text',
             'image_url',
-            'created_at',
             'approved',
         ];
         const [insertEventResult] = await connection.query(
-            `INSERT INTO events (${join(', ', fields)}) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)`,
+            `INSERT INTO events (${join(', ', fields)}) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)`,
             [
                 event.title,
                 event.startDate,
@@ -179,7 +182,6 @@ export const executeWriteEvent = async (event) => {
                 event.eventUrl,
                 event.eventUrlText,
                 event.imageUrl,
-                event.created,
                 event.approved,
             ]);
         const eventId = insertEventResult.insertId;
