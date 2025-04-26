@@ -54,6 +54,12 @@
         border: 1px solid;
         }
 
+        #approve-css {
+            box-shadow: 0px 3px 3px 3px rgb(202, 0, 0);
+            font-size: 45px; 
+            background-color: yellow; 
+        }
+
       @media only screen and (max-width: 750px) {
                 .more-info, #about {
                     left: 3vw; 
@@ -122,12 +128,17 @@
                     <td>
                         <form method="GET" action="/approve">
                             <input type="hidden" name="id" value="<%=event.id%>">
-                            <input type="submit" value="approve">
+                            <span id="approve-css"><input type="submit" value="approve"></span>
                         </form>
+
                         <form method="GET" action="/reject">
                             <input type="hidden" name="id" value="<%=event.id%>">
                             <input type="submit" value="reject">
                         </form>
+<<<<<<< HEAD
+=======
+        
+>>>>>>> 97932e5 (approve css)
                     </td>
                 </tr>
                 <% }) %>
