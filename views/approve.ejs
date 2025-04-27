@@ -87,11 +87,21 @@
             padding: 6px; 
             color: red; 
         }
+
+      .linebreaks {
+        white-space: pre-wrap;
+        font-size: 3px;
+        transition: font-size 1s; 
+      }
+
+      .linebreaks:hover {
+        font-size: 15px; 
+      }
         
         .narrow {
-  max-width: 150px;
-  overflow: hidden;
-}
+            max-width: 150px;
+            overflow: hidden;
+            }
 
 
       @media only screen and (max-width: 750px) {
@@ -186,7 +196,7 @@
                             <span class="linebreaks"><%= event.description%></span>
                           <% } %>
                     </td>
-                    <td>
+                    <td class="narrow">
                         <% if (event.event_url) { %>
                             <a href="<%= event.event_url %>">
                               <%= event.event_url_text || "Link" %>
@@ -223,9 +233,7 @@
     }
     </script>
 
-        <!-- <script>
-            alert("Hello! Haider and I are working on this right now -- please don't do anything on this page till this alert is gone, thanks! -Theo");
-          </script> -->
+
         </tbody>
     </table>
     </body>
