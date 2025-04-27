@@ -144,7 +144,7 @@
                             <input type="hidden" name="id" value="<%=event.id%>">
                             <input class="approve-css" type="submit" value="approve">
                         </form>
-                        <form method="GET" action="/reject">
+                        <form method="GET" action="/reject" onsubmit="return doubleConfirm()">
                             <input type="hidden" name="id" value="<%=event.id%>">
                             <input class="reject-css" type="submit" value="reject">
                         </form>
@@ -178,7 +178,7 @@
                     <td>
                         <form method="GET" action="/reject" onsubmit="return doubleConfirm()">
                             <input type="hidden" name="id" value="<%=event.id%>">
-                            <input type="submit" value="reject">
+                            <input class="reject-css" type="submit" value="reject">
                         </form>
                     </td>
                 </tr>
