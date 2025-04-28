@@ -135,7 +135,7 @@
                 <th>img</th>
                 <th>title</th>
                 <th>cost</th>
-                <th>when</th>
+                <th class="narrow">when</th>
                 <th>where</th>
                 <th>categories</th>
                 <th>described</th>
@@ -149,7 +149,8 @@
                     <td><img class="poster-inline" src="<%= event.image_url%>"/></td>
                     <td><%=event.name %></td>
                     <td><%=event.cost %></td>
-                    <td><%=event.start_date %></td>
+                    <!-- <td><%=event.start_date %></td> -->
+                    <td class="narrow"><%= fullDateTime.toLocaleDateString('en-US', { weekday: 'short', month: 'short', day: 'numeric' }) %> at <%= fullDateTime.toLocaleTimeString('en-US', { hour: 'numeric', minute: '2-digit' }) %></td>
                     <td><span class="linebreaks"><%=event.location %></span></td>
                     <td><%=event.tags %></td>
                     <td>
@@ -185,7 +186,7 @@
                     <td><img class="poster-inline" src="<%= event.image_url%>"/></td>
                     <td><%=event.name %></td>
                     <td><%=event.cost %></td>
-                    <td><%=event.start_date %></td>
+                    <td class="narrow"><%= fullDateTime.toLocaleDateString('en-US', { weekday: 'short', month: 'short', day: 'numeric' }) %> at <%= fullDateTime.toLocaleTimeString('en-US', { hour: 'numeric', minute: '2-digit' }) %></td>
                     <td><%=event.location %></td>
                     <td><%=event.tags %></td>
                     <td>
