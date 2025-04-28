@@ -188,6 +188,7 @@
                     <td><img class="poster-inline" src="<%= event.image_url%>"/></td>
                     <td><%=event.name %></td>
                     <td class="narrow"><%=event.cost %></td>
+                    <% const fullDateTime = new Date(event.start_date); %>
                     <td class="narrow"><%= fullDateTime.toLocaleDateString('en-US', { weekday: 'short', month: 'short', day: 'numeric' }) %> at <%= fullDateTime.toLocaleTimeString('en-US', { hour: 'numeric', minute: '2-digit' }) %></td>
                     <td><%=event.location %></td>
                     <td><%=event.tags %></td>
