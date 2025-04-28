@@ -134,7 +134,7 @@
                 <th>contact</th>
                 <th>img</th>
                 <th>title</th>
-                <th>cost</th>
+                <th class="narrow">cost</th>
                 <th class="narrow">when</th>
                 <th>where</th>
                 <th>categories</th>
@@ -148,8 +148,9 @@
                     <td><%=event.owner_name %>, [email], [url]</td>
                     <td><img class="poster-inline" src="<%= event.image_url%>"/></td>
                     <td><%=event.name %></td>
-                    <td><%=event.cost %></td>
+                    <td class="narrow"><%=event.cost %></td>
                     <!-- <td><%=event.start_date %></td> -->
+                    <% const fullDateTime = new Date(`${date[0]}T${date[1]}`); %>
                     <td class="narrow"><%= fullDateTime.toLocaleDateString('en-US', { weekday: 'short', month: 'short', day: 'numeric' }) %> at <%= fullDateTime.toLocaleTimeString('en-US', { hour: 'numeric', minute: '2-digit' }) %></td>
                     <td><span class="linebreaks"><%=event.location %></span></td>
                     <td><%=event.tags %></td>
@@ -185,7 +186,7 @@
                     <td><%=event.owner_name %>, [email], [url]</td>
                     <td><img class="poster-inline" src="<%= event.image_url%>"/></td>
                     <td><%=event.name %></td>
-                    <td><%=event.cost %></td>
+                    <td class="narrow"><%=event.cost %></td>
                     <td class="narrow"><%= fullDateTime.toLocaleDateString('en-US', { weekday: 'short', month: 'short', day: 'numeric' }) %> at <%= fullDateTime.toLocaleTimeString('en-US', { hour: 'numeric', minute: '2-digit' }) %></td>
                     <td><%=event.location %></td>
                     <td><%=event.tags %></td>
