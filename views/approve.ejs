@@ -190,7 +190,7 @@
                     <td class="narrow"><%=event.cost %></td>
                     <% const fullDateTime = new Date(event.start_date); %>
                     <td class="narrow"><%= fullDateTime.toLocaleDateString('en-US', { weekday: 'short', month: 'short', day: 'numeric' }) %> at <%= fullDateTime.toLocaleTimeString('en-US', { hour: 'numeric', minute: '2-digit' }) %></td>
-                    <td><%=event.location %></td>
+                    <td><span class="linebreaks"><%=event.location %></span></td>
                     <td><%=event.tags %></td>
                     <td>
                         <% if (event.description) { %>
@@ -235,7 +235,6 @@
     </script>
 
 
-        </tbody>
     </table>
     </body>
 </html>
