@@ -203,9 +203,16 @@
       <label for="description"
         >Description [optional &mdash; incl. accessibility notes, age limit, participants, etc.]:</label
       ><br />
-      <textarea rows="3" id="description" name="description" maxlength="1200"></textarea>
-      <div id="charCount">1200 characters left</div>
+      <textarea rows="3" id="description" name="description" maxlength="3000" oninput="autoExpand(this)"></textarea>
+      <div id="charCount">3000 characters left</div>
       <br /><br />
+
+      <script>
+        function autoExpand(textarea) {
+          textarea.style.height = 'auto'; // reset height
+          textarea.style.height = textarea.scrollHeight + 'px'; // set to scrollHeight
+        }
+        </script>
 
 
       <label for="urlurl">Url [encouraged] </label>
