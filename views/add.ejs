@@ -270,6 +270,21 @@
     </div>
 
 
+    <script>
+      const borderStyles = ["dotted", "dashed", "double", "solid", "ridge", "groove"];
+      const borderColors = [
+        "red", "yellow", "white", "rgba(239, 255, 166, 1)", "rgba(255, 104, 54, 1)", "#ff66cc"
+      ];
+    
+      document.querySelectorAll("button").forEach(button => {
+        button.addEventListener("mouseenter", () => {
+          const style = borderStyles[Math.floor(Math.random() * borderStyles.length)];
+          const color = borderColors[Math.floor(Math.random() * borderColors.length)];
+          button.style.border = `3vw ${style} ${color}`;
+        });
+      });
+    </script>
+    
     
     <script>
       document.getElementById("description").addEventListener("input", function () {
