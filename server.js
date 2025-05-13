@@ -156,7 +156,7 @@ app.get("/single-event", async (req, res) => {
   res.render('event.ejs', event)
 });
 
-app.get('/awaiting', async (req, res)=>{
+app.get('/awaitingg', async (req, res)=>{
   
   const pendingEvents = await executeGetFuturePendingApprovalEvents();
   const approvedEvents = await executeGetFutureApprovedEvents();
@@ -171,18 +171,30 @@ app.get('/add', async (req, res)=>{
   res.render("add.ejs", {tags: tagList})
 })
 
-app.get('/approve', async (req, res)=>{
-  const eConvert = [req.query.id]
+// app.get('/approve', async (req, res)=>{
+//   const eConvert = [req.query.id]
 
-  const events = await executeApproveEvents(eConvert)
-  res.redirect('/awaiting')
-})
+//   const events = await executeApproveEvents(eConvert)
+//   res.redirect('/awaitingg')
+// })
+
+app.get('/approve', async (req, res) => {
+  const id = req.query.id;
+
+  if (!id) {
+    // No ID was provided in the query — show an error
+    return res.status(400).send("Error: No event ID provided for approval.");
+  }
+
+  const events = await executeApproveEvents([id]);
+  res.redirect('/awaiting');
+});
 
 app.get('/reject', async (req, res)=>{
   const eConvert = [req.query.id]
 
   const events = await executeRejectEvents(eConvert)
-  res.redirect('/awaiting')
+  res.redirect('/awaitingg')
 })
 
 app.listen(3001, function () {
