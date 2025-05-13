@@ -94,6 +94,26 @@
         padding: 15px;
       }
 
+      button {
+            all: unset;
+            box-shadow: 0px 3px 3px 3px rgb(202, 0, 0);
+            font-size: 45px; 
+            border-radius: 50%; 
+            color: white; 
+            text-shadow: 1px 1px 6px rgb(101, 0, 0); 
+            background-color: radial-gradient(circle,rgba(255, 255, 255, 1) 0%, rgba(255, 104, 54, 1) 39%, rgba(239, 255, 166, 1) 100%);
+            cursor: pointer;
+            padding: 12px; 
+            border: 1px dashed red; 
+            transition: box-shadow 1s, border 1s;
+        }
+
+        button:hover {
+            box-shadow: 6px -12px 30px 3px white;
+            border: 6px dotted white; 
+        }
+
+
       @media only screen and (max-width: 750px) {
         #menu {
                     width: 96vw; 
