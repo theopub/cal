@@ -187,7 +187,7 @@ app.get('/approve', async (req, res) => {
   }
 
   const events = await executeApproveEvents([id]);
-  res.redirect('/awaiting');
+  res.redirect('/awaitingg');
 });
 
 app.get('/reject', async (req, res)=>{
