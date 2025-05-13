@@ -156,7 +156,7 @@ app.get("/single-event", async (req, res) => {
   res.render('event.ejs', event)
 });
 
-app.get('/awaitingg', async (req, res)=>{
+app.get('/awaiting', async (req, res)=>{
   
   const pendingEvents = await executeGetFuturePendingApprovalEvents();
   const approvedEvents = await executeGetFutureApprovedEvents();
@@ -187,14 +187,14 @@ app.get('/approve', async (req, res) => {
   }
 
   const events = await executeApproveEvents([id]);
-  res.redirect('/awaitingg');
+  res.redirect('/awaiting');
 });
 
 app.get('/reject', async (req, res)=>{
   const eConvert = [req.query.id]
 
   const events = await executeRejectEvents(eConvert)
-  res.redirect('/awaitingg')
+  res.redirect('/awaiting')
 })
 
 app.listen(3001, function () {
