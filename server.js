@@ -183,7 +183,7 @@ app.get('/approve', async (req, res) => {
 
   if (!id) {
     // No ID was provided in the query — show an error
-    return res.status(400).send("Error!");
+    return res.status(400).send("Error.");
   }
 
   const events = await executeApproveEvents([id]);
