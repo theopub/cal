@@ -271,20 +271,27 @@
 
 
     <script>
-      const borderStyles = ["dotted", "dashed", "double", "solid", "ridge", "groove"];
+      const borderStyles = ["dotted", "dashed", "double", "solid"];
       const borderColors = [
-        "red", "yellow", "white", "rgba(239, 255, 166, 1)", "rgba(255, 104, 54, 1)", "#ff66cc"
+        "rgb(101, 0, 0)", "white", "rgb(192, 0, 0)", "rgba(255, 104, 54, 1)", "rgba(239, 255, 166, 1)"
+
       ];
     
       document.querySelectorAll("button").forEach(button => {
-        button.addEventListener("mouseenter", () => {
-          const style = borderStyles[Math.floor(Math.random() * borderStyles.length)];
-          const color = borderColors[Math.floor(Math.random() * borderColors.length)];
-          button.style.border = `3vw ${style} ${color}`;
-        });
-      });
-    </script>
-    
+    // Store original border to restore later
+    const originalBorder = button.style.border || getComputedStyle(button).border;
+
+    button.addEventListener("mouseenter", () => {
+      const style = borderStyles[Math.floor(Math.random() * borderStyles.length)];
+      const color = borderColors[Math.floor(Math.random() * borderColors.length)];
+      button.style.border = `3vw ${style} ${color}`;
+    });
+
+    button.addEventListener("mouseleave", () => {
+      button.style.border = originalBorder;
+    });
+  });
+</script>
     
     <script>
       document.getElementById("description").addEventListener("input", function () {
