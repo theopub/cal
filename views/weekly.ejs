@@ -197,6 +197,24 @@
         width: 100%; 
       }
 
+      .alive {
+        /* color: red;  */
+        /* text-shadow: 1px 1px 6px black;  */
+        border-bottom: 9px dotted black;
+        transition: border-bottom 1s;  
+      }
+
+      .alive:hover {
+        border-bottom: 21px dashed black; 
+      }
+
+      #labor {
+        margin-left: 9vw; 
+        margin-right: 9vw; 
+        text-align: justify; 
+
+      }
+
 
       @media only screen and (max-width: 750px) {
                 .more-info, #about {
@@ -290,20 +308,23 @@
     <div id="mobileclickers">
 
       <span class="notmobile">
-      <a href="/add">Add your event (free).</a>
+      <a href="/add">Add your event (free)</a>
       <br /><br /></span>
 
 
       <span id="about-click" onclick="toggleGuys('about')"><u>
-        About.</u></span>
+        About / </u></span>
+
+        <span class="alive"><a href="https://buy.stripe.com/bJe5kC3Dw5E37nw3MqbAs00">Donate!</a>
+         </span>
 
 
       <span class="mobileonly">~~~
-        <a href="/add">Add your event (free).</a>
+        <a href="/add">Add your event (free)</a>
 
       </span>
 
-      <span class="mobileonly" onclick="toggleGuys('categories')">~~~ <u>Filter.</u></span>
+      <span class="mobileonly" onclick="toggleGuys('categories')">~~~ <u>Filter</u></span>
     </div>
 
 
@@ -319,18 +340,36 @@
 
       Red Calendar is big-tech-free&mdash;no Meta, no AWS, no GCal. Each day's events reorder when you refresh. We are called Red Calendar because we wanted a color, and this was the shortest (and cheapest) url we could find that incorporated “calendar” and a color.
       <br /><br />
-Editors: <br />
-<a href="https://nyc-noise.com/">NYC Noise</a>/<a href="https://protest.one/calendar/">Protest One</a> <br />
-<a href="https://romkehoogwaerts.com/">Romke Hoogwaerts</a> <br />
-<a href="https://www.auricpress.com/aristilde-kirby-daisy-catherine">Aristilde Kirby</a> <br />
-Kira M
-<br /><br />
+      <div id="labor">This is a <b>labor</b> of love. Each Editor spends at least an hour a week adding events, and countless hours have gone into building/maintaining the site. None of us are rich kids or make much money. Could you help <a class="alive" href="https://buy.stripe.com/bJe5kC3Dw5E37nw3MqbAs00"><b>keep Red Calendar alive</b></a>?</div>
+      
+      <br /><br />
 
-Direction and frontend: <a href="https://theo.land/">Theo Ellin Ballew</a><br />
-Co-direction and backend: Haider<br />
-Middleware: <a href="https://samheckle.com/">Sam Heckle</a>
-<br /><br />
-Github link to open source code coming soon. Contact theo@oral.pub with questions.
+<!-- People, alphabetically: <br /> -->
+<a href="https://www.auricpress.com/aristilde-kirby-daisy-catherine">Aristilde Kirby</a>: Editor <br />
+
+Haider: Dev (backend), Co-Director<br />
+
+<a href="https://nyc-noise.com/">NYC Noise</a>/<a href="https://protest.one/calendar/">Protest One</a> (JH): Editor <br />
+
+Kira M: Outreach
+<br />
+
+<a href="https://www.instagram.com/rulerofzeeworld/">Kyla Gordon</a>: Editor<br />
+
+<a href="https://romkehoogwaerts.com/">Romke Hoogwaerts</a>: Editor <br />
+
+<a href="https://samheckle.com/">Sam Heckle</a>: Dev (middleware)<br />
+
+<a href="https://theo.land/">Theo Ellin Ballew</a>: Editor, Dev (frontend), Director<br />
+<br />
+
+
+
+<!-- We aspire to start an email list! If you want to give us your email, click here. <br />
+<br /> -->
+
+<!-- Github link to open source code coming soon.  -->
+Contact theo@oral.pub with questions.
 
     </div>
 
