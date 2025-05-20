@@ -97,7 +97,9 @@
 
         .narrow {
             max-width: 60px;
-            overflow: hidden;
+            white-space: normal;
+  word-wrap: break-word;
+            /* overflow: wrap; */
             }
 
 
@@ -131,7 +133,7 @@
     <body>
         <table>
             <tr>
-                <th>contact</th>
+                <th class="narrow">contact</th>
                 <th>img</th>
                 <th>title</th>
                 <th class="narrow">cost</th>
@@ -145,7 +147,7 @@
         
             <% pendingEvents.forEach((event)=>{ %>
                 <tr>
-                    <td><%=event.owner_name %>, [email], [url]</td>
+                    <td class="narrow"><%=event.owner_name %><br /><br /><%=event.email %><br /><br /><%=event.owner_url %></td>
                     <td><img class="poster-inline" src="<%= event.image_url%>"/></td>
                     <td><%=event.name %></td>
                     <td class="narrow"><%=event.cost %></td>
@@ -184,14 +186,14 @@
 
                 <% approvedEvents.forEach((event)=>{ %>
                 <tr>
-                    <td><%=event.owner_name %>, [email], [url]</td>
+                    <td class="narrow"><%=event.owner_name %><br /><br /><%=event.email %><br /><br /> <%=event.owner_url %></td>
                     <td><img class="poster-inline" src="<%= event.image_url%>"/></td>
                     <td><%=event.name %></td>
                     <td class="narrow"><%=event.cost %></td>
                     <% const fullDateTime = new Date(event.start_date); %>
                     <td class="narrow"><%= fullDateTime.toLocaleDateString('en-US', { weekday: 'short', month: 'short', day: 'numeric' }) %> at <%= fullDateTime.toLocaleTimeString('en-US', { hour: 'numeric', minute: '2-digit' }) %></td>
                     <td><%=event.location %></td>
-                    <td><%=event.tags %></td>
+                    <td><%=event.tag_ids %></td>
                     <td>
                         <% if (event.description) { %>
                             <span class="linebreaks"><%= event.description%></span>
