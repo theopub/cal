@@ -222,35 +222,6 @@
       }
 
 
-      #light {
-                position: fixed; 
-                z-index: 1000;
-                background-color: rgba(101, 0, 0, 0.6); 
-                border-radius: 50%; 
-                box-shadow: 1px 1px 30px rgb(255, 213, 86); 
-                color: rgb(255, 213, 86); 
-                padding: 1vh; 
-                top: 1vw; 
-                right: 1vw; 
-                cursor: pointer; 
-                white-space: pre; 
-                font-size: 6px; 
-                line-height: 4.5px; 
-            }
-
-            #light:hover {
-                /* box-shadow: 1px 1px 60px rgb(255, 213, 86);  */
-                /* background-color: rgba(255, 213, 86, 0.15);  */
-                /* background-color: rgba(101, 0, 0, 0.3);  */
-                box-shadow: 1px 1px 60px 30px rgb(255, 213, 86); 
-           
-                font-weight: bold; 
-                text-shadow: 1px -1px 3px yellow; 
-                /* border: .1px yellow solid;  */
-                font-weight: 900;  
-            }
-
-
       @media only screen and (max-width: 750px) {
                 .more-info, #about {
                     left: 3vw; 
@@ -307,43 +278,21 @@
   </head>
   <body>
 
-
-
-<!-- 
-
-    <div id="light" onclick="toggleBW()">
-  ..---..
- /         \
-|           |
-:          ;
- \  \~/  /
-  `, Y ,'
-   |_|_|
-   |==|
-   |==|
-    \_/
-    </div> -->
+    <!-- <div id="bw" onclick="toggleBW()">
+      B/W
+    </div>
 
     <script>
-      function toggleBW() {
-        const div = document.body;
-        const posters = document.querySelectorAll(".posters");
-
-        div.style.backgroundColor = (div.style.backgroundColor === "rgb(255, 213, 86)") ? "rgb(101, 0, 0)" : "rgb(255, 213, 86)";
-
-        posters.forEach(poster => {
-          poster.style.filter = isYellow ? "" : "grayscale(100%)";
-        });
-
-
-      //   const isYellow = div.style.backgroundColor === "rgb(255, 213, 86)";
-
-      //   posters.forEach(poster => {
-      //   poster.style.filter = isYellow ? "grayscale(100%)" : "";
-      // });
-
+      function toggleBackgroundColor() {
+        const div = document.getElementById("myDiv");
+        div.style.backgroundColor = (div.style.backgroundColor === "red") ? "black" : "red";
       }
-    </script>
+    </script> -->
+
+
+
+
+
 
 
     <div id="menu">
@@ -405,16 +354,15 @@
 <!-- People, alphabetically: <br /> -->
 <a href="https://www.auricpress.com/aristilde-kirby-daisy-catherine">Aristilde Kirby</a>: Editor <br />
 
+<a>Haider</a>: Dev (backend), Co-Director<br />
 
 <a href="https://camillacarper.com/">Camilla Carper</a>: Editor<br />
 
-<a href="https://haiderriazkhan.com/">Haider</a>: Dev (backend), Co-Director<br />
-
-JH (<a href="https://nyc-noise.com/">NYC Noise</a>/<a href="https://protest.one/calendar/">Protest One</a>): Editor <br />
+JH (<a href="https://nyc-noise.com/">NYC Noise</a>/<a href="https://protest.one/calendar/">Protest One</a>): Head Editor <br />
 
 Kira M: Outreach<br />
 
-<a href="https://www.instagram.com/rulerofzeeworld/">Kyla Gordon</a> (<a href="https://www.instagram.com/performanceart_nyc/?hl=en">performanceart_nyc</a>): Editor<br />
+<a href="https://www.instagram.com/rulerofzeeworld/">Kyla Gordon</a>: Editor<br />
 
 <a href="https://romkehoogwaerts.com/">Romke Hoogwaerts</a>: Editor <br />
 
