@@ -20,21 +20,52 @@
         font-size: 15px;
       }
 
+              body.redbody {
+                background: none; 
+              }
+
+              body.sepiabody {
+                background: radial-gradient(circle,rgb(255, 248, 214) 0%, rgb(255, 222, 103) 39%, rgb(220, 255, 95) 100%);
+                background-attachment: fixed;
+              }
+
       .posters {
         position: relative;
-        /* filter: grayscale(100%) brightness(60%) sepia(100%) hue-rotate(-50deg)
-          saturate(360%); */
-          filter:  brightness(60%) sepia(100%) hue-rotate(-39deg) saturate(420%);  
-        opacity: 0.6;
         cursor: pointer;
         padding: 0.3vw;
+        filter:  brightness(60%) sepia(100%) hue-rotate(-39deg) saturate(420%);  
+        opacity: 0.6;
       }
 
       .posters:hover {
         border: 0.3vw solid red;
         filter: none;
-        opacity: 1;
+        opacity: 1.0;
       }
+
+              .posters.red {
+                filter:  brightness(60%) sepia(100%) hue-rotate(-39deg) saturate(420%);  
+                opacity: 0.6;
+              }
+
+              .posters.red:hover {
+                border: 0.3vw solid red;
+                filter: none;
+                opacity: 1.0;
+             
+              }
+
+              .posters.sepia {
+                /* filter: sepia(100%) hue-rotate(6deg); */
+                filter: sepia(100%) hue-rotate(30deg) saturate(90%);
+                opacity: 1.0;
+                box-shadow: 0px 0px 15px 0px rgb(120, 0, 0); 
+              }
+              .posters.sepia:hover {
+                box-shadow: 0px 0px 600px 90px rgb(120, 0, 0); 
+                filter: none; 
+                z-index: 9; 
+              }
 
       .container {
         display: flex;
@@ -55,22 +86,36 @@
         /* border-right: .6vw dotted red;  */
         border-right: 0.1vw solid rgb(253, 0, 0);
       }
-
-      .date,
-      #menu,
-      .more-info,
-      .close,
-      #about {
-        /* below is too pink */
-        /* background-color: rgb(252, 83, 83); */
-        /* background-color: rgb(255, 90, 72); */
-          
+     
+      .text-space, .close, .more-info {
         background-color: rgb(253, 85, 66);
+        opacity: .99; 
         color: rgb(71, 0, 0);
         box-shadow: 0px 3px 12px 3px rgb(120, 0, 0);
         z-index: 10;
       }
 
+                      .text-space.redtext, .close.redtext, .more-info.redtext {
+                        background-color: rgb(253, 85, 66);
+                        color: rgb(71, 0, 0);
+                      }
+
+                      .text-space.sepiatext, .close.sepiatext  {
+                        background-color: rgb(252, 228, 141);
+                        box-shadow: 0px 3px 21px 3px rgb(120, 0, 0);
+                        color: rgb(71, 0, 0);
+                      }
+
+                      .more-info.sepiatext{
+                        background-color: rgb(252, 241, 141);
+                        box-shadow: 0px 30px 1500px 60px rgb(120, 0, 0); 
+                      }
+
+      .date, #menu {
+        opacity: .9; 
+      }
+
+      
       .date, #menu, .close, #bw {
         user-select: none;
         -webkit-user-select: none; 
@@ -133,22 +178,15 @@
       .more-info,
       #about {
         display: none;
-        /* border: 3vw dotted rgb(142, 0, 0); */
         padding: 1vw;
         width: 50vw;
         position: fixed;
         left: 24vw;
         top: 12vh;
-        /* below: meant to enable scrolling, btu not working */
         overflow-y: auto;
         max-height: 75vh;
      
       }
-
-/* 
-      .more-info {
-                box-shadow: 0px 3px 90px 30px rgb(120, 0, 0); 
-            } */
 
       .title {
         font-weight: bold; 
@@ -159,7 +197,7 @@
         float: left;
         margin-right: 1vw;
         box-shadow: 0px 3px 3px 3px rgb(202, 0, 0);
-        /* margin-bottom: 1vw;  */
+  
       }
 
       .close {
@@ -167,11 +205,7 @@
         position: fixed;
         left: 75.5vw;
         top: 10.5vh;
-        /* width: 27px; 
-        height: 27px;  */
         text-align: center; 
-        /* top: 0vw;
-        right: 0vw; */
         cursor: pointer;
         font-size: 24px; 
         z-index: 10000; 
@@ -280,7 +314,6 @@
 
                 .poster-inline {
                     width: 60vw; 
-                    /* width: 100%;  */
                 }
 
 
@@ -309,7 +342,7 @@
 
 
 
-<!-- 
+
 
     <div id="light" onclick="toggleBW()">
   ..---..
@@ -322,31 +355,37 @@
    |==|
    |==|
     \_/
-    </div> -->
+    </div>
+<script>
 
-    <script>
-      function toggleBW() {
-        const div = document.body;
-        const posters = document.querySelectorAll(".posters");
+    function toggleBW() {
+      const background = document.body;
+      const posters = document.querySelectorAll(".posters");
+      const textSpace = document.querySelectorAll(".text-space, .close, .more-info");
+    
+      const isYellow = background.style.backgroundColor === "rgb(255, 246, 166)";
+      background.style.backgroundColor = isYellow ? "rgb(101, 0, 0)" : "rgb(255, 246, 166)";
+    
+      posters.forEach(poster => {
+        poster.classList.remove("red", "sepia");
+        poster.classList.add(isYellow ? "red" : "sepia");
+      });
 
-        div.style.backgroundColor = (div.style.backgroundColor === "rgb(255, 213, 86)") ? "rgb(101, 0, 0)" : "rgb(255, 213, 86)";
+      textSpace.forEach(text => {
+        text.classList.remove("redtext", "sepiatext");
+        text.classList.add(isYellow ? "redtext" : "sepiatext");
+      });
 
-        posters.forEach(poster => {
-          poster.style.filter = isYellow ? "" : "grayscale(100%)";
-        });
+      background.classList.remove("redbody", "sepiabody");
+      background.classList.add(isYellow ? "redbody" : "sepiabody");
 
+    }
 
-      //   const isYellow = div.style.backgroundColor === "rgb(255, 213, 86)";
-
-      //   posters.forEach(poster => {
-      //   poster.style.filter = isYellow ? "grayscale(100%)" : "";
-      // });
-
-      }
-    </script>
+  </script>
 
 
-    <div id="menu">
+
+    <div id="menu" class="text-space">
       <span class="notmobile">Welcome to Red Calendar. <br /><br /></span>
 
       <span id="categories">
@@ -391,8 +430,8 @@
 
     </div>
 
-    <div id="about">
-      <div class="close" onclick="this.parentElement.style.display='none'">X</div>
+    <div id="about" class="text-space">
+      <div class="text-space close" onclick="this.parentElement.style.display='none'">X</div>
       <b><span id="about-title">About Red Calendar</span></b><br /><br />
       Red Calendar is an arts and action calendar that helps NYC gather without big tech middlemen. Managed by a team of editors, the Calendar also encourages cross-pollination among NYC’s leftist/arts/culture communities. Anyone can add events for free, pending editor approval! <br /><br />
 
@@ -436,7 +475,7 @@ Contact theo@oral.pub with questions.
     <div class="container">
       <% Object.entries(events).forEach(([day, event])=>{ %>
           <div class="column">
-            <div id="<%= day.substring(5) %>" class="date"><%= day %> <%= event.start_date %></div>
+            <div id="<%= day.substring(5) %>" class="date text-space"><%= day %> <%= event.start_date %></div>
             <%
             const shuffled = [...event].sort(() => 0.5 - Math.random());
             shuffled.forEach((d) => {
@@ -448,17 +487,11 @@ Contact theo@oral.pub with questions.
             />
           <% }) %>
 
-            <!-- <% event.forEach((d)=>{ %> 
-                    <img
-                    class="posters"
-                    src="<%=d.image_url%>"
-                    onclick="toggleElement(this, '<%=d.id%>')"
-                    />
-                <% }) %>  -->
+      
           </div>
       <% }) %> 
     
-      <div class="more-info" id="event-details-container">
+      <div class="more-info text-space" id="event-details-container">
 
       </div>
     </div>
@@ -509,6 +542,16 @@ Contact theo@oral.pub with questions.
   
         let fetchSingleEvent = await fetch('/single-event?' + p).then(response => response.text())
         eventContainer.innerHTML = fetchSingleEvent
+
+
+    
+                  eventContainer.innerHTML = fetchSingleEvent;
+
+                  const themeClass = document.body.classList.contains("sepiabody") ? "sepiatext" : "redtext";
+                  eventContainer.querySelectorAll(".close, .more-info").forEach(el => {
+                    el.classList.remove("redtext", "sepiatext");
+                    el.classList.add(themeClass);
+                  });
 
         const element = document.getElementById(eventId);
         if (!element) return; // Safety check
