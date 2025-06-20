@@ -103,6 +103,11 @@
             }
 
 
+            #content {
+      display: none;
+    }
+
+
       @media only screen and (max-width: 750px) {
                 .more-info, #about {
                     left: 3vw; 
@@ -236,7 +241,18 @@
     }
     </script>
 
-
+<script>
+  const passcode = "256"; // your passcode
+  const input = prompt("Password:");
+  if (input === passcode) {
+    document.addEventListener("DOMContentLoaded", () => {
+      document.getElementById("content").style.display = "block";
+    });
+  } else {
+    document.write("<h1 style='color:white'>Access denied.</h1>");
+    throw new Error("Blocked");
+  }
+</script>
     </table>
     </body>
 </html>
