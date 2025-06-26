@@ -5,3 +5,5 @@ NodeWebhooks/
 .tap
 public/testing/
 .qodo
+Dockerfile
+.dockerignore

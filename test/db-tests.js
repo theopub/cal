@@ -141,8 +141,8 @@ t.test('Get Events to Display', async (t) => {
   const populateCalendar = groupEventsByDayPlusDate(calendar)(displayEvents);
   console.log('Calendar:', populateCalendar);
   
-  t.ok(length(intersection(intersection(createdIds, retrievedIds), [createdIds[1], createdIds[2], createdIds[3], createdIds[4], createdIds[5]])) === 5,
-       'Should retrieve events starting from today and up to 30 days in the future');
+  t.ok(length(intersection(intersection(createdIds, retrievedIds), [createdIds[1], createdIds[2], createdIds[3], createdIds[4]])) === 4,
+       'Should retrieve events starting from today and up to 14 days in the future');
 
   await deleteTestEvents();
   t.end();
