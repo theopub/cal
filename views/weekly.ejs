@@ -294,8 +294,12 @@
 
                 body {
                     font-size: 12.9px; 
+                }
+
+                #content {
+                    position: relative;
+                    height: calc(100vh - 16px);
                     overflow-y: hidden;
-                    /* despite above, still issue where it scrolls all the way down on android */
                 }
 
                 .notmobile, #categories {
@@ -332,7 +336,7 @@
                 }
 
                 .column {
-                  height: 81vh; 
+                  height: calc(100vh - 6vh - 4vw - 32px);
                 }
 
             }
@@ -340,7 +344,7 @@
     </style>
   </head>
   <body>
-
+  <div id="content">
 
 
 
@@ -643,6 +647,6 @@ Kira M: Outreach<br />
 
 <script data-goatcounter="https://calred.goatcounter.com/count"
 async src="//gc.zgo.at/count.js"></script>
-
+  </div>
   </body>
 </html>
