@@ -51,22 +51,6 @@ const upload = multer({
 // uploads image to bucket via s3 middleware and adds to db
 app.post("/upload", upload.single("image"), async (req, res) => {
   // req.body retrieves the data sent from the form
-  // obj format:
-  /*
-  { 
-    name: 'sam',
-    email: 'sam.heckle@nyu.edu',
-    title: 'my event',
-    event_cost: 'free',
-    cost: '',
-    when: '2024-02-23T14:00',
-    where: 'wonderville',
-    categories: [ 'performance', 'rebel-code' ],
-    description: 'descriptiong',
-    url: 'no'
-    imgUrl: req.file.location
-  }
-  */
   let cost = 0
   if(req.body.cost != ''){
     cost = req.body.cost
@@ -171,12 +155,6 @@ app.get('/add', async (req, res)=>{
   res.render("add.ejs", {tags: tagList})
 })
 
-// app.get('/approve', async (req, res)=>{
-//   const eConvert = [req.query.id]
-
-//   const events = await executeApproveEvents(eConvert)
-//   res.redirect('/awaitingg')
-// })
 
 app.get('/approve', async (req, res) => {
   const id = req.query.id;
