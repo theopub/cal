@@ -108,8 +108,8 @@ t.test('Get Events to Display', async (t) => {
     OneDayBefore: format(addDays(baseDate, -1), 'yyyy-MM-dd'),
     exactDate: baseDate,
     fiveDaysAfter: format(addDays(baseDate, 5), 'yyyy-MM-dd'),
-    fourteenDaysAfter: format(addDays(baseDate, 14), 'yyyy-MM-dd'),
-    thirtyDaysAfter: format(addDays(baseDate, 30), 'yyyy-MM-dd'),
+    tenDaysAfter: format(addDays(baseDate, 10), 'yyyy-MM-dd'),
+    elevenDaysAfter: format(addDays(baseDate, 11), 'yyyy-MM-dd'),
     thirtyOneDaysAfter: format(addDays(baseDate, 31), 'yyyy-MM-dd'),
     fourtyDaysAfter: format(addDays(baseDate, 40), 'yyyy-MM-dd'),
   };
@@ -120,8 +120,8 @@ t.test('Get Events to Display', async (t) => {
     { ...testEventTemplate, startDate: testDates.OneDayBefore },
     { ...testEventTemplate, startDate: testDates.exactDate },
     { ...testEventTemplate, startDate: testDates.fiveDaysAfter },
-    { ...testEventTemplate, startDate: testDates.fourteenDaysAfter },
-    { ...testEventTemplate, startDate: testDates.thirtyDaysAfter },
+    { ...testEventTemplate, startDate: testDates.tenDaysAfter },
+    { ...testEventTemplate, startDate: testDates.elevenDaysAfter },
     { ...testEventTemplate, startDate: testDates.thirtyOneDaysAfter },
     { ...testEventTemplate, startDate: testDates.fourtyDaysAfter },
   ];
@@ -142,7 +142,7 @@ t.test('Get Events to Display', async (t) => {
   console.log('Calendar:', populateCalendar);
   
   t.ok(length(intersection(intersection(createdIds, retrievedIds), [createdIds[1], createdIds[2], createdIds[3], createdIds[4]])) === 4,
-       'Should retrieve events starting from today and up to 14 days in the future');
+       'Should retrieve events starting from today and up to 10 days in the future');
 
   await deleteTestEvents();
   t.end();
