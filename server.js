@@ -17,6 +17,7 @@ import {
   createCalendar,
 } from './utilities/dates.js';
 import { filterEventsbyTags } from './utilities/filtering.js';
+import { transformImageUrl } from './utilities/local-url.js';
 
 dotenv.config();
 
@@ -30,9 +31,11 @@ const s3Client = new S3Client({
     accessKeyId: process.env.aws_access_key_id,
     secretAccessKey: process.env.aws_secret_access_key,
   },
-  endpoint: "https://nyc3.digitaloceanspaces.com",
+  endpoint: process.env.AWS_ENDPOINT || "https://nyc3.digitaloceanspaces.com",
   region: "us-east-1",
+  ...(process.env.AWS_ENDPOINT && { forcePathStyle: true }), // Only for LocalStack
 });
+
 const s3Storage = multerS3({
   s3: s3Client,
   bucket: "cal-red-space",
@@ -88,7 +91,7 @@ app.post("/upload", upload.single("image"), async (req, res) => {
     email: req.body.email, // Unique identifier for test events
     eventUrl: req.body.urlurl,
     eventUrlText: req.body.link,
-    imageUrl: req.file.location,
+    imageUrl: transformImageUrl(req.file.location),
     approved: 0,
     tagIDs: tagIds
   };
@@ -100,7 +103,6 @@ app.get("/", async (req, res) => {
   const date = new Date();
   const eventsToDisplay = await executeGetEventsToDisplay(date);
   const calendar = createCalendar(date);
-  // console.log('calendar: ', calendar);
   const populatedCalendar = groupEventsByDayPlusDate(calendar)(eventsToDisplay);
   const tagList = await executeGetTags()
   tagList.forEach((t)=> t.checked = true)
@@ -110,13 +112,9 @@ app.get("/", async (req, res) => {
 
 // TODO
 app.get('/filtered-weekly', async (req, res)=>{
-
   let filteringTagIds = []
-  // console.log(req.query.filter)
   let tags = req.query.filter.split(",")
-
   const tagList = await executeGetTags()
-
   tags.forEach((tag) => {
     let formattedTag = tag.replace(/_/g, ' ')
     formattedTag = formattedTag.replace(/-/g, " / ")
@@ -141,10 +139,8 @@ app.get("/single-event", async (req, res) => {
 });
 
 app.get('/awaiting', async (req, res)=>{
-  
   const pendingEvents = await executeGetFuturePendingApprovalEvents();
   const approvedEvents = await executeGetFutureApprovedEvents();
-
   res.render("approve.ejs", {pendingEvents: pendingEvents, approvedEvents: approvedEvents})
 })
 
