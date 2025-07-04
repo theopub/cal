@@ -20,4 +20,4 @@ else
   echo "Bucket $BUCKET created and ACL set."
 fi
 
-aws --endpoint-url=$ENDPOINT s3api list-buckets --query 'Buckets[].Name' --output table 
+aws --endpoint-url=$ENDPOINT s3api list-buckets --query 'Buckets[].Name' --output table
