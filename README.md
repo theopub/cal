@@ -19,6 +19,73 @@ Middleware: Sam Heckle
 
 ## Development
 
-To run Red Calendar locally, you need to request the `.env` file containing our database credentials from [Haider](mailto:haiderriazkhan@gmail.com). These credentials point to the actual Red Calendar database, so please do not share them with anyone else. In the very near future, we will move away from this practise and provide instructions on how to setup a local instance of the Red Calendar database replete with data.
+This section contains instructions for running a local copy of Red Calendar. Your local instance of Red Calendar will come with its own MySQL database and [LocalStack](https://github.com/localstack/localstack) for S3 emulation.  You will need to download Docker (or a similar container application).
 
-Once you have the `.env` file containing the database credentials, please place the file in the root directory of this repository on your computer. Next, run `npm i` to install the dependencies for this project. To validate that the queries to the database are working as they should be, run unit tests by entering `npx tap run test/db-tests.js`. After verifying that the unit tests are passing, run `node server.js` and visit `localhost:3001` to see your local copy of Red Calendar.
+### Prerequisites
+
+- [Docker](https://docs.docker.com/get-docker/) and [Docker Compose](https://docs.docker.com/compose/install/)
+- [Node.js](https://nodejs.org/) (for running tests locally)
+
+### Quick Start
+
+1. **Clone the repository**
+   ```bash
+   git clone <repository-url>
+   cd cal
+   ```
+
+2. **Install dependencies**
+   ```bash
+   npm install
+   ```
+
+3. **Start the application**
+   ```bash
+   docker-compose up -d
+   ```
+   > **Note**: This will automatically build the app image on first run.
+
+4. **Run tests** (optional, to verify everything is working)
+   ```bash
+   npx tap run test/db-tests.js
+   ```
+   > **Note**: The unit tests require a MySQL database connection. So you will have to
+   > keep Docker containers running.
+
+5. **Visit the application**
+   Open your browser and go to [http://localhost:3000](http://localhost:3000)
+
+### What's Included
+
+The Docker setup provides:
+- **MySQL Database**: Pre-populated with sample events, tags, and relationships
+- **LocalStack**: S3 emulation for file uploads
+- **Red Calendar App**: Running on port 3000
+- **Sample Data**: 60 events distributed across 12 days with dynamic dates
+
+### Database Details
+
+The database is automatically initialized with:
+- Sample events that use dynamic SQL date functions (always current)
+- Pre-configured tags for event categorization
+- Event-tag relationships for filtering
+- All events are marked as approved for immediate viewing
+
+See [`db/README.md`](db/README.md) for detailed database documentation.
+
+### Development Workflow
+
+- **Database Changes**: Modify SQL files in the `db/` directory and restart containers with `docker-compose down -v && docker-compose up -d`
+- **Application Changes**: Currently requires rebuilding the container with `docker-compose build app && docker-compose up -d`
+- **Testing**: Run `npx tap run test/db-tests.js` to verify database functionality
+
+### Stopping the Application
+
+```bash
+docker-compose down
+```
+
+To completely reset the database (removes all data):
+```bash
+docker-compose down -v
+```

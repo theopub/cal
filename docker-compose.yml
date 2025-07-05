@@ -1,0 +1,92 @@
+services:
+  # MySQL Database
+  mysql:
+    image: mysql:8.0
+    container_name: red-calendar-db
+    restart: unless-stopped
+    environment:
+      MYSQL_ROOT_PASSWORD: rootpassword
+      MYSQL_DATABASE: red_calendar
+      MYSQL_USER: red_calendar_user
+      MYSQL_PASSWORD: red_calendar_password
+    ports:
+      - "3306:3306"
+    volumes:
+      - mysql_data:/var/lib/mysql
+      - ./db/table_schemas.sql:/docker-entrypoint-initdb.d/01-schema.sql
+      - ./db/stored_procedures.sql:/docker-entrypoint-initdb.d/02-procedures.sql
+      - ./db/tags_snapshot.sql:/docker-entrypoint-initdb.d/03-tags.sql
+      - ./db/events_snapshot.sql:/docker-entrypoint-initdb.d/04-events.sql
+      - ./db/event_tags_snapshot.sql:/docker-entrypoint-initdb.d/05-event-tags.sql
+    networks:
+      - red-calendar-network
+
+  # LocalStack for AWS S3 emulation
+  localstack:
+    image: localstack/localstack:latest
+    container_name: red-calendar-localstack
+    restart: unless-stopped
+    ports:
+      - "4566:4566"
+    environment:
+      - SERVICES=s3
+      - DEBUG=1
+      - DATA_DIR=/var/lib/localstack
+      - DOCKER_HOST=unix:///var/run/docker.sock
+    volumes:
+      - localstack_data:/var/lib/localstack
+      - /var/run/docker.sock:/var/run/docker.sock
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://localhost:4566/_localstack/health"]
+      interval: 5s
+      timeout: 5s
+      retries: 5
+      start_period: 10s
+    networks:
+      - red-calendar-network
+
+  # Initialize LocalStack S3 bucket
+  init-localstack:
+    build:
+      context: .
+      dockerfile: init-localstack.Dockerfile
+    container_name: red-calendar-init-localstack
+    depends_on:
+      localstack:
+        condition: service_healthy
+    environment:
+      - AWS_ACCESS_KEY_ID=test
+      - AWS_SECRET_ACCESS_KEY=test
+      - AWS_DEFAULT_REGION=us-east-1
+    networks:
+      - red-calendar-network
+
+  # Red Calendar Application
+  app:
+    build: .
+    container_name: red-calendar-app
+    restart: unless-stopped
+    ports:
+      - "3000:3001"
+    env_file:
+      - .env.development
+    environment:
+      - NODE_ENV=development
+      - DB_HOST=mysql
+      - DB_USER=red_calendar_user
+      - DB_PASSWORD=red_calendar_password
+      - DB_PORT=3306
+      - DB_DATABASE=red_calendar
+    depends_on:
+      - mysql
+      - init-localstack
+    networks:
+      - red-calendar-network
+
+volumes:
+  mysql_data:
+  localstack_data:
+
+networks:
+  red-calendar-network:
+    driver: bridge

@@ -22,7 +22,13 @@ import {
 } from 'ramda';
 import { filterEventsbyTags } from '../utilities/filtering.js';
 
-dotenv.config();
+delete process.env.DB_HOST;
+delete process.env.DB_USER;
+delete process.env.DB_PASSWORD;
+delete process.env.DB_PORT;
+delete process.env.DB_DATABASE;
+
+dotenv.config({ path: '.env.development' });
 
 // Create a separate connection pool for test cleanup
 const testPool = mysql.createPool({
@@ -33,6 +39,21 @@ const testPool = mysql.createPool({
   database: process.env.DB_DATABASE,
 });
 
+// Test database connection and fail immediately if unable to connect.
+async function testDatabaseConnection() {
+  try {
+    const connection = await testPool.getConnection();
+    console.log('✅ Successfully connected to database');
+    connection.release();
+  } catch (error) {
+    console.error('❌ Failed to connect to database:', error.message);
+    console.error('Make sure Docker containers are running: docker-compose up -d');
+    process.exit(1);
+  }
+}
+
+// Run connection test before any tests
+testDatabaseConnection();
 
 // Add pool closing after all tests
 t.teardown(async () => {
