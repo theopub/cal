@@ -18,6 +18,7 @@ import {
 } from './utilities/dates.js';
 import { filterEventsbyTags } from './utilities/filtering.js';
 import { transformImageUrl } from './utilities/local-url.js';
+import { requireAuth } from './utilities/authentication.js';
 
 dotenv.config();
 
@@ -138,7 +139,7 @@ app.get("/single-event", async (req, res) => {
   res.render('event.ejs', event)
 });
 
-app.get('/awaiting', async (req, res)=>{
+app.get('/awaiting', requireAuth, async (req, res)=>{
   const pendingEvents = await executeGetFuturePendingApprovalEvents();
   const approvedEvents = await executeGetFutureApprovedEvents();
   res.render("approve.ejs", {pendingEvents: pendingEvents, approvedEvents: approvedEvents})
@@ -152,7 +153,7 @@ app.get('/add', async (req, res)=>{
 })
 
 
-app.get('/approve', async (req, res) => {
+app.get('/approve', requireAuth, async (req, res) => {
   const id = req.query.id;
 
   if (!id) {
@@ -164,7 +165,7 @@ app.get('/approve', async (req, res) => {
   res.redirect('/awaiting');
 });
 
-app.get('/reject', async (req, res)=>{
+app.get('/reject', requireAuth, async (req, res)=>{
   const eConvert = [req.query.id]
 
   const events = await executeRejectEvents(eConvert)

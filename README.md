@@ -76,7 +76,7 @@ See [`db/README.md`](db/README.md) for detailed database documentation.
 ### Development Workflow
 
 - **Database Changes**: Modify SQL files in the `db/` directory and restart containers with `docker-compose down -v && docker-compose up -d`
-- **Application Changes**: Currently requires rebuilding the container with `docker-compose build app && docker-compose up -d`
+- **Application Changes**: Automatically reloaded by nodemon - no container rebuild needed unless dependencies change
 - **Testing**: Run `npx tap run test/db-tests.js` to verify database functionality
 
 ### Stopping the Application

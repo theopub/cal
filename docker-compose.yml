@@ -77,6 +77,9 @@ services:
       - DB_PASSWORD=red_calendar_password
       - DB_PORT=3306
       - DB_DATABASE=red_calendar
+    volumes:
+      - .:/app
+      - /app/node_modules
     depends_on:
       - mysql
       - init-localstack
