@@ -13,8 +13,8 @@ export const requireAuth = (req, res, next) => {
     )(split(' ', authHeader)[1], 'base64');
     const [username, password] = split(':', credentials);
     
-    const validUsername = process.env.EDITOR_USERNAME || 'editor';
-    const validPassword = process.env.EDITOR_PASSWORD || 'redcalendar2025';
+    const validUsername = process.env.EDITOR_USERNAME;
+    const validPassword = process.env.EDITOR_PASSWORD;
     
     if (username === validUsername && password === validPassword) {
       next();

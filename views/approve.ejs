@@ -153,7 +153,11 @@
             <% pendingEvents.forEach((event)=>{ %>
                 <tr>
                     <td class="narrow"><%=event.owner_name %><br /><br /><%=event.email %><br /><br /><%=event.owner_url %></td>
-                    <td><img class="poster-inline" src="<%= event.image_url%>"/></td>
+                    <td><img class="poster-inline" 
+                         src="<%= event.image_url%>"
+                         srcset="<%= event.image_url.replace('.webp', '-mobile.webp') %> 600w, <%= event.image_url %> 1200w"
+                         sizes="(max-width: 768px) 600px, 1200px"
+                         alt="Event poster"/></td>
                     <td><%=event.name %></td>
                     <td class="narrow"><%=event.cost %></td>
                     <!-- <td><%=event.start_date %></td> -->
@@ -192,7 +196,11 @@
                 <% approvedEvents.forEach((event)=>{ %>
                 <tr>
                     <td class="narrow"><%=event.owner_name %><br /><br /><%=event.email %><br /><br /> <%=event.owner_url %></td>
-                    <td><img class="poster-inline" src="<%= event.image_url%>"/></td>
+                    <td><img class="poster-inline" 
+                         src="<%= event.image_url%>"
+                         srcset="<%= event.image_url.replace('.webp', '-mobile.webp') %> 600w, <%= event.image_url %> 1200w"
+                         sizes="(max-width: 768px) 600px, 1200px"
+                         alt="Event poster"/></td>
                     <td><%=event.name %></td>
                     <td class="narrow"><%=event.cost %></td>
                     <% const fullDateTime = new Date(event.start_date); %>

@@ -448,7 +448,7 @@
       
       Red Calendar is looking to bulk up our Editor team! An Editor:
       <ol>
-        <li>“Athletically” adds 10-15 events per week </li>
+        <li>"Athletically" adds 10-15 events per week </li>
         <ul>
           <li>This is 90% of the job!</li>
           <li>Owns/monitors one or two categories</li>
@@ -468,9 +468,9 @@
       
       <div class="text-space close" onclick="this.parentElement.style.display='none'">X</div>
       <b><span id="about-title">About Red Calendar</span></b><br /><br />
-      Red Calendar is an arts and action calendar that helps NYC gather without big tech middlemen. Managed by a team of editors, the Calendar also encourages cross-pollination among NYC’s leftist/arts/culture communities. Anyone can add events for free, pending editor approval! <br /><br />
+      Red Calendar is an arts and action calendar that helps NYC gather without big tech middlemen. Managed by a team of editors, the Calendar also encourages cross-pollination among NYC's leftist/arts/culture communities. Anyone can add events for free, pending editor approval! <br /><br />
 
-      Red Calendar is big-tech-free&mdash;no Meta, no AWS, no GCal. Each day's events reorder when you refresh. We are called Red Calendar because we wanted a color, and this was the shortest (and cheapest) url we could find that incorporated “calendar” and a color.
+      Red Calendar is big-tech-free&mdash;no Meta, no AWS, no GCal. Each day's events reorder when you refresh. We are called Red Calendar because we wanted a color, and this was the shortest (and cheapest) url we could find that incorporated "calendar" and a color.
       <br /><br />
       <div id="labor">This is a <b>labor</b> of love. Each Editor spends at least an hour a week adding events, and countless hours have gone into building/maintaining the site. None of us are rich kids or make much money. Could you help <a class="alive" href="https://account.venmo.com/u/redcalendar"><b>keep Red Calendar alive</b></a>?</div>
       
@@ -511,6 +511,8 @@ Kira M: Outreach<br />
             <img
               class="posters"
               src="<%= d.image_url %>"
+              srcset="<%= d.image_url.replace('.webp', '-mobile.webp') %> 600w, <%= d.image_url %> 1200w"
+              sizes="(max-width: 768px) 600px, 1200px"
               onclick="toggleElement(this, '<%= d.id %>')"
             />
           <% }) %>

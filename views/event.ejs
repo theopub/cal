@@ -2,7 +2,11 @@
   <div class="more-info" id="<%=id%>">
       <div class="close" onclick="closeElement('<%=id%>')"> X
     </div>
-      <img class="poster-inline" src="<%=image_url%>" />
+      <img class="poster-inline" 
+           src="<%= image_url %>" 
+           srcset="<%= image_url.replace('.webp', '-mobile.webp') %> 600w, <%= image_url %> 1200w"
+           sizes="(max-width: 768px) 600px, 1200px"
+           alt="Event poster" />
       
       <span class="title"><%=name%></span><br /><br />
       <% let date = start_date.split('T') %>
