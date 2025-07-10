@@ -1,8 +1,8 @@
 import dotenv from "dotenv";
-import { S3Client } from "@aws-sdk/client-s3";
+import { S3Client, PutObjectCommand } from "@aws-sdk/client-s3";
 import express from "express";
 import multer from "multer";
-import multerS3 from "multer-s3";
+import sharp from "sharp";
 
 import { executeWriteEvent, 
   executeGetEventsToDisplay,
@@ -37,67 +37,144 @@ const s3Client = new S3Client({
   ...(process.env.AWS_ENDPOINT && { forcePathStyle: true }), // Only for LocalStack
 });
 
-const s3Storage = multerS3({
-  s3: s3Client,
-  bucket: "cal-red-space",
-  acl: "public-read",
-  metadata: (req, file, cb) => {
-    cb(null, { fieldname: file.fieldname });
-  },
-  key: (req, file, cb) => {
-    cb(null, Date.now().toString());
-  },
-});
 const upload = multer({
-  storage: s3Storage,
+  storage: multer.memoryStorage(), // Keeps uploaded file in memory as buffer
+  limits: { fileSize: 10 * 1024 * 1024 }, // 10MB limit
+  fileFilter: (req, file, cb) => {
+    if (file.mimetype.startsWith('image/')) {
+      cb(null, true);
+    } else {
+      cb(new Error('Only image files allowed'), false);
+    }
+  }
 });
 
-// uploads image to bucket via s3 middleware and adds to db
+// uploads image to bucket via s3 middleware and adds the event to db
 app.post("/upload", upload.single("image"), async (req, res) => {
-  // req.body retrieves the data sent from the form
-  let cost = 0
-  if(req.body.cost != ''){
-    cost = req.body.cost
-  }
+  try {
 
-  const tags = await executeGetTags()
+    if (!req.file) {
+      // Redirect back to form with error message
+      return res.redirect('/add?error=no-image');
+    }
 
-  const categories = req.body.categories
-  let tagIds = []
-  // checks for only 1 category sent
-  if(typeof categories == "string"){
-    tags.forEach((t)=>{
-      if(categories == t.tag_name){
-        tagIds.push(t.id)
-      }
-    })
-  } else {
-    tags.forEach((t)=>{
-      categories.forEach((c)=>{
-        if(c == t.tag_name){
+    let cost = 0
+    if(req.body.cost != ''){
+      cost = req.body.cost
+    }
+
+    const tags = await executeGetTags()
+
+    const categories = req.body.categories
+    let tagIds = []
+    // checks for only 1 category sent
+    if(typeof categories == "string"){
+      tags.forEach((t)=>{
+        if(categories == t.tag_name){
           tagIds.push(t.id)
         }
       })
-    })
-  }
+    } else {
+      tags.forEach((t)=>{
+        categories.forEach((c)=>{
+          if(c == t.tag_name){
+            tagIds.push(t.id)
+          }
+        })
+      })
+    }
 
-  const event = {
-    title: req.body.title,
-    startDate: req.body.when,
-    cost: cost,
-    location: req.body.where,
-    description: req.body.description,
-    ownerName: req.body.name,
-    ownerUrl: req.body.yourUrl,
-    email: req.body.email, // Unique identifier for test events
-    eventUrl: req.body.urlurl,
-    eventUrlText: req.body.link,
-    imageUrl: transformImageUrl(req.file.location),
-    approved: 0,
-    tagIDs: tagIds
-  };
-  const result = await executeWriteEvent(event);
-  res.redirect("/");
+    const timestamp = Date.now().toString();
+
+    // Process image with Sharp for desktop version (max 1200px width, WebP format)
+    const desktopBuffer = await sharp(req.file.buffer)
+      .resize(1200, null, { 
+        withoutEnlargement: true,
+        fit: 'inside'
+      })
+      .webp({ 
+        quality: 80,
+        effort: 6
+      })
+      .toBuffer();
+    
+    // Process image with Sharp for mobile version (max 600px width, WebP format)
+    const mobileBuffer = await sharp(req.file.buffer)
+      .resize(600, null, { 
+        withoutEnlargement: true,
+        fit: 'inside'
+      })
+      .webp({ 
+        quality: 75,
+        effort: 6
+      })
+      .toBuffer();
+
+    const desktopKey = `${timestamp}.webp`;
+    const mobileKey = `${timestamp}-mobile.webp`;
+    const metadata = { 
+      originalName: req.file.originalname,
+      processedBy: 'sharp',
+      desktopSize: desktopBuffer.length.toString(),
+      mobileSize: mobileBuffer.length.toString()
+    }
+
+    // Upload both versions to S3
+    await Promise.all([
+      s3Client.send(new PutObjectCommand({
+        Bucket: "cal-red-space",
+        Key: desktopKey,
+        Body: desktopBuffer,
+        ContentType: 'image/webp',
+        ACL: 'public-read',
+        Metadata: metadata
+      })),
+      s3Client.send(new PutObjectCommand({
+        Bucket: "cal-red-space",
+        Key: mobileKey,
+        Body: mobileBuffer,
+        ContentType: 'image/webp',
+        ACL: 'public-read',
+        Metadata: metadata
+      }))
+    ]);
+
+    const event = {
+      title: req.body.title,
+      startDate: req.body.when,
+      cost: cost,
+      location: req.body.where,
+      description: req.body.description,
+      ownerName: req.body.name,
+      ownerUrl: req.body.yourUrl,
+      email: req.body.email,
+      eventUrl: req.body.urlurl,
+      eventUrlText: req.body.link,
+      imageUrl: transformImageUrl(process.env.AWS_ENDPOINT ? 
+        `${process.env.AWS_ENDPOINT}/cal-red-space/${desktopKey}` : 
+        `https://cal-red-space.nyc3.digitaloceanspaces.com/${desktopKey}`),
+      approved: 0,
+      tagIDs: tagIds
+    };
+    
+    try {
+      const result = await executeWriteEvent(event);
+
+      if (result && result.insertId) {
+        res.redirect("/");
+      } else {
+        res.redirect("/add?error=failed-to-add-event");
+      }
+
+    } catch (err) {
+      console.error("Database error:", err);
+      res.redirect("/add?error=db-error");
+    }
+    
+  } catch (error) {
+    console.error('Upload error:', error);
+    res.redirect("/add?error=upload-error");
+  }
 });
 
 app.get("/", async (req, res) => {
@@ -111,7 +188,7 @@ app.get("/", async (req, res) => {
   res.render('weekly.ejs', {events: populatedCalendar, tags: tagList});
 });
 
-// TODO
+
 app.get('/filtered-weekly', async (req, res)=>{
   let filteringTagIds = []
   let tags = req.query.filter.split(",")
@@ -173,5 +250,5 @@ app.get('/reject', requireAuth, async (req, res)=>{
 })
 
 app.listen(3001, function () {
-  // console.log("Example app listening on port 80!");
+  console.log("Red Calendar server running on port 3001");
 });

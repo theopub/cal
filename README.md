@@ -1,8 +1,8 @@
 # Red Calendar
 
-Red Calendar is an arts and action calendar that helps NYC gather without big tech middlemen. Managed by a team of editors, the Calendar also encourages cross-pollination among NYC’s leftist/arts/culture communities. Anyone can add events for free, pending editor approval!
+Red Calendar is an arts and action calendar that helps NYC gather without big tech middlemen. Managed by a team of editors, the Calendar also encourages cross-pollination among NYC's leftist/arts/culture communities. Anyone can add events for free, pending editor approval!
 
-Red Calendar is big-tech-free—no Meta, no AWS, no GCal. Each day's events reorder when you refresh. We are called Red Calendar because we wanted a color, and this was the shortest (and cheapest) url we could find that incorporated “calendar” and a color.
+Red Calendar is big-tech-free—no Meta, no AWS, no GCal. Each day's events reorder when you refresh. We are called Red Calendar because we wanted a color, and this was the shortest (and cheapest) url we could find that incorporated "calendar" and a color.
 
 Editors:
 NYC Noise, 
@@ -53,23 +53,17 @@ This section contains instructions for running a local copy of Red Calendar. You
    > keep Docker containers running.
 
 5. **Visit the application**
-   Open your browser and go to [http://localhost:3000](http://localhost:3000)
-
-### What's Included
-
-The Docker setup provides:
-- **MySQL Database**: Pre-populated with sample events, tags, and relationships
-- **LocalStack**: S3 emulation for file uploads
-- **Red Calendar App**: Running on port 3000
-- **Sample Data**: 60 events distributed across 12 days with dynamic dates
+   Open your browser and go to [http://localhost:3000](http://localhost:3000) 
 
 ### Database Details
 
 The database is automatically initialized with:
-- Sample events that use dynamic SQL date functions (always current)
+- 60 sample events distributed across 12 days using dynamic SQL date functions
 - Pre-configured tags for event categorization
 - Event-tag relationships for filtering
 - All events are marked as approved for immediate viewing
+
+Note: The images associated with the prepopulated events are random and multiple events may have the same image.
 
 See [`db/README.md`](db/README.md) for detailed database documentation.
 
@@ -89,3 +83,34 @@ To completely reset the database (removes all data):
 ```bash
 docker-compose down -v
 ```
+
+## Image Processing with Sharp
+
+This application uses Sharp for automatic image optimization and compression. When users upload images, they are resized to optimal dimensions and converted to WebP for better compression. Two versions are stored, one for desktop and one for mobile:
+
+  - Desktop: Max 1200px width and 80% quality
+  - Mobile: Max 600px width and 75% quality
+
+### File Naming Convention:
+- **Desktop version**: `https://example.com/1234567890.webp`
+- **Mobile version**: `https://example.com/1234567890-mobile.webp`
+- **Database stores**: Desktop URL (e.g., `https://example.com/1234567890.webp`)
+
+### Usage in Frontend:
+```html
+<img src="<%= image_url %>" 
+     srcset="<%= image_url.replace('.webp', '-mobile.webp') %> 600w, <%= image_url %> 1200w"
+     sizes="(max-width: 768px) 600px, 1200px"
+     alt="Event poster" />
+```
+
+### Implementation Details:
+- **Server-side**: Images are processed with Sharp and two versions are uploaded to S3
+- **File format**: All images converted to WebP for optimal compression
+- **Responsive**: Browser automatically selects appropriate image based on device width
+
+### Benefits:
+- **Faster Loading**: Smaller file sizes for mobile devices
+- **Better Performance**: WebP format provides superior compression
+- **Responsive Design**: Automatic image selection based on device
+- **Cost Savings**: Reduced bandwidth and storage costs

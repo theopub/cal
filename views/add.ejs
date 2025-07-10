@@ -323,8 +323,8 @@
           return false;
         }
 
-        if (file && file.size > 1048576) {
-          alert("Your img is bigger than 1MB! Please compress.");
+        if (file && file.size > 10485760) {
+          alert("Your img is bigger than 10MB! Please compress.");
           return false;
         }
         return true;
