@@ -30,7 +30,7 @@ This section contains instructions for running a local copy of Red Calendar. You
 
 1. **Clone the repository**
    ```bash
-   git clone <repository-url>
+   git clone https://github.com/theopub/cal.git
    cd cal
    ```
 
@@ -79,7 +79,7 @@ See [`db/README.md`](db/README.md) for detailed database documentation.
 docker-compose down
 ```
 
-To completely reset the database (removes all data):
+To reset the database and get fresh data on the next run:
 ```bash
 docker-compose down -v
 ```
