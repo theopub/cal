@@ -116,6 +116,10 @@
             border: 3vw dotted rgba(239, 255, 166, 1); 
         }
 
+        #optional {
+          background-image: radial-gradient(circle, rgba(255, 104, 54, .5) 39%, rgba(239, 255, 166, .5) 100%);
+          padding: 30px; 
+        }
 
       @media only screen and (max-width: 900px) {
         #menu {
@@ -145,19 +149,16 @@
         <ul>
           <li>NOTE: This isn't about judging what's "good" (we don't have the capacity or desire to do that); we approve the majority of submitted events.</li>
         </ul>
-        <li>All events must be open to the public and AFK.</li>
-        <li>All Red Calendar events get their own individual url.</li>
+        <!-- <li>All events must be open to the public and AFK.</li>
+        <li>All Red Calendar events get their own individual url.</li> -->
         <li>Red Calendar Editors will not "edit" your event; <b>anything you submit will be included exactly as-is</b>. If you notice an error in an event, resubmit it error-free, including “EDIT” in the field with your name.</li>
         <li>You’re welcome to get wild with (push against the boundaries of) this form.</li>
         </ol>
 
  
 
-        &diams; &rarr; &diams; &rarr;	&diams;We want to add a couple Editors (ie., prolific event-adders) to our team! Please <a href="https://form.jotform.com/251484280257055">fill out this form</a> if you're interested. &diams; &larr; &diams; &larr;	&diams;<br /><br />
-
-        Also, <a href="https://form.jotform.com/251694674133159">share your email with us</a> if you want updates in the future! <br /><br />
-
-        Thank you for sharing your event with the Red Calendar community. 
+        <!-- &diams; &rarr; &diams; &rarr;	&diams; &diams; &larr; &diams; &larr;	&diams; -->
+        <a href="https://form.jotform.com/251694674133159">Share your email with us</a> if you want updates in the future and <a href="https://form.jotform.com/251484280257055">fill out this form</a> if you want to get involved as a prolific event-adder. Thank you for sharing your event with the Red Calendar community!
       </div>
       <br />
       <label for="name">Your name *</label>
@@ -167,11 +168,6 @@
       <label for="email">Your email *</label><br />
       <input type="email" id="email" name="email" required />
       <br /><br />
-
-      <label for="your-url">Link to your personal website/social media &mdash; and/or private note to Red Calendar Editors [optional]</label><br />
-      <input type="text" id="your-url" name="yourUrl"/>
-      <br /><br />
-
 
       <label for="image"
         >Event image/poster [JPG or PNG] *</label
@@ -203,7 +199,24 @@
       <label for="cost">Cost *</label><br />
       <input type="text" id="cost" name="cost" maxlength="300" required />
       <br /><br />
+<!-- 
+      <label>When *</label><br />
+        <div id="date-container">
+          <input type="datetime-local"  id="when"  name="when[]" required />
+        </div>
+        <button type="button" onclick="addDateInput()">Add another date</button>
 
+        <script>
+          function addDateInput() {
+            const container = document.getElementById('date-container');
+            const input = document.createElement('input');
+            input.type = 'datetime-local';
+            input.name = 'when[]'; // name as array
+            container.appendChild(document.createElement('br'));
+            container.appendChild(input);
+          }
+        </script> -->
+        <!-- note: need to fix the fact that new dates don't autofill with the past day -->
 
       <label for="when">When *</label><br />
       <input type="datetime-local" id="when" name="when" required />
@@ -214,6 +227,7 @@
       ><br />
       <textarea rows="3" id="where" name="where" maxlength="300" required></textarea>
       <br /><br />
+      
 
       <label>Categories (up to 3): *</label
       ><br />
@@ -229,9 +243,11 @@
       </p>
       <br />
 
+      <div id="optional"><b>Optional/encouraged:</b> <br /><br />
+
 
       <label for="description"
-        >Description [optional &mdash; incl. accessibility notes, age limit, participants, etc.]:</label
+        >Description [incl. accessibility notes, age requirements, participants, etc.]:</label
       ><br />
       <textarea rows="3" id="description" name="description" maxlength="6000" oninput="autoExpand(this)"></textarea>
       <div id="charCount">3000 characters left</div>
@@ -245,22 +261,28 @@
         </script>
 
 
-      <label for="urlurl">Url [encouraged; please try to avoid Instagram and X urls]</label>
+      <label for="urlurl">Url [avoid IG and X]</label>
       <input type="url" id="urlurl" name="urlurl" />
       <br /><br />
 
-      <label for="link">Link text for above url [optional] &mdash; eg. "Buy tickets!" or "RSVP here" or "Link to venue <3"</label>
+      <label for="link">Link text for above url &mdash; eg. "Buy tickets!" or "RSVP here" or "Link to venue <3"</label>
       <input type="text" id="link" name="link" maxlength="300"/>
       <br /><br />
 
+      <label for="your-url">Link to your personal website/social media &mdash; and/or private note to Red Calendar Editors</label><br />
+      <input type="text" id="your-url" name="yourUrl"/>
+      <br />
+
+
+      </div>
+      <br /> <br />
       <div id="caution">
         Before submitting,
         <u><b>check everything twice or thrice!</b></u> 
         
-        <!-- Once you click submit,
-        any edits will have to be done manually by a Red Cal editor. You <b><u>won’t receive an email</b> </u>confirmation when you upload an event (but that feature is coming soon!) -->
+    
       </div>
-      <br />
+      <br /> <br />
       <button type="submit">Submit and return to the Calendar</button>
     </form><br><br><br><br><br><br>
 
@@ -327,6 +349,7 @@
           alert("Your img is bigger than 10MB! Please compress.");
           return false;
         }
+        // alert("Thanks for sharing your event! Redirecting you to the Calendar.");
         return true;
       }
     </script>
