@@ -25,12 +25,17 @@
       body {
         font-family: Helvetica, sans-serif; 
         background-color: rgb(120, 0, 0);
+        /* background: linear-gradient(345deg,rgba(120, 0, 0, 1) 33%, rgba(224, 56, 0, 1) 100%); */
+        background: linear-gradient(330deg,rgba(99, 0, 0, 1) 0%, rgba(210, 0, 0, 1) 100%);
+        /* background: linear-gradient(352deg,rgba(120, 0, 0, 1) 22%, rgba(255, 104, 54, 1) 79%, rgba(239, 255, 166, 1) 100%); */
+        /* background: linear-gradient(352deg,rgba(120, 0, 0, 1) 0%, rgba(255, 104, 54, 1) 39%, rgba(239, 255, 166, 1) 100%); */
+        /* background: linear-gradient(352deg,rgba(120, 0, 0, 1) 10%, rgba(255, 104, 54, 1) 39%, rgba(239, 255, 166, 1) 0%); */
         font-size: 15px;
       }
 
       #menu {
         position: fixed;
-        background-color: rgb(249, 91, 74);
+        background-color: rgb(249, 104, 74);
         color: rgb(52, 0, 0);
         z-index: 10;
         bottom: 0;
@@ -66,6 +71,7 @@
         /* background-color: rgb(253, 106, 106); */
         /* background-color: rgb(255, 90, 72); */
         background-color: rgb(253, 85, 66);
+        /* background-color: rgb(249, 104, 74); */
         padding: 3vw;
         width: 45vw;
         left: 24.5vw;
@@ -77,6 +83,8 @@
         text-align: center;
         box-shadow: 0px 3px 12px 3px rgb(120, 0, 0);
         padding: 15px;
+        background-image: radial-gradient(circle, rgba(255, 104, 54, .5) 39%, rgba(239, 255, 166, .5) 100%);
+
       }
 
       #cost-field {
@@ -87,6 +95,7 @@
       #notes {
         box-shadow: 0px 3px 12px 3px rgb(120, 0, 0);
         padding: 15px;
+        /* background-image: radial-gradient(circle, rgba(255, 104, 54, .5) 39%, rgba(239, 255, 166, .5) 100%); */
       }
 
       #caution {
@@ -121,6 +130,23 @@
           padding: 30px; 
         }
 
+        #uploading {
+          display: none; 
+            position: fixed; 
+            left:  20vw; 
+            top: 0vh;  
+            box-shadow: 0px 3px 3px 3px rgb(202, 0, 0);
+            border-radius: 50%; 
+            color: black; 
+            background-image: radial-gradient(circle,rgb(192, 0, 0) 0%, rgba(255, 104, 54, .9) 60%, rgba(239, 255, 166, .9) 100%);
+            /* padding: 15vh;  */
+            text-align: center; 
+            width: 60vw; 
+            height: 100vh; 
+            font-size: 24px;
+            /* transition: width .3s;  */
+        }
+
       @media only screen and (max-width: 900px) {
         #menu {
                     width: 96vw; 
@@ -145,13 +171,11 @@
 
         Red Calendar is an <a href="https://cal.red/?event=about">arts and action calendar</a> that helps NYC gather without big tech middlemen.
         <ol>
-        <li>All events will be approved by an Editor before they are posted to the Calendar.</li>
+        <li>All events will be approved by an Editor before they are posted.</li>
         <ul>
-          <li>NOTE: This isn't about judging what's "good" (we don't have the capacity or desire to do that); we approve the majority of submitted events.</li>
+          <li>NOTE: This isn't about judging what's "good"; we approve the majority of submitted events.</li>
         </ul>
-        <!-- <li>All events must be open to the public and AFK.</li>
-        <li>All Red Calendar events get their own individual url.</li> -->
-        <li>Red Calendar Editors will not "edit" your event; <b>anything you submit will be included exactly as-is</b>. If you notice an error in an event, resubmit it error-free, including “EDIT” in the field with your name.</li>
+        <li><b>Anything you submit will be included exactly as-is</b>. If you notice an error in an event, resubmit it with “EDIT” in the "Your name" field.</li>
         <li>You’re welcome to get wild with (push against the boundaries of) this form.</li>
         </ol>
 
@@ -295,6 +319,10 @@
     </div>
 
 
+    <div id="uploading"><br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br />Submitted! <br /><br />Image/poster is compressing...</div>
+
+
+
     <script>
       const borderStyles = ["dotted", "dashed", "double", "solid"];
       const borderColors = [
@@ -349,7 +377,10 @@
           alert("Your img is bigger than 10MB! Please compress.");
           return false;
         }
-        // alert("Thanks for sharing your event! Redirecting you to the Calendar.");
+
+        document.getElementById("uploading").style.display = "block";
+        
+
         return true;
       }
     </script>

@@ -45,7 +45,8 @@
       .more-info,
       .close,
       #about, table {
-        background-color: rgb(252, 83, 83);
+        /* background-color: rgb(252, 83, 83); */
+        background-image: radial-gradient(circle, rgba(255, 104, 54, .5) 39%, rgba(239, 255, 166, .5) 100%);
         color: rgb(71, 0, 0);
         box-shadow: 0px 3px 12px 3px rgb(120, 0, 0);
         z-index: 10;
@@ -138,7 +139,7 @@
     <body>
         <table>
             <tr>
-                <th class="narrow">contact</th>
+                <!-- <th class="narrow">contact</th> -->
                 <th>img</th>
                 <th>title</th>
                 <th class="narrow">cost</th>
@@ -147,12 +148,12 @@
                 <th>categories</th>
                 <th>described</th>
                 <th class="narrow">link</th>
-                <th>actions</th>
+                <!-- <th>actions</th> -->
             </tr>
         
             <% pendingEvents.forEach((event)=>{ %>
                 <tr>
-                    <td class="narrow"><%=event.owner_name %><br /><br /><%=event.email %><br /><br /><%=event.owner_url %></td>
+                    <!-- <td class="narrow"><%=event.owner_name %><br /><br /><%=event.email %><br /><br /><%=event.owner_url %></td> -->
                     <td><img class="poster-inline" 
                          src="<%= event.image_url%>"
                          srcset="<%= event.image_url.replace('.webp', '-mobile.webp') %> 600w, <%= event.image_url %> 1200w"
@@ -165,7 +166,7 @@
                       <% const fullDateTime = new Date(event.start_date); %>
                     <td class="narrow"><%= fullDateTime.toLocaleDateString('en-US', { weekday: 'short', month: 'short', day: 'numeric' }) %> at <%= fullDateTime.toLocaleTimeString('en-US', { hour: 'numeric', minute: '2-digit' }) %></td>
                     <td><%=event.location %></td>
-                    <td><%=event.tag_ids %></td>
+                    <td><%=event.tags %></td>
                     <td>
                         <% if (event.description) { %>
                             <span class="linebreaks"><%= event.description%></span>
@@ -221,12 +222,12 @@
     
                     </td>
                  
-                    <td>
+                    <!-- <td>
                         <form method="GET" action="/reject" onsubmit="return doubleConfirm()">
                             <input type="hidden" name="id" value="<%=event.id%>">
                             <input class="reject-css" type="submit" value="reject">
                         </form>
-                    </td>
+                    </td> -->
                 </tr>
                 <% }) %>
         </table>
