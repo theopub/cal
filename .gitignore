@@ -6,3 +6,4 @@ NodeWebhooks/
 public/testing/
 .qodo
 .dockerignore
+infra/

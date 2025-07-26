@@ -4,22 +4,24 @@ import express from "express";
 import multer from "multer";
 import sharp from "sharp";
 
-import { executeWriteEvent, 
+import {
+  executeWriteEvent,
   executeGetEventsToDisplay,
   executeGetEventDetails,
   executeGetTags,
   executeGetFuturePendingApprovalEvents,
   executeGetFutureApprovedEvents,
   executeApproveEvents,
-  executeRejectEvents } from "./handlers/execute-db-queries.js";
+  executeRejectEvents
+} from "./handlers/execute-db-queries.js";
 import {
   groupEventsByDayPlusDate,
   createCalendar,
 } from './utilities/dates.js';
 import { filterEventsbyTags } from './utilities/filtering.js';
-import { transformImageUrl } from './utilities/local-url.js';
+import { constructImageUrl } from './utilities/local-url.js';
 import { requireAuth } from './utilities/authentication.js';
-
+import { find, propEq, prop, map, includes } from 'ramda';
 dotenv.config();
 
 let app = express();
@@ -29,12 +31,12 @@ app.use(express.json());
 
 const s3Client = new S3Client({
   credentials: {
-    accessKeyId: process.env.aws_access_key_id,
-    secretAccessKey: process.env.aws_secret_access_key,
+    accessKeyId: process.env.spaces_access_key_id,
+    secretAccessKey: process.env.spaces_secret_access_key,
   },
-  endpoint: process.env.AWS_ENDPOINT || "https://nyc3.digitaloceanspaces.com",
+  endpoint: process.env.DO_SPACES_ENDPOINT,
   region: "us-east-1",
-  ...(process.env.AWS_ENDPOINT && { forcePathStyle: true }), // Only for LocalStack
+  ...(includes('localstack', process.env.DO_SPACES_ENDPOINT) && { forcePathStyle: true }), // Only for LocalStack
 });
 
 const upload = multer({
@@ -59,52 +61,38 @@ app.post("/upload", upload.single("image"), async (req, res) => {
     }
 
     let cost = 0
-    if(req.body.cost != ''){
+    if (req.body.cost != '') {
       cost = req.body.cost
     }
 
     const tags = await executeGetTags()
 
     const categories = req.body.categories
-    let tagIds = []
-    // checks for only 1 category sent
-    if(typeof categories == "string"){
-      tags.forEach((t)=>{
-        if(categories == t.tag_name){
-          tagIds.push(t.id)
-        }
-      })
-    } else {
-      tags.forEach((t)=>{
-        categories.forEach((c)=>{
-          if(c == t.tag_name){
-            tagIds.push(t.id)
-          }
-        })
-      })
-    }
+    const tagIds =  (typeof categories == "string") ?
+      [prop('id', find(propEq(categories, 'tag_name'))(tags))] :
+      map((c) => prop('id', find(propEq(c, 'tag_name'))(tags)))(categories);
 
     const timestamp = Date.now().toString();
 
     // Process image with Sharp for desktop version (max 1200px width, WebP format)
     const desktopBuffer = await sharp(req.file.buffer)
-      .resize(1200, null, { 
+      .resize(1200, null, {
         withoutEnlargement: true,
         fit: 'inside'
       })
-      .webp({ 
+      .webp({
         quality: 80,
         effort: 6
       })
       .toBuffer();
-    
+
     // Process image with Sharp for mobile version (max 600px width, WebP format)
     const mobileBuffer = await sharp(req.file.buffer)
-      .resize(600, null, { 
+      .resize(600, null, {
         withoutEnlargement: true,
         fit: 'inside'
       })
-      .webp({ 
+      .webp({
         quality: 75,
         effort: 6
       })
@@ -112,7 +100,7 @@ app.post("/upload", upload.single("image"), async (req, res) => {
 
     const desktopKey = `${timestamp}.webp`;
     const mobileKey = `${timestamp}-mobile.webp`;
-    const metadata = { 
+    const metadata = {
       originalName: req.file.originalname,
       processedBy: 'sharp',
       desktopSize: desktopBuffer.length.toString(),
@@ -150,13 +138,11 @@ app.post("/upload", upload.single("image"), async (req, res) => {
       email: req.body.email,
       eventUrl: req.body.urlurl,
       eventUrlText: req.body.link,
-      imageUrl: transformImageUrl(process.env.AWS_ENDPOINT ? 
-        `${process.env.AWS_ENDPOINT}/cal-red-space/${desktopKey}` : 
-        `https://cal-red-space.nyc3.digitaloceanspaces.com/${desktopKey}`),
+      imageUrl: constructImageUrl(process.env.BUCKET_URL, desktopKey),
       approved: 0,
       tagIDs: tagIds
     };
-    
+
     try {
       const result = await executeWriteEvent(event);
 
@@ -170,7 +156,7 @@ app.post("/upload", upload.single("image"), async (req, res) => {
       console.error("Database error:", err);
       res.redirect("/add?error=db-error");
     }
-    
+
   } catch (error) {
     console.error('Upload error:', error);
     res.redirect("/add?error=upload-error");
@@ -183,24 +169,24 @@ app.get("/", async (req, res) => {
   const calendar = createCalendar(date);
   const populatedCalendar = groupEventsByDayPlusDate(calendar)(eventsToDisplay);
   const tagList = await executeGetTags()
-  tagList.forEach((t)=> t.checked = true)
+  tagList.forEach((t) => t.checked = true)
 
-  res.render('weekly.ejs', {events: populatedCalendar, tags: tagList});
+  res.render('weekly.ejs', { events: populatedCalendar, tags: tagList });
 });
 
 
-app.get('/filtered-weekly', async (req, res)=>{
+app.get('/filtered-weekly', async (req, res) => {
   let filteringTagIds = []
   let tags = req.query.filter.split(",")
   const tagList = await executeGetTags()
   tags.forEach((tag) => {
     let formattedTag = tag.replace(/_/g, ' ')
     formattedTag = formattedTag.replace(/-/g, " / ")
-    tagList.forEach((t)=>{
-      if(t.tag_name == formattedTag){
+    tagList.forEach((t) => {
+      if (t.tag_name == formattedTag) {
         t.checked = true
         filteringTagIds.push(t.id)
-      } 
+      }
     })
   })
   const date = new Date();
@@ -208,7 +194,7 @@ app.get('/filtered-weekly', async (req, res)=>{
   const calendar = createCalendar(date);
   const populatedCalendar = groupEventsByDayPlusDate(calendar)(filterEventsbyTags(filteringTagIds)(eventsToDisplay));
 
-  res.render('weekly.ejs', {events: populatedCalendar, tags: tagList});
+  res.render('weekly.ejs', { events: populatedCalendar, tags: tagList });
 })
 
 app.get("/single-event", async (req, res) => {
@@ -216,17 +202,17 @@ app.get("/single-event", async (req, res) => {
   res.render('event.ejs', event)
 });
 
-app.get('/awaiting', requireAuth, async (req, res)=>{
+app.get('/awaiting', requireAuth, async (req, res) => {
   const pendingEvents = await executeGetFuturePendingApprovalEvents();
   const approvedEvents = await executeGetFutureApprovedEvents();
-  res.render("approve.ejs", {pendingEvents: pendingEvents, approvedEvents: approvedEvents})
+  res.render("approve.ejs", { pendingEvents: pendingEvents, approvedEvents: approvedEvents })
 })
 
-app.get('/add', async (req, res)=>{
+app.get('/add', async (req, res) => {
 
   const tagList = await executeGetTags()
 
-  res.render("add.ejs", {tags: tagList})
+  res.render("add.ejs", { tags: tagList })
 })
 
 
@@ -242,7 +228,7 @@ app.get('/approve', requireAuth, async (req, res) => {
   res.redirect('/awaiting');
 });
 
-app.get('/reject', requireAuth, async (req, res)=>{
+app.get('/reject', requireAuth, async (req, res) => {
   const eConvert = [req.query.id]
 
   const events = await executeRejectEvents(eConvert)

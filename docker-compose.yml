@@ -72,11 +72,6 @@ services:
       - .env.development
     environment:
       - NODE_ENV=development
-      - DB_HOST=mysql
-      - DB_USER=red_calendar_user
-      - DB_PASSWORD=red_calendar_password
-      - DB_PORT=3306
-      - DB_DATABASE=red_calendar
     volumes:
       - .:/app
       - /app/node_modules
