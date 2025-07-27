@@ -47,7 +47,7 @@ This section contains instructions for running a local copy of Red Calendar. You
 
 4. **Run tests** (optional, to verify everything is working)
    ```bash
-   npx tap run test/db-tests.js
+   docker-compose exec app npx tap run test/db-tests.js
    ```
    > **Note**: The unit tests require a MySQL database connection. So you will have to
    > keep Docker containers running.
@@ -71,7 +71,7 @@ See [`db/README.md`](db/README.md) for detailed database documentation.
 
 - **Database Changes**: Modify SQL files in the `db/` directory and restart containers with `docker-compose down -v && docker-compose up -d`
 - **Application Changes**: Automatically reloaded by nodemon - no container rebuild needed unless dependencies change
-- **Testing**: Run `npx tap run test/db-tests.js` to verify database functionality
+- **Testing**: Run `docker-compose exec app npx tap run test/db-tests.js` to verify database functionality
 
 ### Stopping the Application
 
@@ -79,7 +79,7 @@ See [`db/README.md`](db/README.md) for detailed database documentation.
 docker-compose down
 ```
 
-To reset the database and get fresh data on the next run:
+If the calendar is empty, you need to wipe the database so that the sample events are recreated using the current date:
 ```bash
 docker-compose down -v
 ```
