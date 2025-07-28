@@ -185,6 +185,18 @@ export const executeWriteEvent = async (event) => {
                 event.approved,
             ]);
         const eventId = insertEventResult.insertId;
+        
+
+        if (isNotNil(event.dates) && isNotEmpty(event.dates)) {
+            const dateValues = map((date) => [eventId, date], event.dates);
+            await connection.query(
+                'INSERT INTO event_dates (event_id, event_date) VALUES ?',
+                [dateValues]
+            );
+        } else {
+            throw new Error('No date(s) provided');
+        }
+        
         if (isNotNil(event.tagIDs) && isNotEmpty(event.tagIDs)) {
             const values = map((tagId) => [eventId, tagId], event.tagIDs);
             await connection.query(

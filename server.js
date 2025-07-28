@@ -21,7 +21,7 @@ import {
 import { filterEventsbyTags } from './utilities/filtering.js';
 import { constructImageUrl } from './utilities/local-url.js';
 import { requireAuth } from './utilities/authentication.js';
-import { find, propEq, prop, map, includes } from 'ramda';
+import { find, propEq, prop, map, includes, isNotEmpty } from 'ramda';
 dotenv.config();
 
 let app = express();
@@ -128,9 +128,12 @@ app.post("/upload", upload.single("image"), async (req, res) => {
       }))
     ]);
 
+    const dates = (Array.isArray(req.body.when)) ? req.body.when : [req.body.when];
+    
     const event = {
       title: req.body.title,
-      startDate: req.body.when,
+      startDate: dates[0], // Keep first date as main start_date for backward compatibility
+      dates: dates, // Array of all dates for multi-day support
       cost: cost,
       location: req.body.where,
       description: req.body.description,

@@ -18,6 +18,16 @@ CREATE TABLE events(
 
 CREATE INDEX event_start_created ON events(start_date, created_at);
 
+
+CREATE TABLE event_dates (
+    event_id INT NOT NULL,
+    event_date DATETIME NOT NULL,
+    PRIMARY KEY (event_id, event_date),
+    FOREIGN KEY (event_id) REFERENCES events(id) ON DELETE CASCADE
+) CHARACTER SET 'utf8mb4' COLLATE 'utf8mb4_0900_ai_ci';
+
+CREATE INDEX idx_event_date ON event_dates(event_date);
+
 CREATE TABLE tags (
     id INT NOT NULL AUTO_INCREMENT,
     tag_name VARCHAR(50) NOT NULL UNIQUE,
