@@ -38,7 +38,7 @@ export const executeGetTags = async () => {
 
 export const executeGetEventsToDisplay = async (date) => {
     try {
-        const [ [ events ] ] = await pool.query('CALL GetEventsToDisplay(?)', [ date ]);
+        const [ [ events ] ] = await pool.query('CALL GetEventsToDisplay_V2(?)', [ date ]);
         for (const event of events) {
             event.start_date = formatDateTime(event.start_date);
             event.tag_ids = isNotNil(event.tag_ids) ? map((id) => Number(id))(split(',', event.tag_ids)): [];
@@ -97,7 +97,7 @@ export const executeGetFuturePendingApprovalEvents = async () => {
 
 export const executeGetEventDetails = async (eventId) => {
     try {
-        const [ [ [ event ] ] ] = await pool.query('CALL GetEventDetails(?)', [ eventId ]);
+        const [ [ [ event ] ] ] = await pool.query('CALL GetEventDetails_V2(?)', [ eventId ]);
         event.start_date = formatDateTime(event.start_date);
         console.log('Event Details:', event);
         return event;
@@ -133,6 +133,14 @@ export const executeUpdateEvent = async (event) => {
             await connection.query(
                 'INSERT INTO event_tags (event_id, tag_id) VALUES ?',
                 [values]
+            );
+        }
+        await connection.query('DELETE FROM event_dates WHERE event_id = ?', [ event.id ]);
+        if (isNotNil(event.dates) && isNotEmpty(event.dates)) {
+            const dateValues = map((date) => [event.id, date], event.dates);
+            await connection.query(
+                'INSERT INTO event_dates (event_id, event_date) VALUES ?',
+                [dateValues]
             );
         }
         await connection.commit();

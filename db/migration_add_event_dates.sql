@@ -15,7 +15,8 @@ CREATE TABLE IF NOT EXISTS event_dates(
 -- Populate event_dates table with existing events
 -- This assumes all existing events are single-day events
 INSERT INTO event_dates (event_id, event_date)
-SELECT id, start_date FROM events;
+SELECT id, start_date FROM events
+WHERE id NOT IN (SELECT DISTINCT event_id FROM event_dates);
 
 -- Update stored procedures
 DELIMITER $$
