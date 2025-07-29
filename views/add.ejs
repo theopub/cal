@@ -103,7 +103,7 @@
         padding: 15px;
       }
 
-      button {
+      #submit-return {
             all: unset;
             box-shadow: 0px 3px 3px 3px rgb(202, 0, 0);
             border-radius: 50%; 
@@ -120,13 +120,24 @@
          
         }
 
-        button:hover {
+        #submit-return:hover {
             box-shadow: 6px -12px 60px 15px white;
             border: 3vw dotted rgba(239, 255, 166, 1); 
         }
 
-        #optional {
-          background-image: radial-gradient(circle, rgba(255, 104, 54, .5) 39%, rgba(239, 255, 166, .5) 100%);
+        .another {
+          background-color: white; 
+          right: 3vw; 
+          position: absolute; 
+        }
+
+        .regbutton:hover {
+          box-shadow: 0px 3px 3px 3px rgb(202, 0, 0);
+        }
+     
+        
+        .optional {
+          background-image: radial-gradient(circle, rgba(255, 104, 54, .3) 39%, rgba(239, 255, 166, .3) 100%);
           padding: 30px; 
         }
 
@@ -171,10 +182,8 @@
 
         Red Calendar is an <a href="https://cal.red/?event=about">arts and action calendar</a> that helps NYC gather without big tech middlemen.
         <ol>
-        <li>All events will be approved by an Editor before they are posted.</li>
-        <ul>
-          <li>NOTE: This isn't about judging what's "good"; we approve the majority of submitted events.</li>
-        </ul>
+        <li>All events will be approved by an Editor before they are posted. We approve most submitted events.</li>
+  
         <li><b>Anything you submit will be included exactly as-is</b>. If you notice an error in an event, resubmit it with “EDIT” in the "Your name" field.</li>
         <li>You’re welcome to get wild with (push against the boundaries of) this form.</li>
         </ol>
@@ -185,13 +194,6 @@
         <a href="https://form.jotform.com/251694674133159">Share your email with us</a> if you want updates in the future and <a href="https://form.jotform.com/251484280257055">fill out this form</a> if you want to get involved as a prolific event-adder. Thank you for sharing your event with the Red Calendar community!
       </div>
       <br />
-      <label for="name">Your name *</label>
-      <input type="text" id="name" name="name" required />
-      <br /><br />
-
-      <label for="email">Your email *</label><br />
-      <input type="email" id="email" name="email" required />
-      <br /><br />
 
       <label for="image"
         >Event image/poster [JPG or PNG] *</label
@@ -199,6 +201,7 @@
       <input
         type="file"
         id="image"
+        class="regbutton" 
         name="image"
         accept="image/*"
         required
@@ -223,28 +226,30 @@
       <label for="cost">Cost *</label><br />
       <input type="text" id="cost" name="cost" maxlength="300" required />
       <br /><br />
-<!-- 
+
       <label>When *</label><br />
         <div id="date-container">
           <input type="datetime-local"  id="when"  name="when[]" required />
         </div>
-        <button type="button" onclick="addDateInput()">Add another date</button>
-
+        <div class="another regbutton" onclick="addDateInput()">Add another date/time for this event</div>
+        
+        <br /><br />
         <script>
           function addDateInput() {
             const container = document.getElementById('date-container');
             const input = document.createElement('input');
             input.type = 'datetime-local';
             input.name = 'when[]'; // name as array
+            input.value = formattedDateTime;
             container.appendChild(document.createElement('br'));
             container.appendChild(input);
           }
-        </script> -->
-        <!-- note: need to fix the fact that new dates don't autofill with the past day -->
+        </script>
+    
 
-      <label for="when">When *</label><br />
+      <!-- <label for="when">When *</label><br />
       <input type="datetime-local" id="when" name="when" required />
-      <br /><br />
+      <br /><br /> -->
 
       <label for="where"
         >Where * [include neighborhood]</label
@@ -267,8 +272,8 @@
       </p>
       <br />
 
-      <div id="optional"><b>Optional/encouraged:</b> <br /><br />
-
+      <div class="optional"><b>Optional/encouraged:</b> <br /><br />
+  
 
       <label for="description"
         >Description [incl. accessibility notes, age requirements, participants, etc.]:</label
@@ -293,7 +298,22 @@
       <input type="text" id="link" name="link" maxlength="300"/>
       <br /><br />
 
-      <label for="your-url">Link to your personal website/social media &mdash; and/or private note to Red Calendar Editors</label><br />
+    </div>
+    <br /><br />
+
+    <div class="optional">
+
+      <b>Optional/encouraged and only visible to Red Calendar admin:</b> <br /><br />
+
+      <label for="name">Your name</label>
+      <input type="text" id="name" name="name" />
+      <br /><br />
+
+      <label for="email">Your email</label><br />
+      <input type="email" id="email" name="email" />
+      <br /><br />
+
+      <label for="your-url">Other comments, etc. for us!</label><br />
       <input type="text" id="your-url" name="yourUrl"/>
       <br />
 
@@ -302,13 +322,17 @@
       <br /> <br />
       <div id="caution">
         Before submitting,
-        <u><b>check everything twice or thrice!</b></u> 
+        <b>check everything twice or thrice!</b> 
         
     
       </div>
       <br /> <br />
+<<<<<<< HEAD
       <button type="submit" name="another" value="another">Submit and add another!</button>
       <button type="submit" name="another" value="all-done">Submit and return to the Calendar</button>
+=======
+      <button id="submit-return" type="submit">Submit and return to the Calendar</button>
+>>>>>>> 7d34aad (added multiple days to form, also tried out a version where the name/email are optional)
     </form><br><br><br><br><br><br>
 
     <div id="menu">
@@ -331,7 +355,7 @@
 
       ];
     
-      document.querySelectorAll("button").forEach(button => {
+      const button = document.getElementById("submit-return");
     // Store original border to restore later
     const originalBorder = button.style.border || getComputedStyle(button).border;
 
@@ -344,7 +368,7 @@
     button.addEventListener("mouseleave", () => {
       button.style.border = originalBorder;
     });
-  });
+
 </script>
     
     <script>
@@ -363,7 +387,9 @@
       now.setDate(now.getDate() - 1); //make it yesterday yesterday
       now.setHours(16, 0, 0, 0); //make it 7pm
       const formattedDateTime = now.toISOString().slice(0, 16); 
-      document.getElementById("when").value = formattedDateTime;//set default time/date in form
+      document.getElementsByName("when[]").forEach(input => input.value = formattedDateTime);
+
+      // document.getElementById("when").value = formattedDateTime;
 
       function verify() {
         const currentValue = document.getElementById("when").value;
@@ -378,6 +404,12 @@
           alert("Your img is bigger than 10MB! Please compress.");
           return false;
         }
+
+        // const checkedCategories = document.querySelectorAll('input[name="categories"]:checked');
+        // if (checkedCategories.length === 0) {
+        //   alert("Please select at least one category.");
+        //   return false;
+        // }
 
         document.getElementById("uploading").style.display = "block";
         
