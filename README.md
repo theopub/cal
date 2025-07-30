@@ -38,12 +38,14 @@ This section contains instructions for running a local copy of Red Calendar. You
    ```bash
    npm install
    ```
+   > **Note**: You will also need `docker-compose`. You can install via [docker docs](https://docs.docker.com/compose/install/). This is a global installation. 
 
 3. **Start the application**
    ```bash
    docker-compose up -d
    ```
    > **Note**: This will automatically build the app image on first run.
+   > **Note**: Ensure you installed `docker-compose`, as per prerequisite section.
 
 4. **Run tests** (optional, to verify everything is working)
    ```bash
@@ -54,6 +56,7 @@ This section contains instructions for running a local copy of Red Calendar. You
 
 5. **Visit the application**
    Open your browser and go to [http://localhost:3000](http://localhost:3000) 
+   > **Note**: To view `/awaiting` page, use login credentials from `.env.development`
 
 ### Database Details
 
