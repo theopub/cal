@@ -21,13 +21,12 @@ CREATE PROCEDURE GetEventDetails_V2 (IN input_id INT)
 BEGIN
     SELECT 
         e.*, 
-        GROUP_CONCAT(t.tag_name SEPARATOR ', ') AS tags,
+        (SELECT GROUP_CONCAT(t.tag_name SEPARATOR ', ') 
+         FROM event_tags et 
+         INNER JOIN tags t ON et.tag_id = t.id 
+         WHERE et.event_id = e.id) AS tags,
         GROUP_CONCAT(ed.event_date ORDER BY ed.event_date SEPARATOR ', ') AS all_dates
     FROM events e
-    LEFT JOIN (
-        event_tags et 
-        INNER JOIN tags t ON et.tag_id = t.id
-    ) ON e.id = et.event_id
     LEFT JOIN event_dates ed ON e.id = ed.event_id
     WHERE e.id = input_id
     GROUP BY e.id;
