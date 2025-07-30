@@ -206,7 +206,7 @@ app.get('/filtered-weekly', async (req, res) => {
 })
 
 app.get("/single-event", async (req, res) => {
-  const event = await executeGetEventDetails(req.query.event_id);
+  const event = await executeGetEventDetails(req.query.event_id, req.query.clicked_date);
   res.render('event.ejs', event)
 });
 
