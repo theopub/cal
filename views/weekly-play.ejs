@@ -394,8 +394,7 @@ Contact theo@oral.pub with questions.
               src="<%= d.image_url %>"
               srcset="<%= d.image_url.replace('.webp', '-mobile.webp') %> 600w, <%= d.image_url %> 1200w"
               sizes="(max-width: 768px) 600px, 1200px"
-              data-clicked-date="<%= d.start_date %>"
-              onclick="toggleElement(this, '<%= d.id %>', this.getAttribute('data-clicked-date'))"
+              onclick="toggleElement(this, '<%= d.id %>', '<%= d.start_date %>')"
             />
           <% }) %>
 
