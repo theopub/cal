@@ -53,6 +53,7 @@ const upload = multer({
 
 // uploads image to bucket via s3 middleware and adds the event to db
 app.post("/upload", upload.single("image"), async (req, res) => {
+
   try {
 
     if (!req.file) {
@@ -147,7 +148,11 @@ app.post("/upload", upload.single("image"), async (req, res) => {
       const result = await executeWriteEvent(event);
 
       if (result && result.insertId) {
-        res.redirect("/");
+        if(req.body.another == "all-done"){
+          res.redirect("/")
+        } else{
+          res.redirect('/add')
+        }
       } else {
         res.redirect("/add?error=failed-to-add-event");
       }
