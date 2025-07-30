@@ -99,6 +99,7 @@ export const executeGetEventDetails = async (eventId) => {
     try {
         const [ [ [ event ] ] ] = await pool.query('CALL GetEventDetails_V2(?)', [ eventId ]);
         event.start_date = formatDateTime(event.start_date);
+        event.dates = isNotNil(event.all_dates) && isNotEmpty(event.all_dates) ? map((date) => formatDateTime(date))(split(',', event.all_dates)) : [];
         console.log('Event Details:', event);
         return event;
     } catch (error) {
