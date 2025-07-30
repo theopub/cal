@@ -18,6 +18,7 @@ services:
       - ./db/tags_snapshot.sql:/docker-entrypoint-initdb.d/03-tags.sql
       - ./db/events_snapshot.sql:/docker-entrypoint-initdb.d/04-events.sql
       - ./db/event_tags_snapshot.sql:/docker-entrypoint-initdb.d/05-event-tags.sql
+      - ./db/event_dates_snapshot.sql:/docker-entrypoint-initdb.d/06-event-dates.sql
     healthcheck:
       test: ["CMD", "mysqladmin", "ping", "-h", "localhost", "-u", "root", "-prootpassword"]
       interval: 5s
