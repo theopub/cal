@@ -405,11 +405,11 @@
       <span id="categories">
       <% tags.forEach((t)=>{ %>
         <% if(t.checked) { %>
-          <input type="checkbox" checked id="<%=t.id%>" class="tag_checkboxes" name="categories" value="<%=t.tag_name%>" onchange="filterEventsByTag()">
+          <input type="checkbox" checked id="tag-<%=t.id%>" class="tag_checkboxes" name="categories" value="<%=t.tag_name%>" onchange="filterEventsByTag()">
         <% } else { %>
-        <input type="checkbox"  id="<%=t.id%>" class="tag_checkboxes" name="categories" value="<%=t.tag_name%>" onchange="filterEventsByTag()">
+        <input type="checkbox"  id="tag-<%=t.id%>" class="tag_checkboxes" name="categories" value="<%=t.tag_name%>" onchange="filterEventsByTag()">
         <% } %> 
-        <label for="<%=t.id%>"><%=t.tag_name%></label>
+                  <label for="tag-<%=t.id%>"><%=t.tag_name%></label>
         <br /> 
       <% }) %>     <br /> </span>
 
