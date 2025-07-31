@@ -88,7 +88,7 @@ const testEventTemplate = {
   imageUrl: 'http://testevent.com/image.jpg',
   created: '2023-12-31T05:00:00',
   approved: 1,
-  tagIDs: [20, 21],
+  tagIDs: [1, 2], // Using actual tag IDs from database
 };
 
 t.test('Write Event', async (t) => {
@@ -188,11 +188,11 @@ t.test('Approve Events', async (t) => {
 // test to filter events by tag IDs
 t.test('Filter Events by Tag IDs', async (t) => {
   // Create test events
-  const testEvent1 = { ...testEventTemplate, tagIDs: [20, 21] };
-  const testEvent2 = { ...testEventTemplate, tagIDs: [21, 22] };
-  const testEvent3 = { ...testEventTemplate, tagIDs: [22, 24] };
-  const testEvent4 = { ...testEventTemplate, tagIDs: [24, 25] };
-  const testEvent5 = { ...testEventTemplate, tagIDs: [25, 26] };
+  const testEvent1 = { ...testEventTemplate, tagIDs: [1, 2] };
+  const testEvent2 = { ...testEventTemplate, tagIDs: [2, 3] };
+  const testEvent3 = { ...testEventTemplate, tagIDs: [3, 4] };
+  const testEvent4 = { ...testEventTemplate, tagIDs: [4, 5] };
+  const testEvent5 = { ...testEventTemplate, tagIDs: [5, 6] };
 
   const eventsToCreate = [testEvent1, testEvent2, testEvent3, testEvent4, testEvent5];
   const createdIds = [];
@@ -202,7 +202,7 @@ t.test('Filter Events by Tag IDs', async (t) => {
   }
 
   // Test retrieval
-  const tagIDs = [21, 22];
+  const tagIDs = [2, 3];
   const events = await executeGetEventsToDisplay(new Date('2024-01-01T14:30:00'));
   console.log('Events:', events);
   const filteredEvents = filterEventsbyTags(tagIDs)(events);

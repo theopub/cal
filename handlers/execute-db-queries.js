@@ -67,13 +67,13 @@ export const executeApproveEvents = async (eventIds) => {
 
 export const executeGetFutureApprovedEvents = async () => {
     try {
-        const [ events ] = await pool.query('SELECT * FROM events WHERE approved = 1 AND DATE(start_date) >= CURDATE()');
+        const [ events ] = await pool.query('SELECT e.*, GROUP_CONCAT(t.tag_name) AS tags FROM events e LEFT JOIN event_tags et ON e.id = et.event_id LEFT JOIN tags t ON et.tag_id = t.id WHERE approved = 1 AND DATE(start_date) >= CURDATE() GROUP BY e.id');
         for (const event of events) {
             event.start_date = formatDateTime(event.start_date);
+            event.tags = isNotNil(event.tags) ? map((tag) => tag.trim())(split(',', event.tags)) : [];
         }
         console.log('Events:', events);
         return sortWith([descend(prop('start_date'))])(events);
-        // return sortWith([descend(prop('created_at'))])(events);
     } catch (error) {
         console.error('Error executing executeGetFutureEvents query:', error);
         throw error;
@@ -82,13 +82,13 @@ export const executeGetFutureApprovedEvents = async () => {
 
 export const executeGetFuturePendingApprovalEvents = async () => {
     try {
-        const [ events ] = await pool.query('SELECT * FROM events WHERE approved = 0 AND DATE(start_date) >= CURDATE()');
+        const [ events ] = await pool.query('SELECT e.*, GROUP_CONCAT(t.tag_name) AS tags FROM events e LEFT JOIN event_tags et ON e.id = et.event_id LEFT JOIN tags t ON et.tag_id = t.id WHERE approved = 0 AND DATE(start_date) >= CURDATE() GROUP BY e.id');
         for (const event of events) {
             event.start_date = formatDateTime(event.start_date);
+            event.tags = isNotNil(event.tags) ? map((tag) => tag.trim())(split(',', event.tags)) : [];
         }
         console.log('Events:', events);
         return sortWith([descend(prop('start_date'))])(events);
-        // return sortWith([descend(prop('created_at'))])(events);
     } catch (error) {
         console.error('Error executing executeGetFutureEvents query:', error);
         throw error;
