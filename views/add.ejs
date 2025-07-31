@@ -103,7 +103,7 @@
         padding: 15px;
       }
 
-      #submit-return {
+      .submit-btn {
             all: unset;
             box-shadow: 0px 3px 3px 3px rgb(202, 0, 0);
             border-radius: 50%; 
@@ -120,7 +120,7 @@
          
         }
 
-        #submit-return:hover {
+        .submit-btn:hover {
             box-shadow: 6px -12px 60px 15px white;
             border: 3vw dotted rgba(239, 255, 166, 1); 
         }
@@ -327,12 +327,8 @@
     
       </div>
       <br /> <br />
-<<<<<<< HEAD
-      <button type="submit" name="another" value="another">Submit and add another!</button>
-      <button type="submit" name="another" value="all-done">Submit and return to the Calendar</button>
-=======
-      <button id="submit-return" type="submit">Submit and return to the Calendar</button>
->>>>>>> 7d34aad (added multiple days to form, also tried out a version where the name/email are optional)
+      <button class="submit-btn" type="submit" name="another" value="another">Submit and add another!</button>
+      <button class="submit-btn" type="submit" name="another" value="all-done">Submit and return to the Calendar</button>
     </form><br><br><br><br><br><br>
 
     <div id="menu">
@@ -355,19 +351,21 @@
 
       ];
     
-      const button = document.getElementById("submit-return");
-    // Store original border to restore later
-    const originalBorder = button.style.border || getComputedStyle(button).border;
+      const buttons = document.querySelectorAll(".submit-btn");
+      buttons.forEach(button => {
+        // Store original border to restore later
+        const originalBorder = button.style.border || getComputedStyle(button).border;
 
-    button.addEventListener("mouseenter", () => {
-      const style = borderStyles[Math.floor(Math.random() * borderStyles.length)];
-      const color = borderColors[Math.floor(Math.random() * borderColors.length)];
-      button.style.border = `3vw ${style} ${color}`;
-    });
+        button.addEventListener("mouseenter", () => {
+          const style = borderStyles[Math.floor(Math.random() * borderStyles.length)];
+          const color = borderColors[Math.floor(Math.random() * borderColors.length)];
+          button.style.border = `3vw ${style} ${color}`;
+        });
 
-    button.addEventListener("mouseleave", () => {
-      button.style.border = originalBorder;
-    });
+        button.addEventListener("mouseleave", () => {
+          button.style.border = originalBorder;
+        });
+      });
 
 </script>
     
