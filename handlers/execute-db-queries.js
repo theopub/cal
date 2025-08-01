@@ -67,20 +67,7 @@ export const executeApproveEvents = async (eventIds) => {
 
 export const executeGetFutureApprovedEvents = async () => {
     try {
-        const [ events ] = await pool.query(`
-            SELECT 
-                e.*, 
-                ed.event_date AS start_date,
-                GROUP_CONCAT(t.tag_name) AS tags
-            FROM event_dates ed
-            INNER JOIN events e ON ed.event_id = e.id
-            LEFT JOIN event_tags et ON e.id = et.event_id
-            LEFT JOIN tags t ON et.tag_id = t.id
-            WHERE e.approved = 1
-            AND DATE(ed.event_date) >= CURDATE()
-            GROUP BY e.id, ed.event_date, e.name, e.cost, e.location, e.description, e.owner_name, e.owner_url, e.email, e.event_url, e.event_url_text, e.image_url, e.approved, e.created_at
-            ORDER BY ed.event_date ASC
-        `);
+        const [ [ events ] ] = await pool.query(`CALL GetFutureApprovedEvents_V2()`);
         for (const event of events) {
             event.start_date = formatDateTime(event.start_date);
             event.tags = isNotNil(event.tags) ? map((tag) => tag.trim())(split(',', event.tags)) : [];
@@ -95,20 +82,7 @@ export const executeGetFutureApprovedEvents = async () => {
 
 export const executeGetFuturePendingApprovalEvents = async () => {
     try {
-        const [ events ] = await pool.query(`
-            SELECT 
-                e.*, 
-                ed.event_date AS start_date,
-                GROUP_CONCAT(t.tag_name) AS tags
-            FROM event_dates ed
-            INNER JOIN events e ON ed.event_id = e.id
-            LEFT JOIN event_tags et ON e.id = et.event_id
-            LEFT JOIN tags t ON et.tag_id = t.id
-            WHERE e.approved = 0
-            AND DATE(ed.event_date) >= CURDATE()
-            GROUP BY e.id, ed.event_date, e.name, e.cost, e.location, e.description, e.owner_name, e.owner_url, e.email, e.event_url, e.event_url_text, e.image_url, e.approved, e.created_at
-            ORDER BY ed.event_date ASC
-        `);
+        const [ [ events ] ] = await pool.query(`CALL GetFuturePendingApprovalEvents_V2()`);
         for (const event of events) {
             event.start_date = formatDateTime(event.start_date);
             event.tags = isNotNil(event.tags) ? map((tag) => tag.trim())(split(',', event.tags)) : [];
