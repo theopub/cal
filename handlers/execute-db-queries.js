@@ -12,7 +12,7 @@ import {
     descend,
     sortWith,
 } from 'ramda';
-import { formatDateTime } from '../utilities/dates.js';
+import { formatDateTime, findMatchingDate } from '../utilities/dates.js';
 
 dotenv.config();
 
@@ -38,7 +38,7 @@ export const executeGetTags = async () => {
 
 export const executeGetEventsToDisplay = async (date) => {
     try {
-        const [ [ events ] ] = await pool.query('CALL GetEventsToDisplay(?)', [ date ]);
+        const [ [ events ] ] = await pool.query('CALL GetEventsToDisplay_V2(?)', [ date ]);
         for (const event of events) {
             event.start_date = formatDateTime(event.start_date);
             event.tag_ids = isNotNil(event.tag_ids) ? map((id) => Number(id))(split(',', event.tag_ids)): [];
@@ -67,7 +67,7 @@ export const executeApproveEvents = async (eventIds) => {
 
 export const executeGetFutureApprovedEvents = async () => {
     try {
-        const [ events ] = await pool.query('SELECT e.*, GROUP_CONCAT(t.tag_name) AS tags FROM events e LEFT JOIN event_tags et ON e.id = et.event_id LEFT JOIN tags t ON et.tag_id = t.id WHERE approved = 1 AND DATE(start_date) >= CURDATE() GROUP BY e.id');
+        const [ [ events ] ] = await pool.query(`CALL GetFutureApprovedEvents_V2()`);
         for (const event of events) {
             event.start_date = formatDateTime(event.start_date);
             event.tags = isNotNil(event.tags) ? map((tag) => tag.trim())(split(',', event.tags)) : [];
@@ -82,7 +82,7 @@ export const executeGetFutureApprovedEvents = async () => {
 
 export const executeGetFuturePendingApprovalEvents = async () => {
     try {
-        const [ events ] = await pool.query('SELECT e.*, GROUP_CONCAT(t.tag_name) AS tags FROM events e LEFT JOIN event_tags et ON e.id = et.event_id LEFT JOIN tags t ON et.tag_id = t.id WHERE approved = 0 AND DATE(start_date) >= CURDATE() GROUP BY e.id');
+        const [ [ events ] ] = await pool.query(`CALL GetFuturePendingApprovalEvents_V2()`);
         for (const event of events) {
             event.start_date = formatDateTime(event.start_date);
             event.tags = isNotNil(event.tags) ? map((tag) => tag.trim())(split(',', event.tags)) : [];
@@ -95,10 +95,11 @@ export const executeGetFuturePendingApprovalEvents = async () => {
     }
 }
 
-export const executeGetEventDetails = async (eventId) => {
+export const executeGetEventDetails = async (eventId, clickedDay) => {
     try {
-        const [ [ [ event ] ] ] = await pool.query('CALL GetEventDetails(?)', [ eventId ]);
-        event.start_date = formatDateTime(event.start_date);
+        const [ [ [ event ] ] ] = await pool.query('CALL GetEventDetails_V2(?)', [ eventId ]);
+        event.dates = isNotNil(event.all_dates) && isNotEmpty(event.all_dates) ? map((date) => formatDateTime(date))(split(',', event.all_dates)) : [];
+        event.start_date = findMatchingDate(event.dates, clickedDay) || formatDateTime(event.start_date);
         console.log('Event Details:', event);
         return event;
     } catch (error) {
@@ -133,6 +134,14 @@ export const executeUpdateEvent = async (event) => {
             await connection.query(
                 'INSERT INTO event_tags (event_id, tag_id) VALUES ?',
                 [values]
+            );
+        }
+        await connection.query('DELETE FROM event_dates WHERE event_id = ?', [ event.id ]);
+        if (isNotNil(event.dates) && isNotEmpty(event.dates)) {
+            const dateValues = map((date) => [event.id, date], event.dates);
+            await connection.query(
+                'INSERT INTO event_dates (event_id, event_date) VALUES ?',
+                [dateValues]
             );
         }
         await connection.commit();
@@ -185,6 +194,18 @@ export const executeWriteEvent = async (event) => {
                 event.approved,
             ]);
         const eventId = insertEventResult.insertId;
+        
+
+        if (isNotNil(event.dates) && isNotEmpty(event.dates)) {
+            const dateValues = map((date) => [eventId, date], event.dates);
+            await connection.query(
+                'INSERT INTO event_dates (event_id, event_date) VALUES ?',
+                [dateValues]
+            );
+        } else {
+            throw new Error('No date(s) provided');
+        }
+        
         if (isNotNil(event.tagIDs) && isNotEmpty(event.tagIDs)) {
             const values = map((tagId) => [eventId, tagId], event.tagIDs);
             await connection.query(

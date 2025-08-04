@@ -106,14 +106,3 @@ This application uses Sharp for automatic image optimization and compression. Wh
      sizes="(max-width: 768px) 600px, 1200px"
      alt="Event poster" />
 ```
-
-### Implementation Details:
-- **Server-side**: Images are processed with Sharp and two versions are uploaded to S3
-- **File format**: All images converted to WebP for optimal compression
-- **Responsive**: Browser automatically selects appropriate image based on device width
-
-### Benefits:
-- **Faster Loading**: Smaller file sizes for mobile devices
-- **Better Performance**: WebP format provides superior compression
-- **Responsive Design**: Automatic image selection based on device
-- **Cost Savings**: Reduced bandwidth and storage costs

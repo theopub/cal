@@ -394,7 +394,7 @@ Contact theo@oral.pub with questions.
               src="<%= d.image_url %>"
               srcset="<%= d.image_url.replace('.webp', '-mobile.webp') %> 600w, <%= d.image_url %> 1200w"
               sizes="(max-width: 768px) 600px, 1200px"
-              onclick="toggleElement(this, '<%= d.id %>')"
+              onclick="toggleElement(this, '<%= d.id %>', '<%= d.start_date %>')"
             />
           <% }) %>
 
@@ -441,19 +441,22 @@ Contact theo@oral.pub with questions.
 
       
       let prevClick
-      async function toggleElement(e, id){
+      async function toggleElement(e, id, clickedDate = null){
         
         const eventContainer = document.getElementById('event-details-container')
 
         if(eventContainer.style.display == "block" && prevClick == e){
           closeElement(id)
         } else{
-          showElement(id)
+          showElement(id, clickedDate)
         }
         prevClick = e
       }
-      async function showElement(id) {
+      async function showElement(id, clickedDate = null) {
         const p = new URLSearchParams({event_id: id})
+        if (clickedDate) {
+          p.append('clicked_date', clickedDate)
+        }
         const eventContainer = document.getElementById('event-details-container')
         let eventId = id
   
