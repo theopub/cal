@@ -21,6 +21,8 @@ import {
   intersection,
 } from 'ramda';
 import { filterEventsbyTags } from '../utilities/filtering.js';
+import { TZDate } from "@date-fns/tz";
+import { TIMEZONE } from '../utilities/constants.js';
 
 delete process.env.DB_HOST;
 delete process.env.DB_USER;
@@ -92,7 +94,7 @@ const testEventTemplate = {
 };
 
 t.test('Write Event', async (t) => {
-  const testEvent = { ...testEventTemplate };
+  const testEvent = { ...testEventTemplate, dates: [testEventTemplate.startDate] };
   
   const result = await executeWriteEvent(testEvent);
   t.ok(result.insertId, 'Should return an insert ID');
@@ -104,7 +106,7 @@ t.test('Write Event', async (t) => {
 
 t.test('Get Event Details', async (t) => {
   // Create test event
-  const testEvent = { ...testEventTemplate };
+  const testEvent = { ...testEventTemplate, dates: [testEventTemplate.startDate] };
   const writeResult = await executeWriteEvent(testEvent);
   const eventId = writeResult.insertId;
 
@@ -123,7 +125,7 @@ t.test('Get Event Details', async (t) => {
 });
 
 t.test('Get Events to Display', async (t) => {
-  const baseDate = '2024-02-01T00:00:00';
+  const baseDate = TZDate.tz(TIMEZONE);
   const testDates = {
     fiveDaysBefore: format(addDays(baseDate, -5), 'yyyy-MM-dd'),
     OneDayBefore: format(addDays(baseDate, -1), 'yyyy-MM-dd'),
@@ -137,14 +139,14 @@ t.test('Get Events to Display', async (t) => {
 
   // Create test events
   const eventsToCreate = [
-    { ...testEventTemplate, startDate: testDates.fiveDaysBefore },
-    { ...testEventTemplate, startDate: testDates.OneDayBefore },
-    { ...testEventTemplate, startDate: testDates.exactDate },
-    { ...testEventTemplate, startDate: testDates.fiveDaysAfter },
-    { ...testEventTemplate, startDate: testDates.tenDaysAfter },
-    { ...testEventTemplate, startDate: testDates.elevenDaysAfter },
-    { ...testEventTemplate, startDate: testDates.thirtyOneDaysAfter },
-    { ...testEventTemplate, startDate: testDates.fourtyDaysAfter },
+    { ...testEventTemplate, startDate: testDates.fiveDaysBefore, dates: [testDates.fiveDaysBefore] },
+    { ...testEventTemplate, startDate: testDates.OneDayBefore, dates: [testDates.OneDayBefore] },
+    { ...testEventTemplate, startDate: testDates.exactDate, dates: [testDates.exactDate] },
+    { ...testEventTemplate, startDate: testDates.fiveDaysAfter, dates: [testDates.fiveDaysAfter] },
+    { ...testEventTemplate, startDate: testDates.tenDaysAfter, dates: [testDates.tenDaysAfter] },
+    { ...testEventTemplate, startDate: testDates.elevenDaysAfter, dates: [testDates.elevenDaysAfter] },
+    { ...testEventTemplate, startDate: testDates.thirtyOneDaysAfter, dates: [testDates.thirtyOneDaysAfter] },
+    { ...testEventTemplate, startDate: testDates.fourtyDaysAfter, dates: [testDates.fourtyDaysAfter] },
   ];
 
   const createdIds = [];
@@ -154,7 +156,7 @@ t.test('Get Events to Display', async (t) => {
   }
 
   // Test retrieval
-  const displayEvents = await executeGetEventsToDisplay(new Date(testDates.exactDate));
+  const displayEvents = await executeGetEventsToDisplay(testDates.exactDate.internal);
   console.log('Display Events:', displayEvents);
   const retrievedIds = map(event => event.id, displayEvents);
 
@@ -172,7 +174,7 @@ t.test('Get Events to Display', async (t) => {
 // test to approve events
 t.test('Approve Events', async (t) => {
   // Create test event
-  const testEvent = { ...testEventTemplate, approved: 0 };
+  const testEvent = { ...testEventTemplate, dates: [testEventTemplate.startDate], approved: 0 };
   const writeResult = await executeWriteEvent(testEvent);
   const eventId = writeResult.insertId;
 
@@ -188,11 +190,11 @@ t.test('Approve Events', async (t) => {
 // test to filter events by tag IDs
 t.test('Filter Events by Tag IDs', async (t) => {
   // Create test events
-  const testEvent1 = { ...testEventTemplate, tagIDs: [1, 2] };
-  const testEvent2 = { ...testEventTemplate, tagIDs: [2, 3] };
-  const testEvent3 = { ...testEventTemplate, tagIDs: [3, 4] };
-  const testEvent4 = { ...testEventTemplate, tagIDs: [4, 5] };
-  const testEvent5 = { ...testEventTemplate, tagIDs: [5, 6] };
+  const testEvent1 = { ...testEventTemplate, dates: [testEventTemplate.startDate], tagIDs: [1, 2] };
+  const testEvent2 = { ...testEventTemplate, dates: [testEventTemplate.startDate], tagIDs: [2, 3] };
+  const testEvent3 = { ...testEventTemplate, dates: [testEventTemplate.startDate], tagIDs: [3, 4] };
+  const testEvent4 = { ...testEventTemplate, dates: [testEventTemplate.startDate], tagIDs: [4, 5] };
+  const testEvent5 = { ...testEventTemplate, dates: [testEventTemplate.startDate], tagIDs: [5, 6] };
 
   const eventsToCreate = [testEvent1, testEvent2, testEvent3, testEvent4, testEvent5];
   const createdIds = [];

@@ -18,10 +18,11 @@ import {
   groupEventsByDayPlusDate,
   createCalendar,
 } from './utilities/dates.js';
+import { TZDate } from "@date-fns/tz";
 import { filterEventsbyTags } from './utilities/filtering.js';
 import { constructImageUrl } from './utilities/local-url.js';
 import { requireAuth } from './utilities/authentication.js';
-import { find, propEq, prop, map, includes, isNotEmpty } from 'ramda';
+import { find, propEq, prop, map, includes } from 'ramda';
 dotenv.config();
 
 let app = express();
@@ -172,12 +173,14 @@ app.post("/upload", upload.single("image"), async (req, res) => {
 });
 
 app.get("/", async (req, res) => {
+  // const date = TZDate.tz("America/New_York");
   const date = new Date();
   const eventsToDisplay = await executeGetEventsToDisplay(date);
   const calendar = createCalendar(date);
   const populatedCalendar = groupEventsByDayPlusDate(calendar)(eventsToDisplay);
   const tagList = await executeGetTags()
   tagList.forEach((t) => t.checked = true)
+  console.log(TZDate.tz("America/New_York"));
 
   res.render('weekly.ejs', { events: populatedCalendar, tags: tagList });
 });
