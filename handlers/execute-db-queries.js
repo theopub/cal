@@ -11,6 +11,7 @@ import {
     sortBy,
     descend,
     sortWith,
+    length,
 } from 'ramda';
 import { formatDateTime, findMatchingDate } from '../utilities/dates.js';
 
@@ -230,10 +231,17 @@ export const executeWriteEvent = async (event) => {
     }
 };
 
-export const executeRejectEvents = async (eventIds) => {
+export const executeRejectEvents = async (eventId, date) => {
     try {
-        await pool.query('UPDATE events SET approved = -1 WHERE id IN (?)', [ eventIds ]);
-        console.log('Events unapproved');
+        const [ dates ] = await pool.query('SELECT event_date FROM event_dates WHERE event_id = ?', [ eventId ]);
+        console.log('Dates:', dates);
+        if (length(dates) > 1) {
+            await pool.query('DELETE FROM event_dates WHERE event_id = ? AND event_date = ?', [ eventId, date ]);
+            console.log('Date deleted');
+        } else {
+            await pool.query('UPDATE events SET approved = -1 WHERE id = ?', [ eventId ]);
+            console.log('Event unapproved');
+        }
     } catch (error) {
         console.error('Error executing executeUnApproveEvents query:', error);
         throw error;

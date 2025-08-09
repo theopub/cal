@@ -154,9 +154,9 @@ app.post("/upload", upload.single("image"), async (req, res) => {
 
       if (result && result.insertId) {
         if(req.body.another == "all-done"){
-          res.redirect("/")
+          res.redirect("/");
         } else{
-          res.redirect('/add')
+          res.redirect('/add');
         }
       } else {
         res.redirect("/add?error=failed-to-add-event");
@@ -186,16 +186,16 @@ app.get("/", async (req, res) => {
 
 
 app.get('/filtered-weekly', async (req, res) => {
-  let filteringTagIds = []
-  let tags = req.query.filter.split(",")
-  const tagList = await executeGetTags()
+  let filteringTagIds = [];
+  let tags = req.query.filter.split(",");
+  const tagList = await executeGetTags();
   tags.forEach((tag) => {
-    let formattedTag = tag.replace(/_/g, ' ')
-    formattedTag = formattedTag.replace(/-/g, " / ")
+    let formattedTag = tag.replace(/_/g, ' ');
+    formattedTag = formattedTag.replace(/-/g, " / ");
     tagList.forEach((t) => {
       if (t.tag_name == formattedTag) {
-        t.checked = true
-        filteringTagIds.push(t.id)
+        t.checked = true;
+        filteringTagIds.push(t.id);
       }
     })
   })
@@ -209,20 +209,20 @@ app.get('/filtered-weekly', async (req, res) => {
 
 app.get("/single-event", async (req, res) => {
   const event = await executeGetEventDetails(req.query.event_id, req.query.clicked_date);
-  res.render('event.ejs', event)
+  res.render('event.ejs', event);
 });
 
 app.get('/awaiting', requireAuth, async (req, res) => {
   const pendingEvents = await executeGetFuturePendingApprovalEvents();
   const approvedEvents = await executeGetFutureApprovedEvents();
-  res.render("approve.ejs", { pendingEvents: pendingEvents, approvedEvents: approvedEvents })
+  res.render("approve.ejs", { pendingEvents: pendingEvents, approvedEvents: approvedEvents });
 })
 
 app.get('/add', async (req, res) => {
 
-  const tagList = await executeGetTags()
+  const tagList = await executeGetTags();
 
-  res.render("add.ejs", { tags: tagList })
+  res.render("add.ejs", { tags: tagList });
 })
 
 
@@ -239,10 +239,8 @@ app.get('/approve', requireAuth, async (req, res) => {
 });
 
 app.get('/reject', requireAuth, async (req, res) => {
-  const eConvert = [req.query.id]
-
-  const events = await executeRejectEvents(eConvert)
-  res.redirect('/awaiting')
+  await executeRejectEvents(req.query.id, req.query.date);
+  res.redirect('/awaiting');
 })
 
 app.listen(3001, function () {
