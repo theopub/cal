@@ -18,10 +18,12 @@ import {
   groupEventsByDayPlusDate,
   createCalendar,
 } from './utilities/dates.js';
+import { TIMEZONE } from './utilities/constants.js';
+import { TZDate } from "@date-fns/tz";
 import { filterEventsbyTags } from './utilities/filtering.js';
 import { constructImageUrl } from './utilities/local-url.js';
 import { requireAuth } from './utilities/authentication.js';
-import { find, propEq, prop, map, includes, isNotEmpty } from 'ramda';
+import { find, propEq, prop, map, includes } from 'ramda';
 dotenv.config();
 
 let app = express();
@@ -172,12 +174,12 @@ app.post("/upload", upload.single("image"), async (req, res) => {
 });
 
 app.get("/", async (req, res) => {
-  const date = new Date();
+  const date = TZDate.tz(TIMEZONE);
   const eventsToDisplay = await executeGetEventsToDisplay(date);
   const calendar = createCalendar(date);
   const populatedCalendar = groupEventsByDayPlusDate(calendar)(eventsToDisplay);
-  const tagList = await executeGetTags()
-  tagList.forEach((t) => t.checked = true)
+  const tagList = await executeGetTags();
+  tagList.forEach((t) => t.checked = true);
 
   res.render('weekly.ejs', { events: populatedCalendar, tags: tagList });
 });
@@ -197,7 +199,7 @@ app.get('/filtered-weekly', async (req, res) => {
       }
     })
   })
-  const date = new Date();
+  const date = TZDate.tz(TIMEZONE);
   const eventsToDisplay = await executeGetEventsToDisplay(date);
   const calendar = createCalendar(date);
   const populatedCalendar = groupEventsByDayPlusDate(calendar)(filterEventsbyTags(filteringTagIds)(eventsToDisplay));
