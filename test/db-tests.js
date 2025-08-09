@@ -156,7 +156,7 @@ t.test('Get Events to Display', async (t) => {
   }
 
   // Test retrieval
-  const displayEvents = await executeGetEventsToDisplay(testDates.exactDate.internal);
+  const displayEvents = await executeGetEventsToDisplay(testDates.exactDate);
   console.log('Display Events:', displayEvents);
   const retrievedIds = map(event => event.id, displayEvents);
 
