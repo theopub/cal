@@ -147,6 +147,7 @@
 
                         <form method="GET" action="/reject" onsubmit="return doubleConfirm()">
                             <input type="hidden" name="id" value="<%=event.id%>">
+                            <input type="hidden" name="date" value="<%=event.start_date%>">
                             <input class="reject-css" type="submit" value="reject">
                         </form>
         
