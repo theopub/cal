@@ -68,15 +68,13 @@
 
       form {
         position: relative;
-        /* background-color: rgb(253, 106, 106); */
-        /* background-color: rgb(255, 90, 72); */
         background-color: rgb(253, 85, 66);
-        /* background-color: rgb(249, 104, 74); */
         padding: 3vw;
         width: 45vw;
         left: 24.5vw;
         top: 3vw;
         border-bottom: 3vw solid rgb(120, 0, 0);
+        box-shadow: 30px 3px 120px 3px rgb(120, 0, 0);
       }
 
       #title-add {
@@ -149,9 +147,12 @@
           margin-top: .3vw; 
           padding: .15vw; 
           border-radius: 3px; 
+          font-size: 13.5px; 
+          border: 1px solid black; 
         }
 
         .regbutton:hover {
+          
           box-shadow: 0px 3px 3px 3px rgb(202, 0, 0);
         }
      
@@ -255,7 +256,7 @@
         <div id="date-container">
           <input type="datetime-local"  id="when"  name="when[]" required />
         </div>
-        <div class="another regbutton" onclick="addDateInput()">Add another date/time</div>
+        <div class="another regbutton" onclick="addDateInput()"> Add another date/time </div>
         
         <br /><br />
         <script>
@@ -297,10 +298,6 @@
       <br />
 
       <div class="optional"><b>Optional/encouraged:</b> <br /><br />
-  
-        <label for="name">Your name (only visible to Calendar admin)</label>
-        <input type="text" id="name" name="name" autocomplete="name" />
-        <br /><br />
 
       <label for="description"
         >Description [incl. accessibility notes, age requirements, participants, etc.]:</label
@@ -325,9 +322,11 @@
       <input type="text" id="link" name="link" maxlength="300"/>
       <br /><br />
 
-      <label for="your-url">Other comments, etc. for us! (only visible to Calendar admin)</label><br />
-      <input type="text" id="your-url" name="yourUrl"/>
+        
+      <label for="name">Your name and any other comments, etc. for us (only visible to Calendar admin)</label>
+      <input type="text" id="name" name="name" autocomplete="name" />
       <br />
+
 
     </div>
 
